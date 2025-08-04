@@ -71,4 +71,7 @@ source(file.path(project_path, "/scripts/Comparativo_data_NIUBIZ.R"))
 
 source(file.path(getwd(), "/scripts/Export_data_NIUBIZ.R"))
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
