@@ -28,7 +28,8 @@ p_load(
   gtsummary,
   dotenv,
   lubridate,
-  readxl
+  readxl,
+  beepr
 )
 
 # Configurar el directorio base del proyecto
