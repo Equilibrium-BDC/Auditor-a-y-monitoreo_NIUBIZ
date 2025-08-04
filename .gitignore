@@ -16,7 +16,6 @@ looker/
 
 # Archivos CSV, Excel, y otros datos brutos o generados
 *.csv
-*.xlsx
 *.sav
 *.dta
 
