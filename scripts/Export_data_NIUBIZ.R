@@ -21,3 +21,6 @@ sheet_write(nps_tabla_25, ss = sheet, sheet = "nps_tabla_25")
 sheet_write(nps_tabla_24, ss = sheet, sheet = "nps_tabla_24")
 
 cat("Datos exportados exitosamente")
+beepr::beep(sound = 2)
+
+
