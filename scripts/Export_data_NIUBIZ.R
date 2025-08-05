@@ -21,6 +21,8 @@ sheet_write(nps_tabla_25, ss = sheet, sheet = "nps_tabla_25")
 sheet_write(nps_tabla_24, ss = sheet, sheet = "nps_tabla_24")
 
 sheet_write(cuotas_micro, ss = sheet, sheet = "cuotas_micro")
+sheet_write(cuotas_peque, ss = sheet, sheet = "cuotas_peque")
+sheet_write(cuotas_mediana, ss = sheet, sheet = "cuotas_mediana")
 
 
 cat("Datos exportados exitosamente")
