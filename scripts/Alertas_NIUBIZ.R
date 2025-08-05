@@ -750,6 +750,37 @@ alertas <- alertas %>%
     )
   )
 
+# 5. TABLA DE CUOTAS MICRO (Ciudad) - select_one
+#------------------------------------------------
+
+cuotas_micro <- alertas %>%
+  filter(Exitos == 1 & tamanio_ingresos=="Micro") %>%             # Solo encuestas válidas en el segmento micro
+  group_by(DEP_str) %>%                # Agrupar por Ciudad
+  summarise(Alcanzado = n(), .groups = "drop") %>% # Contar número de éxitos por ciudad y segmento micro
+
+  rename(Regiones = DEP_str)
+
+micro_cuotas <- tribble(
+  ~Regiones,        ~Meta,
+  "Lima",         280,
+  "Callao",          35,
+  "Arequipa",          35,
+  "Cusco",          35,
+  "Trujillo",          35,
+  "Piura",          35
+)
+
+# Paso 3: Unir ambas tablas por Regiones
+cuotas_micro <- cuotas_micro %>%
+  left_join(micro_cuotas, by = "Regiones") %>%
+  mutate(
+    Meta = replace_na(Meta, 0), # En caso no haya coincidencia
+    `% de avance` = round(Alcanzado / Meta * 100, 1),  # Calcular avance en porcentaje
+    Faltan = Meta - Alcanzado                          # Calcular cuántos faltan
+  ) %>%
+  select(Regiones, Meta, Alcanzado, `% de avance`, Faltan)  # Reordenar columnas
+
+View(cuotas_micro)
 
 #Data para el comparativo 2024 vs 2025
 library(tibble)            
@@ -783,8 +814,11 @@ data_filtrada <- data_filtrada |>
     TRUE ~ as.character(TM_REC)  # Para mantener otros valores si los hubiera
   ))
 
-# Quedarse con las primeras 40 observaciones
-data_40 <- head(data_filtrada, 40)
+set.seed(123)  # para que el muestreo sea reproducible
+
+data_40 <- data_filtrada |> 
+  slice_sample(n = 50)
+
 
 # 1. Motivo deja de usar Niubiz (NO_USO_NIUBIZ) - multiple
 #--------------------------------------------

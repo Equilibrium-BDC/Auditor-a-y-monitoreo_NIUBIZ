@@ -20,6 +20,9 @@ sheet_write(no_uso_niubiz_24, ss = sheet, sheet = "no_uso_niubiz_2024")
 sheet_write(nps_tabla_25, ss = sheet, sheet = "nps_tabla_25")
 sheet_write(nps_tabla_24, ss = sheet, sheet = "nps_tabla_24")
 
+sheet_write(cuotas_micro, ss = sheet, sheet = "cuotas_micro")
+
+
 cat("Datos exportados exitosamente")
 beepr::beep(sound = 2)
 

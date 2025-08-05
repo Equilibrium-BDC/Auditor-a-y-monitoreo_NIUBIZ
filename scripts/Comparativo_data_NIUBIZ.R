@@ -18,7 +18,7 @@ library(labelled)
 set.seed(123)
 data_niubiz_2024 <- data_24 |>
   filter(TM_USO_1 == 1) |>
-  slice_sample(n = 40)
+  slice_sample(n = 50)
 
 # 1. Motivo deja de usar Niubiz (NO_USO_NIUBIZ) - multiple
 #--------------------------------------------
