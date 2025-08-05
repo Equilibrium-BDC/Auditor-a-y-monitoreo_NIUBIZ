@@ -750,14 +750,15 @@ alertas <- alertas %>%
     )
   )
 
-# 5. TABLA DE CUOTAS MICRO (Ciudad) - select_one
+
+# TABLA DE CUOTAS MICRO (Ciudad) - select_one
 #------------------------------------------------
 
 cuotas_micro <- alertas %>%
   filter(Exitos == 1 & tamanio_ingresos=="Micro") %>%             # Solo encuestas válidas en el segmento micro
   group_by(DEP_str) %>%                # Agrupar por Ciudad
   summarise(Alcanzado = n(), .groups = "drop") %>% # Contar número de éxitos por ciudad y segmento micro
-
+  
   rename(Regiones = DEP_str)
 
 micro_cuotas <- tribble(
@@ -780,7 +781,65 @@ cuotas_micro <- cuotas_micro %>%
   ) %>%
   select(Regiones, Meta, Alcanzado, `% de avance`, Faltan)  # Reordenar columnas
 
-View(cuotas_micro)
+# TABLA DE CUOTAS PEQUEÑA (Ciudad) - select_one
+#------------------------------------------------
+
+cuotas_peque <- alertas %>%
+  filter(Exitos == 1 & tamanio_ingresos=="Pequeña") %>%             # Solo encuestas válidas en el segmento pequeño
+  group_by(DEP_str) %>%                # Agrupar por Ciudad
+  summarise(Alcanzado = n(), .groups = "drop") %>% # Contar número de éxitos por ciudad y segmento pequeño
+  rename(Regiones = DEP_str)
+
+peque_cuotas <- tribble(
+  ~Regiones,        ~Meta,
+  "Lima",         88,
+  "Callao",          11,
+  "Arequipa",          11,
+  "Cusco",          11,
+  "Trujillo",          11,
+  "Piura",          11
+)
+
+# Paso 3: Unir ambas tablas por Regiones
+cuotas_peque <- cuotas_peque %>%
+  left_join(peque_cuotas, by = "Regiones") %>%
+  mutate(
+    Meta = replace_na(Meta, 0), # En caso no haya coincidencia
+    `% de avance` = round(Alcanzado / Meta * 100, 1),  # Calcular avance en porcentaje
+    Faltan = Meta - Alcanzado                          # Calcular cuántos faltan
+  ) %>%
+  select(Regiones, Meta, Alcanzado, `% de avance`, Faltan)  # Reordenar columnas
+
+# TABLA DE CUOTAS MEDIANA (Ciudad) - select_one
+#------------------------------------------------
+
+cuotas_mediana <- alertas %>%
+  filter(Exitos == 1 & tamanio_ingresos=="Mediana") %>%             # Solo encuestas válidas en el segmento MEDIANA
+  group_by(DEP_str) %>%                # Agrupar por Ciudad
+  summarise(Alcanzado = n(), .groups = "drop") %>% # Contar número de éxitos por ciudad y segmento MEDIANA
+  rename(Regiones = DEP_str)
+
+mediana_cuotas <- tribble(
+  ~Regiones,        ~Meta,
+  "Lima",         32,
+  "Callao",          4,
+  "Arequipa",          4,
+  "Cusco",          4,
+  "Trujillo",          4,
+  "Piura",          4
+)
+
+# Paso 3: Unir ambas tablas por Regiones
+cuotas_mediana <- cuotas_mediana %>%
+  left_join(mediana_cuotas, by = "Regiones") %>%
+  mutate(
+    Meta = replace_na(Meta, 0), # En caso no haya coincidencia
+    `% de avance` = round(Alcanzado / Meta * 100, 1),  # Calcular avance en porcentaje
+    Faltan = Meta - Alcanzado                          # Calcular cuántos faltan
+  ) %>%
+  select(Regiones, Meta, Alcanzado, `% de avance`, Faltan)  # Reordenar columnas
+
+
 
 #Data para el comparativo 2024 vs 2025
 library(tibble)            
