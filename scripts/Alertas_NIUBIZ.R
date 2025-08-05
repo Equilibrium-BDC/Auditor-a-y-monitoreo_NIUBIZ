@@ -16,6 +16,12 @@ data <- data %>%
   mutate(duration_minutes = round(as.numeric(duration) / 60, 2),
          n_no_validas = no_validas)
 
+
+# Eliminar mass
+data <- data %>%
+  filter(ruc != "20608280333")
+
+
 alertas <- data
 
 # Flag duración
