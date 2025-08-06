@@ -29,7 +29,7 @@ data <- data %>%
     raz_social = case_when(
       username == "michina.011@gmail.com" & raz_social == "Impresiónes copias artículos librería y agente banco nación y Interbank" ~ "Multiservicios Géminis",
       username == "michina.011@gmail.com" & raz_social == "Dubraska" ~ "Lavanderías Madrid",
-      TRUE ~ username
+      TRUE ~ raz_social
     ),
     ruc = case_when(
       username == "michina.011@gmail.com" & raz_social == "Multiservicios Géminis" ~ "20608613243",
