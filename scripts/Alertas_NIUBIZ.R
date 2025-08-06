@@ -990,3 +990,16 @@ nps_tabla_25 <- nps_categorizado_long |>
   mutate(porcentaje = round(n / sum(n) * 100, 2)) |>
   ungroup()
 
+# Mapa para el looker:
+
+library(dplyr)
+library(stringr)
+
+# Crear la nueva variable con lat y long extraídos
+alertas <- alertas %>%
+  mutate(
+    lat_long = str_trim(coords),  # limpiar espacios al inicio/final
+    lat_long = str_split(lat_long, " "),           # separar por espacio
+    lat_long = sapply(lat_long, function(x) paste(x[1], x[2], sep = ","))  # quedarte con 1ro y 2do
+  )
+
