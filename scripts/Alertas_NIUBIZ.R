@@ -39,6 +39,12 @@ data <- data %>%
     
   )
 
+data <- data %>%
+  mutate(
+    username = if_else(trimws(username)=="johannace02@gmail.com (not yet authenticated)",
+                       "johannace02@gmail.com",username)
+  )
+
 alertas <- data
 
 # Flag duración
