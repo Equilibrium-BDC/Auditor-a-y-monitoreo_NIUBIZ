@@ -22,6 +22,23 @@ data <- data %>%
   filter(ruc != "20608280333")
 
 
+# Corregir RUC
+
+data <- data %>%
+  mutate(
+    raz_social = case_when(
+      username == "michina.011@gmail.com" & raz_social == "Impresiónes copias artículos librería y agente banco nación y Interbank" ~ "Multiservicios Géminis",
+      username == "michina.011@gmail.com" & raz_social == "Dubraska" ~ "Lavanderías Madrid",
+      TRUE ~ username
+    ),
+    ruc = case_when(
+      username == "michina.011@gmail.com" & raz_social == "Multiservicios Géminis" ~ "20608613243",
+      username == "michina.011@gmail.com" & raz_social == "Lavanderías Madrid" ~ "20547813007" ,
+      TRUE ~ ruc
+    )
+    
+  )
+
 alertas <- data
 
 # Flag duración
