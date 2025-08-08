@@ -47,6 +47,24 @@ data <- data %>%
 
 alertas <- data
 
+# Corrección time
+
+# Carga las librerías necesarias
+library(tidyverse)
+library(lubridate)
+
+alertas <- alertas %>%
+  mutate(
+    # Primero, parsea la fecha y hora si no lo están,
+    starttime_corregido = with_tz(force_tz(ymd_hms(starttime), tzone = "UTC"), tzone = "America/Lima"),
+    endtime_corregido = with_tz(force_tz(ymd_hms(endtime), tzone = "UTC"), tzone = "America/Lima")
+  )
+
+# (Opcional) Visualiza los resultados para verificar la corrección
+alertas %>%
+  select(starttime, starttime_corregido, endtime, endtime_corregido)
+
+
 # Flag duración
 dev_estandar <- alertas %>%
   filter(duration_minutes <= 100) %>%
