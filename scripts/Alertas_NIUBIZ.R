@@ -45,6 +45,27 @@ data <- data %>%
                        "johannace02@gmail.com",username)
   )
 
+
+# Separar coordenadas
+
+data <- data %>%
+  mutate(
+    coords = trimws(coords),          # quita espacios al inicio/fin
+    coords = na_if(coords, "")        # convierte cadenas vacías en NA
+  ) %>%
+  separate(
+    coords,
+    into = c("lat", "lon", "alt", "acc"),
+    sep = "\\s+",                     # separa por uno o más espacios
+    fill = "right",                   # si faltan valores, rellena con NA a la derecha
+    extra = "drop",                   # si vienen más de 4, descarta el resto
+    convert = TRUE                    # convierte a numérico automáticamente
+  )%>%
+  mutate(
+    lat_lon = paste0(lat,",",lon)
+  )
+
+
 alertas <- data
 
 # Corrección time
@@ -1030,7 +1051,7 @@ nps_tabla_25 <- nps_categorizado_long |>
   group_by(solucion_pago) |>
   mutate(porcentaje = round(n / sum(n) * 100, 2)) |>
   ungroup()
-
+if(false){
 # Mapa para el looker:
 
 library(dplyr)
@@ -1044,3 +1065,4 @@ alertas <- alertas %>%
     lat_long = sapply(lat_long, function(x) paste(x[1], x[2], sep = ","))  # quedarte con 1ro y 2do
   )
 
+}
