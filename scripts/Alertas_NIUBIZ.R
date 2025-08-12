@@ -1051,4 +1051,3 @@ nps_tabla_25 <- nps_categorizado_long |>
   group_by(solucion_pago) |>
   mutate(porcentaje = round(n / sum(n) * 100, 2)) |>
   ungroup()
-if(false){
