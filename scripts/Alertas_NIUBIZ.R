@@ -19,15 +19,16 @@ data <- data %>%
 
 # Eliminar mass
 data <- data %>%
-  filter(ruc != "20608280333")
+  filter(as.numeric(ruc) != 20608280333)
 
 
 # Corregir RUC
 
 data <- data %>%
   mutate(
+    raz_social = trimws(raz_social),
     raz_social = case_when(
-      username == "michina.011@gmail.com" & raz_social == "Impresiónes copias artículos librería y agente banco nación y Interbank " ~ "Multiservicios Géminis",
+      username == "michina.011@gmail.com" & raz_social == "Impresiónes copias artículos librería y agente banco nación y Interbank" ~ "Multiservicios Géminis",
       username == "michina.011@gmail.com" & raz_social == "Dubraska" ~ "Lavanderías Madrid",
       TRUE ~ raz_social
     ),
@@ -45,26 +46,46 @@ data <- data %>%
                        "johannace02@gmail.com",username)
   )
 
-
-# Separar coordenadas
+# Corregir información faltante
 
 data <- data %>%
   mutate(
-    coords = trimws(coords),          # quita espacios al inicio/fin
-    coords = na_if(coords, "")        # convierte cadenas vacías en NA
-  ) %>%
-  separate(
-    coords,
-    into = c("lat", "lon", "alt", "acc"),
-    sep = "\\s+",                     # separa por uno o más espacios
-    fill = "right",                   # si faltan valores, rellena con NA a la derecha
-    extra = "drop",                   # si vienen más de 4, descarta el resto
-    convert = TRUE                    # convierte a numérico automáticamente
-  )%>%
-  mutate(
-    lat_lon = paste0(lat,",",lon)
+    EDAD = if_else(is.na(EDAD) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", 3, EDAD),
+    GEN = if_else(is.na(EDAD) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", 2, GEN)
   )
 
+
+# Eliminar duplicado
+
+data <- data %>%
+  filter(
+    KEY != "uuid:a4ea83e3-ee8e-46b5-b905-e9e538624d5b"
+  )
+
+
+# Separar coordenadas
+
+#data <- data %>%
+#  mutate(
+#    coords = trimws(coords),          # quita espacios al inicio/fin
+#    coords = na_if(coords, "")        # convierte cadenas vacías en NA
+#  ) %>%
+#  separate(
+#    coords,
+#    into = c("lat", "lon", "alt", "acc"),
+#    sep = "\\s+",                     # separa por uno o más espacios
+#    fill = "right",                   # si faltan valores, rellena con NA a la derecha
+#    extra = "drop",                   # si vienen más de 4, descarta el resto
+#    convert = TRUE                    # convierte a numérico automáticamente
+#  )
+
+
+data <- data %>%
+  mutate(
+    lat = trimws(`coords-Latitude`),
+    lon = trimws(`coords-Longitude`),
+    lat_lon = paste0(lat,",",lon)
+  )
 
 alertas <- data
 
@@ -486,7 +507,7 @@ for (i in seq_along(empresam_acro)) {
 
 alertas <- alertas %>%
   mutate(
-    m_NO_USO_NIUBIZ = if_else(is.na(NO_USO_NIUBIZ_o) & TM_USO_1 == 1 & TM_USO_A_1 != 1, 1, 0),
+    m_NO_USO_NIUBIZ = if_else(is.na(NO_USO_NIUBIZ) & TM_USO_1 == 1 & TM_USO_A_1 != 1, 1, 0),
     m_NO_USO_NIUBIZ_o = if_else(is.na(NO_USO_NIUBIZ_o) & NO_USO_NIUBIZ_66 == 1, 1, 0),
     m_TIPO_MS = if_else(is.na(TIPO_MS) & TIPO_MP_2 == 1,1,0)
   )

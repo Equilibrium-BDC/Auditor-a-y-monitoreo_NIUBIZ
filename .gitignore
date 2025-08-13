@@ -25,6 +25,7 @@ looker/
 *.docx
 *.log
 *.out
+*.m4a
 
 # Cache de paquetes
 .Rcheck/
