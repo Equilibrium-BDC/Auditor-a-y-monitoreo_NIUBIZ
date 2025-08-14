@@ -62,6 +62,16 @@ data <- data %>%
     KEY != "uuid:a4ea83e3-ee8e-46b5-b905-e9e538624d5b"
   )
 
+#Eliminar encuestas falsas
+
+encuestas_falsas_daniel <- data %>%
+  filter(username == "danielviuri@gmail.com" &  ymd_hms(starttime) > ymd_hms("2025-08-11 23:59:59"))%>%
+  pull(KEY)
+
+
+data <- data %>%
+  filter(!KEY %in% encuestas_falsas_daniel)
+
 
 # Separar coordenadas
 
