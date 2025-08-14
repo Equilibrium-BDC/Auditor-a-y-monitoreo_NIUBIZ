@@ -51,7 +51,7 @@ data <- data %>%
 data <- data %>%
   mutate(
     EDAD = if_else(is.na(EDAD) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", 3, EDAD),
-    GEN = if_else(is.na(EDAD) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", 2, GEN)
+    GEN = if_else(is.na(GEN) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", 2, GEN)
   )
 
 
