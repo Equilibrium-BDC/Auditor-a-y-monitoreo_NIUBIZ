@@ -72,6 +72,14 @@ encuestas_falsas_daniel <- data %>%
 data <- data %>%
   filter(!KEY %in% encuestas_falsas_daniel)
 
+# Corregir RUC
+
+data <- data %>%
+  mutate(
+    raz_social = if_else(KEY == "uuid:32359b96-5164-47d5-916d-9fd146699a65","Jessica Rivera Huaman (Cafetería Fresita)",raz_social),
+    ruc = if_else(KEY == "uuid:32359b96-5164-47d5-916d-9fd146699a65","Jessica Rivera Huaman (Cafetería Fresita)",ruc)
+  )
+
 
 # Separar coordenadas
 
