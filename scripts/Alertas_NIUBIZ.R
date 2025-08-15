@@ -9,12 +9,104 @@ data_no_valido <- data %>%
 
 no_validas <- nrow(data_no_valido)
 
+# Filtrar válidas
+
+
 data <- data %>%
   mutate(part_valido = if_else((as.numeric(F1) == 1 | as.numeric(F2) == 1) &
     as.numeric(F3) == 1, 1, 0)) %>%
   filter(part_valido == 1) %>%
   mutate(duration_minutes = round(as.numeric(duration) / 60, 2),
          n_no_validas = no_validas)
+
+
+# Crear cuotas
+
+### Demográficos looker
+
+# Categoría empresa
+
+data <- data %>%
+  mutate(
+    tamanio_empleados = case_when(
+      NRO_EMP %in% as.character(c(1:3)) ~ "Micro",
+      NRO_EMP %in% as.character(c(4:5)) ~ "Pequeña",
+      NRO_EMP %in% as.character(c(6:7)) ~ "Mediana",
+      NRO_EMP %in% as.character(c(8:10)) ~ "Grande",
+    ),
+    tamanio_ingresos = case_when(
+      VOL_MEN %in% as.character(c(1:2)) ~ "Micro",
+      VOL_MEN %in% as.character(c(3:6)) ~ "Pequeña",
+      VOL_MEN %in% as.character(c(7:11)) ~ "Mediana",
+    )
+  )
+
+# Nombrar departamentos 
+
+# Departamento
+data <- data %>%
+  mutate(
+    DEP_str = case_when(
+      DEP == "1" ~ "Lima",
+      DEP == "2" ~ "Callao",
+      DEP == "3" ~ "Cusco",
+      DEP == "4" ~ "Arequipa",
+      DEP == "5" ~ "Trujillo",
+      DEP == "6" ~ "Piura",
+      TRUE ~ NA_character_
+    )
+  )
+
+
+
+library(tibble)
+
+cuotas <- tribble(
+  ~Regiones,    ~Categoria,   ~Cuota,
+  "Lima",       "Micro",     280,
+  "Lima",       "Pequeña",    88,
+  "Lima",       "Mediana",    32,
+  "Lima",       "Meta",      400,
+  "Callao",     "Micro",      35,
+  "Callao",     "Pequeña",    11,
+  "Callao",     "Mediana",     4,
+  "Callao",     "Meta",       50,
+  "Arequipa",   "Micro",      35,
+  "Arequipa",   "Pequeña",    11,
+  "Arequipa",   "Mediana",     4,
+  "Arequipa",   "Meta",       50,
+  "Cusco",      "Micro",      35,
+  "Cusco",      "Pequeña",    11,
+  "Cusco",      "Mediana",     4,
+  "Cusco",      "Meta",       50,
+  "Trujillo",   "Micro",      35,
+  "Trujillo",   "Pequeña",    11,
+  "Trujillo",   "Mediana",     4,
+  "Trujillo",   "Meta",       50,
+  "Piura",      "Micro",      35,
+  "Piura",      "Pequeña",    11,
+  "Piura",      "Mediana",     4,
+  "Piura",      "Meta",       50
+)
+
+
+
+# Unir bases
+
+# Unimos por Región y tamaño de ingresos
+data <- data %>%
+  left_join(
+    cuotas,
+    by = c("DEP_str" = "Regiones", 
+           "tamanio_ingresos" = "Categoria")
+  )
+
+data <- data %>%
+  arrange(DEP_str, tamanio_ingresos, endtime) %>%  # orden por prioridad
+  group_by(DEP_str, tamanio_ingresos) %>%
+  mutate(n_en_segmento = row_number(),
+         cuota_valida = if_else(n_en_segmento <= Cuota,"Válida","Exceso"))%>%
+  ungroup()
 
 
 # Eliminar mass
@@ -819,37 +911,6 @@ alertas <- alertas %>%
   mutate(porcentaje_avance = (sum(Exitos, na.rm = TRUE) / 650))
 
     
-### Demográficos looker
-
-# Departamento
-alertas <- alertas %>%
-  mutate(
-    DEP_str = case_when(
-      DEP == "1" ~ "Lima",
-      DEP == "2" ~ "Callao",
-      DEP == "3" ~ "Cusco",
-      DEP == "4" ~ "Arequipa",
-      DEP == "5" ~ "Trujillo",
-      DEP == "6" ~ "Piura",
-      TRUE ~ NA_character_
-    )
-  )
-# Categoría empresa
-
-alertas <- alertas %>%
-  mutate(
-    tamanio_empleados = case_when(
-      NRO_EMP %in% as.character(c(1:3)) ~ "Micro",
-      NRO_EMP %in% as.character(c(4:5)) ~ "Pequeña",
-      NRO_EMP %in% as.character(c(6:7)) ~ "Mediana",
-      NRO_EMP %in% as.character(c(8:10)) ~ "Grande",
-    ),
-    tamanio_ingresos = case_when(
-      VOL_MEN %in% as.character(c(1:2)) ~ "Micro",
-      VOL_MEN %in% as.character(c(3:6)) ~ "Pequeña",
-      VOL_MEN %in% as.character(c(7:11)) ~ "Mediana",
-    )
-  )
 
 
 # TABLA DE CUOTAS MICRO (Ciudad) - select_one
