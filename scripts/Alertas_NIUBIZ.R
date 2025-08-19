@@ -151,7 +151,7 @@ data <- data %>%
 
 data <- data %>%
   filter(
-    KEY != "uuid:a4ea83e3-ee8e-46b5-b905-e9e538624d5b"
+    !KEY %in% c("uuid:a4ea83e3-ee8e-46b5-b905-e9e538624d5b", "uuid:3ade56a5-9281-4f4d-8bb1-ba7329146a2d")
   )
 
 #Eliminar encuestas falsas
