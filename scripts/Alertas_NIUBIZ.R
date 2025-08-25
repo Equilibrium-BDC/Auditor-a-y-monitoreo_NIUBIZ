@@ -197,6 +197,18 @@ data <- data %>%
     lat_lon = paste0(lat,",",lon)
   )
 
+
+# Eliminar encuestas dudosas
+
+
+url <- "https://docs.google.com/spreadsheets/d/1Ou5IeZ7BMJ0OdNQNqQddO7XhDmCa8XDRIRV--glBv7M/edit?gid=0#gid=0"
+
+# Leer la hoja llamada "alertas
+grabaciones_no_validas <- read_sheet(url, sheet = "KEYS")%>%pull(KEY)
+
+data <- data %>%
+  filter(!KEY %in% grabaciones_no_validas)
+
 alertas <- data
 
 # Corrección time
