@@ -172,6 +172,13 @@ data <- data %>%
     ruc = if_else(KEY == "uuid:32359b96-5164-47d5-916d-9fd146699a65","Jessica Rivera Huaman (Cafetería Fresita)",ruc)
   )
 
+data <- data %>%
+  mutate(
+    ruc = case_when(KEY == "uuid:feca5852-42fe-48ac-a4fe-5cfbd411ea4c" ~ "20607540676",
+                    KEY == "uuid:0be501bd-bcde-4cd5-ba31-58e9b05815e8" ~ "20607274429",
+                    KEY == "uuid:98ab2209-f08b-4613-b3c9-ddb93ef9a742" ~ "20610609016",
+                    TRUE ~ ruc)
+  )
 
 # Separar coordenadas
 
