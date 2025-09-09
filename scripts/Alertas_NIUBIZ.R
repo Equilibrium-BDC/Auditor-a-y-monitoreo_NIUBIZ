@@ -1,6 +1,20 @@
-#### Alertas ####
+# Ajustes base de datos --------------------------------------------------------
 
-### Tranformar variables en numéricas y ver participantes válidos
+## Importar datos y ajustar errores de campo -----------------------------------
+
+data_1 <- data
+
+data_sin_transformar <- data_1
+
+data <- data_sin_transformar
+
+# Eliminar encuestas de prueba
+
+data <- data %>%
+  filter(!username %in% c("encuestasmarketshare@equilibriumbdc.com",
+                           "anonymousUser","pablo.rodriguez"))
+
+# Filtrar encuestas no válidas
 
 data_no_valido <- data %>%
   mutate(part_valido = if_else((as.numeric(F1) == 1 | as.numeric(F2) == 1) &
@@ -11,7 +25,6 @@ no_validas <- nrow(data_no_valido)
 
 # Filtrar válidas
 
-
 data <- data %>%
   mutate(part_valido = if_else((as.numeric(F1) == 1 | as.numeric(F2) == 1) &
     as.numeric(F3) == 1, 1, 0)) %>%
@@ -19,10 +32,156 @@ data <- data %>%
   mutate(duration_minutes = round(as.numeric(duration) / 60, 2),
          n_no_validas = no_validas)
 
+## Correcciones de campo -------------------------------------------------------
 
-# Crear cuotas
+# Eliminar encuestas dudosas
 
-### Demográficos looker
+url <- "https://docs.google.com/spreadsheets/d/1Ou5IeZ7BMJ0OdNQNqQddO7XhDmCa8XDRIRV--glBv7M/edit?gid=0#gid=0"
+
+# Leer la hoja llamada "alertas
+grabaciones_no_validas <- read_sheet(url, sheet = "KEYS")%>%pull(KEY)
+
+data <- data %>%
+  filter(!KEY %in% grabaciones_no_validas)
+
+
+# Eliminar empresa
+
+data <- data %>%
+  filter(as.numeric(ruc) != 20608280333)
+
+# Corregir RUC
+
+data <- data %>%
+  mutate(
+    raz_social = trimws(raz_social),
+    raz_social = case_when(
+      username == "michina.011@gmail.com" & raz_social == "Impresiónes copias artículos librería y agente banco nación y Interbank" ~ "Multiservicios Géminis",
+      username == "michina.011@gmail.com" & raz_social == "Dubraska" ~ "Lavanderías Madrid",
+      TRUE ~ raz_social
+    ),
+    ruc = case_when(
+      username == "michina.011@gmail.com" & raz_social == "Multiservicios Géminis" ~ "20608613243",
+      username == "michina.011@gmail.com" & raz_social == "Lavanderías Madrid" ~ "20547813007" ,
+      TRUE ~ ruc
+    )
+    
+  )
+
+data <- data %>%
+  mutate(
+    username = if_else(trimws(username)=="johannace02@gmail.com (not yet authenticated)",
+                       "johannace02@gmail.com",username)
+  )
+
+# Corregir información faltante
+
+data <- data %>%
+  mutate(
+    EDAD = if_else(is.na(EDAD) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", "3", EDAD),
+    GEN = if_else(is.na(GEN) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", "2", GEN)
+  )
+
+
+# Eliminar duplicado
+
+data <- data %>%
+  filter(
+    !KEY %in% c("uuid:a4ea83e3-ee8e-46b5-b905-e9e538624d5b", "uuid:3ade56a5-9281-4f4d-8bb1-ba7329146a2d")
+  )
+
+#Eliminar encuestas falsas
+
+encuestas_falsas_daniel <- data %>%
+  filter(username == "danielviuri@gmail.com" &  mdy_hms(starttime) > ymd_hms("2025-08-11 23:59:59"))%>%
+  pull(KEY)
+
+
+data <- data %>%
+  filter(!KEY %in% encuestas_falsas_daniel)
+
+# Corregir RUC
+
+data <- data %>%
+  mutate(
+    raz_social = if_else(KEY == "uuid:32359b96-5164-47d5-916d-9fd146699a65","Jessica Rivera Huaman (Cafetería Fresita)",raz_social),
+    ruc = if_else(KEY == "uuid:32359b96-5164-47d5-916d-9fd146699a65","Jessica Rivera Huaman (Cafetería Fresita)",ruc)
+  )
+
+data <- data %>%
+  mutate(
+    ruc = case_when(KEY == "uuid:feca5852-42fe-48ac-a4fe-5cfbd411ea4c" ~ "20607540676",
+                    KEY == "uuid:0be501bd-bcde-4cd5-ba31-58e9b05815e8" ~ "20607274429",
+                    KEY == "uuid:98ab2209-f08b-4613-b3c9-ddb93ef9a742" ~ "20610609016",
+                    TRUE ~ ruc)
+  )
+
+
+## Ajustar información geográfica ----------------------------------------------
+
+# Separar coordenadas
+
+data <- data %>%
+  mutate(
+    coords = trimws(coords),          # quita espacios al inicio/fin
+    coords = na_if(coords, "")        # convierte cadenas vacías en NA
+  ) %>%
+  separate(
+    coords,
+    into = c("lat", "lon", "alt", "acc"),
+    sep = "\\s+",                     # separa por uno o más espacios
+    fill = "right",                   # si faltan valores, rellena con NA a la derecha
+    extra = "drop",                   # si vienen más de 4, descarta el resto
+    convert = TRUE                    # convierte a numérico automáticamente
+  )
+
+
+data <- data %>%
+  mutate(
+    lat_lon = paste0(lat,",",lon)
+  )
+
+data <- data %>%
+  mutate(
+    coords_final = trimws(coords_final),          # quita espacios al inicio/fin
+    coords_final = na_if(coords_final, "")        # convierte cadenas vacías en NA
+  ) %>%
+  separate(
+    coords_final,
+    into = c("lat_final", "lon_final", "alt_final", "acc_final"),
+    sep = "\\s+",                     # separa por uno o más espacios
+    fill = "right",                   # si faltan valores, rellena con NA a la derecha
+    extra = "drop",                   # si vienen más de 4, descarta el resto
+    convert = TRUE                    # convierte a numérico automáticamente
+  )
+
+data <- data %>%
+  mutate(
+    lat_lon_final = paste0(lat_final,",",lon_final)
+  )
+
+## Corrección zona horaria e identificar rondas --------------------------------
+
+data <- data %>%
+  mutate(
+    # Primero, parsea la fecha y hora si no lo están,
+    starttime = with_tz(force_tz(mdy_hms(starttime), tzone = "UTC"), tzone = "America/Lima"),
+    endtime = with_tz(force_tz(mdy_hms(endtime), tzone = "UTC"), tzone = "America/Lima"),
+    SubmissionDate = with_tz(force_tz(mdy_hms(SubmissionDate), tzone = "UTC"), tzone = "America/Lima")
+  )
+
+# Crear identificador ronda 
+
+data <- data %>%
+  mutate(
+    ronda = case_when(
+      starttime <= dmy_hms("7-09-2025 12:00:00") ~ 1,
+      starttime >= dmy_hms("8-09-2025 08:00:00") ~ 2,
+      TRUE ~ NA
+    )
+  )
+
+## Análisis de cuotas ----------------------------------------------------------
 
 # Categoría empresa
 
@@ -57,11 +216,9 @@ data <- data %>%
     )
   )
 
+# Cuotas levantamiento 1
 
-
-library(tibble)
-
-cuotas <- tribble(
+cuotas_1 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota,
   "Lima",       "Micro",     280,
   "Lima",       "Pequeña",    88,
@@ -89,184 +246,103 @@ cuotas <- tribble(
   "Piura",      "Meta",       50
 )
 
+# Añadir ronda 
+
+cuotas_1["ronda"] <- 1
 
 
-# Unir bases
+# Cuotas segunda ronda
+
+cuotas_2 <- tribble(
+  ~Regiones,    ~Categoria,   ~Cuota_2,
+  "Lima",       "Micro",     346,
+  "Lima",       "Pequeña",    88,
+  "Lima",       "Mediana",    42,
+  "Lima",       "Meta",      476,
+  "Callao",     "Micro",      35,
+  "Callao",     "Pequeña",    11,
+  "Callao",     "Mediana",     4,
+  "Callao",     "Meta",       50,
+  "Arequipa",   "Micro",      50,
+  "Arequipa",   "Pequeña",    11,
+  "Arequipa",   "Mediana",     4,
+  "Arequipa",   "Meta",       65,
+  "Cusco",      "Micro",      47,
+  "Cusco",      "Pequeña",    11,
+  "Cusco",      "Mediana",     6,
+  "Cusco",      "Meta",       64,
+  "Trujillo",   "Micro",      35,
+  "Trujillo",   "Pequeña",    11,
+  "Trujillo",   "Mediana",     4,
+  "Trujillo",   "Meta",       50,
+  "Piura",      "Micro",      45,
+  "Piura",      "Pequeña",    11,
+  "Piura",      "Mediana",     8,
+  "Piura",      "Meta",       64
+)
+
+# Añadir ronda
+
+cuotas_2["ronda"] <- 2
+
+# Añadir información de cuotas
 
 # Unimos por Región y tamaño de ingresos
 data <- data %>%
   left_join(
-    cuotas,
+    cuotas_1,
     by = c("DEP_str" = "Regiones", 
-           "tamanio_ingresos" = "Categoria")
+           "tamanio_ingresos" = "Categoria",
+           "ronda" = "ronda")
   )
+
+# Analizar cuotas válidas
+
+# Este apartado analiza las cuotas válidas de la ronda 1 y asigna las encuestas
+# que excedieron las cuotas para ser parte de la ronda 2
 
 data <- data %>%
   arrange(DEP_str, tamanio_ingresos, endtime) %>%  # orden por prioridad
-  group_by(DEP_str, tamanio_ingresos) %>%
+  group_by(DEP_str, tamanio_ingresos, ronda) %>%
   mutate(n_en_segmento = row_number(),
-         cuota_valida = if_else(n_en_segmento <= Cuota,"Válida","Exceso"))%>%
-  ungroup()
+         cuota_valida_1 = case_when(!is.na(ronda) & 
+           n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
+           ronda == 2 ~ NA_character_,
+           TRUE ~ "Exceso"
+         ),
+         ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
+  ungroup()%>%
+  left_join(cuotas_2, by = c("DEP_str" = "Regiones", 
+                             "tamanio_ingresos" = "Categoria",
+                             "ronda" = "ronda"))%>%
+  group_by(DEP_str, tamanio_ingresos, ronda)%>%
+  mutate(n_en_segmento = row_number(),
+         cuota_valida_2 = case_when(!is.na(Cuota_2) &
+           n_en_segmento <= Cuota_2 & ronda == 2 ~ "Válida",
+           ronda == 1 ~ NA_character_,
+           TRUE ~ "Exceso"
+         ))%>%
+  ungroup()%>%
+  mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
+                                        cuota_valida_2 == "Válida","Válida","Exceso"))
+
+           
+## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
+
+data_ronda_1 <- data %>% filter(ronda == 1 & ruc != "99999999999")
+
+alertas <- data %>% filter(ronda == 2)
 
 
-# Eliminar mass
-data <- data %>%
-  filter(as.numeric(ruc) != 20608280333)
+# Alertas ----------------------------------------------------------------------
 
-
-# Corregir RUC
-
-data <- data %>%
-  mutate(
-    raz_social = trimws(raz_social),
-    raz_social = case_when(
-      username == "michina.011@gmail.com" & raz_social == "Impresiónes copias artículos librería y agente banco nación y Interbank" ~ "Multiservicios Géminis",
-      username == "michina.011@gmail.com" & raz_social == "Dubraska" ~ "Lavanderías Madrid",
-      TRUE ~ raz_social
-    ),
-    ruc = case_when(
-      username == "michina.011@gmail.com" & raz_social == "Multiservicios Géminis" ~ "20608613243",
-      username == "michina.011@gmail.com" & raz_social == "Lavanderías Madrid" ~ "20547813007" ,
-      TRUE ~ ruc
-    )
-    
-  )
-
-data <- data %>%
-  mutate(
-    username = if_else(trimws(username)=="johannace02@gmail.com (not yet authenticated)",
-                       "johannace02@gmail.com",username)
-  )
-
-# Corregir información faltante
-
-data <- data %>%
-  mutate(
-    EDAD = if_else(is.na(EDAD) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", 3, EDAD),
-    GEN = if_else(is.na(GEN) & KEY == "uuid:fefa9f87-b9bb-4405-ac34-b1007940c510", 2, GEN)
-  )
-
-
-# Eliminar duplicado
-
-data <- data %>%
-  filter(
-    !KEY %in% c("uuid:a4ea83e3-ee8e-46b5-b905-e9e538624d5b", "uuid:3ade56a5-9281-4f4d-8bb1-ba7329146a2d")
-  )
-
-#Eliminar encuestas falsas
-
-encuestas_falsas_daniel <- data %>%
-  filter(username == "danielviuri@gmail.com" &  ymd_hms(starttime) > ymd_hms("2025-08-11 23:59:59"))%>%
-  pull(KEY)
-
-
-data <- data %>%
-  filter(!KEY %in% encuestas_falsas_daniel)
-
-# Corregir RUC
-
-data <- data %>%
-  mutate(
-    raz_social = if_else(KEY == "uuid:32359b96-5164-47d5-916d-9fd146699a65","Jessica Rivera Huaman (Cafetería Fresita)",raz_social),
-    ruc = if_else(KEY == "uuid:32359b96-5164-47d5-916d-9fd146699a65","Jessica Rivera Huaman (Cafetería Fresita)",ruc)
-  )
-
-data <- data %>%
-  mutate(
-    ruc = case_when(KEY == "uuid:feca5852-42fe-48ac-a4fe-5cfbd411ea4c" ~ "20607540676",
-                    KEY == "uuid:0be501bd-bcde-4cd5-ba31-58e9b05815e8" ~ "20607274429",
-                    KEY == "uuid:98ab2209-f08b-4613-b3c9-ddb93ef9a742" ~ "20610609016",
-                    TRUE ~ ruc)
-  )
-
-# Separar coordenadas
-
-#data <- data %>%
-#  mutate(
-#    coords = trimws(coords),          # quita espacios al inicio/fin
-#    coords = na_if(coords, "")        # convierte cadenas vacías en NA
-#  ) %>%
-#  separate(
-#    coords,
-#    into = c("lat", "lon", "alt", "acc"),
-#    sep = "\\s+",                     # separa por uno o más espacios
-#    fill = "right",                   # si faltan valores, rellena con NA a la derecha
-#    extra = "drop",                   # si vienen más de 4, descarta el resto
-#    convert = TRUE                    # convierte a numérico automáticamente
-#  )
-
-
-data <- data %>%
-  mutate(
-    lat = trimws(`coords-Latitude`),
-    lon = trimws(`coords-Longitude`),
-    lat_lon = paste0(lat,",",lon)
-  )
-
-
-# Eliminar encuestas dudosas
-
-
-url <- "https://docs.google.com/spreadsheets/d/1Ou5IeZ7BMJ0OdNQNqQddO7XhDmCa8XDRIRV--glBv7M/edit?gid=0#gid=0"
-
-# Leer la hoja llamada "alertas
-grabaciones_no_validas <- read_sheet(url, sheet = "KEYS")%>%pull(KEY)
-
-data <- data %>%
-  filter(!KEY %in% grabaciones_no_validas)
-
-alertas <- data
-
-# Corrección time
-
-# Carga las librerías necesarias
-library(tidyverse)
-library(lubridate)
+## Flag duración ---------------------------------------------------------------
 
 alertas <- alertas %>%
-  mutate(
-    # Primero, parsea la fecha y hora si no lo están,
-    starttime_corregido = with_tz(force_tz(ymd_hms(starttime), tzone = "UTC"), tzone = "America/Lima"),
-    endtime_corregido = with_tz(force_tz(ymd_hms(endtime), tzone = "UTC"), tzone = "America/Lima")
-  )
+  mutate(flag_duration_menos = if_else(is.na(cuota_valida_1), duration_minutes < 10,
+                                       0))
 
-# (Opcional) Visualiza los resultados para verificar la corrección
-alertas %>%
-  select(starttime, starttime_corregido, endtime, endtime_corregido)
-
-
-# Flag duración
-dev_estandar <- alertas %>%
-  filter(duration_minutes <= 100) %>%
-  summarise(
-    sd_duracion = sd(duration_minutes),
-    median_duracion = mean(duration_minutes)
-  ) %>%
-  pull(sd_duracion)
-
-median_duration <- alertas %>%
-  filter(duration_minutes <= 100) %>%
-  summarise(
-    sd_duracion = sd(duration_minutes),
-    median_duracion = median(duration_minutes)
-  ) %>%
-  pull(median_duracion)
-
-
-alertas <- alertas %>%
-  mutate(
-    flag_duration_mas = if_else(
-      ((duration_minutes - median_duration) / dev_estandar > 3) &
-        part_valido == 1, 1, 0, missing = 0
-    ),
-    flag_duration_menos = if_else(
-      ((duration_minutes - median_duration) / dev_estandar < -3) &
-        part_valido == 1, 1, 0, missing = 0
-    )
-  )
-
-#### Validación de saltos #####
+## Validación de saltos --------------------------------------------------------
 
 empresas <- c("Niubiz", "Izipay", "Culqi", "Yape", "Plin", "Otro")
 tom_codes <- c(1, 2, 3, 4, 5, 66)
@@ -291,7 +367,6 @@ for (i in seq_along(empresas)) {
       !!nueva2 := if_else(!is.na(.data[[var2]]) & .data[[var66]] != 1, 1, 0)
     )
 }
-
 
 alertas <- alertas %>%
   mutate(
@@ -356,7 +431,7 @@ for (i in seq_along(empresas_2)) {
 
 
 empresas_3 <- c("Niubiz", "Izipay", "Culqi", "Openpay")
-num_empresas <- c(1:4)
+num_empresas <- c(1:3,8)
 
 for (i in seq_along(empresas_3)) {
   empresa <- empresas_3[i]
@@ -384,6 +459,7 @@ alertas <- alertas %>%
     filtro_comisiones_2 = as.integer(if_any(all_of(paste0("TM_USO_", 1:4)), ~ . == 1))
   )
 
+num_empresas <- c(1:4)
 
 for (i in seq_along(str_to_upper(empresas_3))) {
   empresa <- str_to_upper(empresas_3)[i]
@@ -492,7 +568,7 @@ alertas <- alertas %>%
 
 
 
-## Sumar total de saltos irregulares
+### Sumar total de saltos irregulares ------------------------------------------
 
 variables_salto <- names(alertas %>%
   select(matches("^s_")))
@@ -503,7 +579,7 @@ alertas <- alertas %>%
   )
 
 
-#### Validación de preguntas obligatorias (missings) #####
+## Validación de preguntas obligatorias (missings) -----------------------------
 
 vars <- c(
   "F1",
@@ -674,7 +750,7 @@ for (i in seq_along(empresam_2)) {
 
 
 empresam_3 <- c("Niubiz", "Izipay", "Culqi", "Openpay")
-num_empresas <- c(1:4)
+num_empresas <- c(1:3,8)
 
 for (i in seq_along(empresam_3)) {
   empresa <- empresam_3[i]
@@ -693,7 +769,6 @@ for (i in seq_along(empresam_3)) {
   }
 }
 
-
 # Variables versus
 
 alertas <- alertas %>%
@@ -701,6 +776,8 @@ alertas <- alertas %>%
     filtro_comisionem_1 = as.integer(if_any(all_of(paste0("TM_SP_A_", 1:4)), ~ . == 1)),
     filtro_comisionem_2 = as.integer(if_any(all_of(paste0("TM_USO_", 1:4)), ~ . == 1))
   )
+
+num_empresas <- c(1:4)
 
 
 for (i in seq_along(str_to_upper(empresam_3))) {
@@ -809,7 +886,7 @@ alertas <- alertas %>%
     m_PRINC_BANCO = if_else(is.na(PRINC_BANCO) & PRES_BANCA == 1,1,0)
   )
 
-## Sumar total missings
+### Sumar total missings -------------------------------------------------------
 
 variables_missing <- names(alertas %>%
   select(matches("^m_")))
@@ -819,44 +896,7 @@ alertas <- alertas %>%
     total_missing = rowSums(alertas[, variables_missing], na.rm = T)
   )
 
-
-# Alerta de valores numéricos extremos ####
-
-integer_vars <- c(
-  "MP_SW_efectivo",
-  "MP_SW_tarjeta",
-  "MP_SW_transferencia",
-  "MP_SW_billetera",
-  "MP_SW_pago",
-  "SW_SP_A_01",
-  "SW_SP_A_02",
-  "SW_SP_A_03",
-  "SW_SP_A_04",
-  "SW_SP_A_05",
-  "SW_SP_A_06",
-  "SW_SP_A_07",
-  "SW_SP_A_66",
-  "TIPO_MS"
-)
-
-alertas <- alertas %>%
-  mutate(
-    across(all_of(integer_vars),~if_else(abs((as.numeric(.x) - median(as.numeric(.x),na.rm = T))/sd(as.numeric(.x),na.rm = T)) > 3,1,0,missing = 0),
-           .names = "ex_{.col}")
-  )
-
-# Flag valores extremos
-
-variables_extremos <- names(alertas %>%
-                             select(matches("^ex_")))
-
-alertas <- alertas %>%
-  mutate(
-    total_extremos = rowSums(alertas[, variables_extremos], na.rm = T)
-  )
-
-
-## DUPLICADOS ----
+##  Duplicados -----------------------------------------------------------------
 
 caract_especi <- c(
   "á" = "a", "é" = "e", "í" = "i", "ó" = "o", "ú" = "u",
@@ -872,9 +912,13 @@ alertas <- alertas %>%
 
 alertas <- alertas %>%
   mutate(
-    dup_razon_soc = if_else((duplicated(razon_social_clean) | duplicated(razon_social_clean, fromLast = TRUE)), 1, 0),
-    dup_ruc = if_else((duplicated(ruc) | duplicated(ruc, fromLast = TRUE)), 1, 0))
+    dup_razon_soc = if_else(duplicated(razon_social_clean), 1, 0),
+    dup_ruc = case_when(duplicated(ruc) ~ 1,
+                        ruc %in% data_ronda_1$ruc ~ 1,
+                        TRUE ~ 0))
 
+
+## Alertas lógicas -------------------------------------------------------------
 
 # Validación porcentajes y tiempo negocio
 
@@ -892,8 +936,60 @@ alertas <- alertas %>%
     )
   )
 
-# Encuestas rechazadas y duplicados, valores faltante y atípicos
+# Alertas RUC
 
+ruc_no_validos <- c(strrep(c(0:9), 11))
+
+alertas <- alertas %>%
+  mutate(
+    flag_ruc = if_else(ruc %in% ruc_no_validos,1,0)
+  )
+
+## Alertas geográficas ---------------------------------------------------------
+
+sf_use_s2(TRUE)
+
+k_factor <- 1.5   # factor de tolerancia
+tol_min  <- 20    # tolerancia mínima en metros
+
+# 1) Inicializa distancia como NA
+alertas <- alertas %>%
+  mutate(dist_m = NA_real_)
+
+# 2) Filas con coordenadas completas para INICIO y FIN
+ok_coords <- with(alertas, complete.cases(lon, lat, lon_final, lat_final))
+
+# 3) Calcula distancia geodésica sólo en esas filas
+if (any(ok_coords)) {
+  pts_ini <- st_as_sf(alertas[ok_coords, ], coords = c("lon", "lat"),
+                      crs = 4326, remove = FALSE)
+  pts_fin <- st_as_sf(alertas[ok_coords, ], coords = c("lon_final", "lat_final"),
+                      crs = 4326, remove = FALSE)
+  
+  alertas$dist_m[ok_coords] <- as.numeric(
+    st_distance(st_geometry(pts_ini), st_geometry(pts_fin), by_element = TRUE)
+  )
+}
+
+# 4) Tolerancia basada en accuracy y flag (solo si nada es NA)
+alertas <- alertas %>%
+  mutate(
+    tol_acc = case_when(
+      !is.na(acc) & !is.na(acc_final) ~ k_factor * sqrt(acc^2 + acc_final^2),
+      TRUE ~ NA_real_
+    ),
+    tol_m = if_else(!is.na(tol_acc), pmax(tol_min, tol_acc), NA_real_),
+    
+    flag_movido = case_when(
+      # calcula flag sólo si dist_m y tol_m existen (y por construcción, coords y accuracies también)
+      !is.na(dist_m) & !is.na(tol_m) ~ if_else(dist_m > tol_m, 1L, 0L),
+      TRUE ~ NA_integer_
+    )
+  )
+
+## Consolidación de alertas ----------------------------------------------------
+
+# Encuestas rechazadas y duplicados, valores faltante y atípicos
 
 alertas <- alertas %>%
   mutate(
@@ -903,128 +999,64 @@ alertas <- alertas %>%
     flag_extreme_values = if_else(flag_suma_100 >0 | flag_tiempo_negocio >0,1,0
     ))
 
+# Corrección para encuestas de ronda 1 que pasan como exceso
 
-### Crear alertas LOOKER
+# Esta corrección obedece a que en ronda 1 ya se levantaron las alertas y los
+# cambios de formulario hacen que no todas las alertas sean válidas
+
+alertas <- alertas %>%
+  mutate(across(matches("^(m_|s_|flag|total)"), 
+                ~ if_else(cuota_valida_1 == "Exceso", 0, .,missing = .)))
+
+## Crear alertas LOOKER --------------------------------------------------------
 
 
 alertas <- alertas %>%
   mutate(
-    Exitos = if_else(flag_duration_menos == 0 & flag_duplicated == 0 &
-      flag_missing == 0 & flag_saltos == 0 & flag_extreme_values == 0 & flag_mp_sw_suma == 0 & flag_sw_sp_suma == 0 &
+    Exitos = if_else(flag_movido == 0 & flag_ruc == 0 & flag_duration_menos == 0 & flag_duplicated == 0 &
+      flag_missing == 0 & flag_saltos == 0 & flag_mp_sw_suma == 0 & flag_sw_sp_suma == 0 &
         flag_tiempo_negocio == 0, 1, 0),
-    Alertas = if_else(flag_duration_menos == 1 | flag_duplicated == 1 |
-      flag_missing == 1 | flag_saltos == 1 | flag_extreme_values == 1 | flag_mp_sw_suma == 1 | flag_sw_sp_suma == 1 |
+    Alertas = if_else(flag_movido == 1 | flag_ruc == 1 | flag_duration_menos == 1 | flag_duplicated == 1 |
+      flag_missing == 1 | flag_saltos == 1 | flag_mp_sw_suma == 1 | flag_sw_sp_suma == 1 |
         flag_tiempo_negocio == 1, 1, 0),
-    tiempos_anomalos_mas = if_else(flag_duration_mas == 1, "Sí", "No"),
     tiempos_anomalos_menos = if_else(flag_duration_menos == 1, "Sí", "No"),
     duplicados = if_else(flag_duplicated == 1, "Sí", "No"),
     valores_faltantes = if_else(flag_missing == 1, "Sí", "No"),
     saltos_irregulares = if_else(flag_saltos == 1, "Sí", "No"),
-    valores_extremos = if_else(flag_extreme_values == 1, "Sí", "No")
+    valores_extremos = if_else(flag_extreme_values == 1, "Sí", "No"),
+    ruc_invalido = if_else(flag_ruc == 1,"Sí","No"),
+    gps_movido = if_else(flag_movido == 1, "Sí", "No")
   )
 
 cat("Exitos:",as.character(sum(alertas$Exitos==1,na.rm = TRUE))," ","Alertas:",
     as.character(sum(alertas$Alertas==1,na.rm = TRUE)), " ", "Invalidas:", as.character(unique(alertas$n_no_validas)))
 
 alertas <- alertas %>%
-  mutate(porcentaje_avance = (sum(Exitos, na.rm = TRUE) / 650))
+  mutate(porcentaje_avance = (sum(Exitos, na.rm = TRUE) / 769))
 
-    
+# Reporte avance de cuotas -----------------------------------------------------
 
+## Tabla de cuotas -------------------------------------------------------------
 
-# TABLA DE CUOTAS MICRO (Ciudad) - select_one
-#------------------------------------------------
-
-cuotas_micro <- alertas %>%
-  filter(Exitos == 1 & tamanio_ingresos=="Micro") %>%             # Solo encuestas válidas en el segmento micro
-  group_by(DEP_str) %>%                # Agrupar por Ciudad
-  summarise(Alcanzado = n(), .groups = "drop") %>% # Contar número de éxitos por ciudad y segmento micro
-  
-  rename(Regiones = DEP_str)
-
-micro_cuotas <- tribble(
-  ~Regiones,        ~Meta,
-  "Lima",         280,
-  "Callao",          35,
-  "Arequipa",          35,
-  "Cusco",          35,
-  "Trujillo",          35,
-  "Piura",          35
-)
-
-# Paso 3: Unir ambas tablas por Regiones
-cuotas_micro <- cuotas_micro %>%
-  left_join(micro_cuotas, by = "Regiones") %>%
-  mutate(
-    Meta = replace_na(Meta, 0), # En caso no haya coincidencia
-    `% de avance` = round(Alcanzado / Meta * 100, 1),  # Calcular avance en porcentaje
-    Faltan = Meta - Alcanzado                          # Calcular cuántos faltan
-  ) %>%
-  select(Regiones, Meta, Alcanzado, `% de avance`, Faltan)  # Reordenar columnas
-
-# TABLA DE CUOTAS PEQUEÑA (Ciudad) - select_one
-#------------------------------------------------
-
-cuotas_peque <- alertas %>%
-  filter(Exitos == 1 & tamanio_ingresos=="Pequeña") %>%             # Solo encuestas válidas en el segmento pequeño
-  group_by(DEP_str) %>%                # Agrupar por Ciudad
-  summarise(Alcanzado = n(), .groups = "drop") %>% # Contar número de éxitos por ciudad y segmento pequeño
-  rename(Regiones = DEP_str)
-
-peque_cuotas <- tribble(
-  ~Regiones,        ~Meta,
-  "Lima",         88,
-  "Callao",          11,
-  "Arequipa",          11,
-  "Cusco",          11,
-  "Trujillo",          11,
-  "Piura",          11
-)
-
-# Paso 3: Unir ambas tablas por Regiones
-cuotas_peque <- cuotas_peque %>%
-  left_join(peque_cuotas, by = "Regiones") %>%
-  mutate(
-    Meta = replace_na(Meta, 0), # En caso no haya coincidencia
-    `% de avance` = round(Alcanzado / Meta * 100, 1),  # Calcular avance en porcentaje
-    Faltan = Meta - Alcanzado                          # Calcular cuántos faltan
-  ) %>%
-  select(Regiones, Meta, Alcanzado, `% de avance`, Faltan)  # Reordenar columnas
-
-# TABLA DE CUOTAS MEDIANA (Ciudad) - select_one
-#------------------------------------------------
-
-cuotas_mediana <- alertas %>%
-  filter(Exitos == 1 & tamanio_ingresos=="Mediana") %>%             # Solo encuestas válidas en el segmento MEDIANA
-  group_by(DEP_str) %>%                # Agrupar por Ciudad
-  summarise(Alcanzado = n(), .groups = "drop") %>% # Contar número de éxitos por ciudad y segmento MEDIANA
-  rename(Regiones = DEP_str)
-
-mediana_cuotas <- tribble(
-  ~Regiones,        ~Meta,
-  "Lima",         32,
-  "Callao",          4,
-  "Arequipa",          4,
-  "Cusco",          4,
-  "Trujillo",          4,
-  "Piura",          4
-)
-
-# Paso 3: Unir ambas tablas por Regiones
-cuotas_mediana <- cuotas_mediana %>%
-  left_join(mediana_cuotas, by = "Regiones") %>%
-  mutate(
-    Meta = replace_na(Meta, 0), # En caso no haya coincidencia
-    `% de avance` = round(Alcanzado / Meta * 100, 1),  # Calcular avance en porcentaje
-    Faltan = Meta - Alcanzado                          # Calcular cuántos faltan
-  ) %>%
-  select(Regiones, Meta, Alcanzado, `% de avance`, Faltan)  # Reordenar columnas
+cuotas_ronda_2 <- alertas %>%
+  group_by(DEP_str,tamanio_ingresos)%>%
+  summarise(total = sum(Exitos,na.rm = T)) %>%
+  full_join(cuotas_2%>%select(-ronda), by = c("DEP_str" = "Regiones",
+                             "tamanio_ingresos" = "Categoria"))%>%
+  ungroup()%>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_2,
+         Categoria = tamanio_ingresos)%>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado),0,Alcanzado) ,
+          Avance = round((Alcanzado/Meta)*100,2),
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro","Pequeña","Mediana"), ordered = T))%>%
+  arrange(Regiones, Categoria)%>%
+  filter(Categoria != "Meta")
 
 
 
-#Data para el comparativo 2024 vs 2025
-library(tibble)            
-
+#Data para el comparativo 2024 vs 2025 -----------------------------------------
+           
 
 # Filtrar TM_USO_1 == 1 y seleccionar variables necesarias
 data_filtrada <- alertas |>
@@ -1060,8 +1092,8 @@ data_40 <- data_filtrada |>
   slice_sample(n = 50)
 
 
-# 1. Motivo deja de usar Niubiz (NO_USO_NIUBIZ) - multiple
-#--------------------------------------------
+## 1. Motivo deja de usar Niubiz (NO_USO_NIUBIZ) - multiple ---------------------
+
 
 # Vector con las variables múltiples
 variables_no_uso <- c(
@@ -1090,9 +1122,7 @@ no_uso_niubiz_25 <- variables_no_uso %>%
   ))
 
 
-# 2. Recomendación de plataformas (NPS_*) - única
-#-----------------------------------------------------------
-library(dplyr)
+## 2. Recomendación de plataformas (NPS_*) - única -----------------------------
 
 data_40 <- data_40 %>%
   mutate(
@@ -1135,9 +1165,7 @@ data_40 <- data_40 %>%
   )
 
 
-
-library(dplyr)
-library(tidyr)
+## Análisis NPS ----------------------------------------------------------------
 
 # 1. Definir variables NPS categorizadas
 variables_categorizadas <- c("NPSNB", "NPSIZI", "NPSCQ", "NPSOP", "NPSYAPE", "NPSPLIN")

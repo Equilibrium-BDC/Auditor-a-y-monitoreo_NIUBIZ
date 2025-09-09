@@ -31,7 +31,9 @@ p_load(
   dotenv,
   lubridate,
   readxl,
-  beepr
+  beepr,
+  tibble,
+  sf
 )
 
 # Configurar el directorio base del proyecto
