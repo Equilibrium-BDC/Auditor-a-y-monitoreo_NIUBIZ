@@ -1071,7 +1071,7 @@ data_filtrada <- alertas |>
   )
 
 #Etiquetas para TM_REC
-library(dplyr)
+
 
 data_filtrada <- data_filtrada |>
   mutate(TM_REC = case_when(

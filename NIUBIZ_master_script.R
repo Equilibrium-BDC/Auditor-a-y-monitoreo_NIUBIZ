@@ -9,10 +9,6 @@ rm(list = ls())
 
 ### Script Maestro 
 
-# Instalar y cargar paquetes necesarios
-install.packages("tibble")
-install.packages("tidyverse") 
-
 if (!require("pacman")) install.packages("pacman")
 library(pacman)
 p_load(
