@@ -1051,6 +1051,15 @@ alertas <- alertas %>%
 
 alertas <- alertas %>% arrange(SubmissionDate)
 
+to_lima_str <- function(x) format(x, tz = "America/Lima", usetz = FALSE, "%Y-%m-%d %H:%M:%S")
+
+alertas <- alertas %>%
+  mutate(
+    starttime_fixed      = to_lima_str(starttime),
+    endtime_fixed        = to_lima_str(endtime),
+    SubmissionDate_fixed = to_lima_str(SubmissionDate)
+  )
+
 # Reporte avance de cuotas -----------------------------------------------------
 
 ## Tabla de cuotas -------------------------------------------------------------
