@@ -1,18 +1,8 @@
-# Cargar los paquetes necesarios
-library(googlesheets4)
-library(dplyr)
 
-gs4_auth(email = email)
 # Enlace del Google Sheet "alertas 2025"
-url <- "https://docs.google.com/spreadsheets/d/1RGhRLpn9JqASujLU7ofuddjJm1tD8_6OyigWuHNvSqc/edit?gid=0#gid=0"
 
 # Leer la hoja llamada "alertas"
-data_24 <- read_sheet(url, sheet = "Hoja 1")
-
-library(dplyr)
-library(purrr)
-library(labelled)
-
+data_24 <- read_sheet(id_24, sheet = "Hoja 1")
 
 # Filtrar TM_USO_1 == 1
 set.seed(123)
@@ -52,7 +42,6 @@ no_uso_niubiz_24 <- variables_no_uso_24 %>%
 
 # 2. Recomendación de plataformas (NPS_*) - única
 #-----------------------------------------------------------
-library(dplyr)
 
 data_niubiz_2024 <- data_niubiz_2024 %>%
   mutate(
@@ -93,11 +82,6 @@ data_niubiz_2024 <- data_niubiz_2024 %>%
       TRUE                          ~ NA_character_
     )
   )
-
-
-
-library(dplyr)
-library(tidyr)
 
 # 1. Definir variables NPS categorizadas
 variables_categorizadas <- c("NPSNB", "NPSIZI", "NPSCQ", "NPSOP", "NPSYAPE", "NPSPLIN")

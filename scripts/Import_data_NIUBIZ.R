@@ -1,5 +1,13 @@
 #### Importar datos desde Survey ####
 
+# Asegurarse de que las credenciales necesarias estén disponibles
+if (exists("username") && exists("password") && exists("server") && exists("formid")) {
+  message("Credenciales de Survey cargadas correctamente.")
+} else {
+  stop("No se encontraron las credenciales de Survey. Asegúrate de cargarlas desde el script maestro.")
+}
+
+
 data_ejemplo <-read_excel("data/base_niubiz_ejemplo.xlsx")
 vars_needed <- colnames(data_ejemplo)
 vars_needed <- c(vars_needed,paste("six_",c(1:6)))
@@ -11,12 +19,7 @@ vars_needed <- c(vars_needed,paste("six_",c(1:6)))
 
 ## Conect to SurveyCTO ----------------------------------------------------------------
 
-servidor <-  "equilibriumbdc"
-username <-  "jlopez@equilibriumbdc.com"
-password <- "SurveyEqui."
-formid   <- "encuesta_niubiz_ms_2025"
-
-API <- paste0('https://',servidor,'.surveycto.com/api/v2/forms/data/wide/json/',formid,'?date=0')
+API <- paste0('https://',server,'.surveycto.com/api/v2/forms/data/wide/json/',formid,'?date=0')
 
 
 ## Import data -------------------------------------------------------------
@@ -28,7 +31,7 @@ repeat {
   # Llamada a la API
   dataset_json <- POST(
     url = API,
-    config = authenticate(username, password),
+    config = authenticate(email, password),
     add_headers("Content-Type: application/json"),
     encode = 'json'
   )
@@ -49,7 +52,7 @@ repeat {
   attempt <- attempt + 1
 }
 
-# Agregar variables faltantes
+# Transformar base de datos ----------------------------------------------------
 
 
 for (v in vars_needed) {
@@ -119,5 +122,3 @@ for (var in multi_vars) {
       ungroup()
   }
 }
-
-

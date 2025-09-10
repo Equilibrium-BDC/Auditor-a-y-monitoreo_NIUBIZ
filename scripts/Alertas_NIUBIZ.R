@@ -36,10 +36,8 @@ data <- data %>%
 
 # Eliminar encuestas dudosas
 
-url <- "https://docs.google.com/spreadsheets/d/1Ou5IeZ7BMJ0OdNQNqQddO7XhDmCa8XDRIRV--glBv7M/edit?gid=0#gid=0"
-
 # Leer la hoja llamada "alertas
-grabaciones_no_validas <- read_sheet(url, sheet = "KEYS")%>%pull(KEY)
+grabaciones_no_validas <- read_sheet(id_keys, sheet = "KEYS")%>%pull(KEY)
 
 data <- data %>%
   filter(!KEY %in% grabaciones_no_validas)
@@ -1206,3 +1204,7 @@ nps_tabla_25 <- nps_categorizado_long |>
   group_by(solucion_pago) |>
   mutate(porcentaje = round(n / sum(n) * 100, 2)) |>
   ungroup()
+
+
+# Confirmación de finalización
+message("Alertas creadas exitosamente.")

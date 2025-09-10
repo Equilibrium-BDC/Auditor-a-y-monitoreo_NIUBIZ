@@ -9,6 +9,8 @@
 # Carpeta de secretos y tokens
 .secrets/
 looker/
+*.json
+
 
 # Archivos de entorno
 .env
@@ -18,7 +20,7 @@ looker/
 *.csv
 *.sav
 *.dta
-
+*.do
 # Resultados o salidas temporales
 *.html
 *.pdf
