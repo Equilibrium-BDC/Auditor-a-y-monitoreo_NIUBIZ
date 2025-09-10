@@ -1047,6 +1047,10 @@ cat("Exitos:",as.character(sum(alertas$Exitos==1,na.rm = TRUE))," ","Alertas:",
 alertas <- alertas %>%
   mutate(porcentaje_avance = (sum(Exitos, na.rm = TRUE) / 769))
 
+# Congelar fechas
+
+alertas <- alertas %>% arrange(SubmissionDate)
+
 # Reporte avance de cuotas -----------------------------------------------------
 
 ## Tabla de cuotas -------------------------------------------------------------
