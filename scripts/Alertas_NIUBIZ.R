@@ -171,22 +171,29 @@ data <- data %>%
 data <- data %>%
   mutate(
     # Primero, parsea la fecha y hora si no lo están,
-    starttime = with_tz(force_tz(mdy_hms(starttime), tzone = "UTC"), tzone = "America/Lima"),
-    endtime = with_tz(force_tz(mdy_hms(endtime), tzone = "UTC"), tzone = "America/Lima"),
-    SubmissionDate = with_tz(force_tz(mdy_hms(SubmissionDate), tzone = "UTC"), tzone = "America/Lima")
-  )
-
+    starttime = mdy_hms(starttime, tz = "UTC", locale = "C"),
+    endtime = mdy_hms(endtime, tz = "UTC", locale = "C"),
+    SubmissionDate = mdy_hms(SubmissionDate, tz = "UTC", locale = "C"),
+    starttime = with_tz(starttime, tzone = "America/Lima"),
+    endtime = with_tz(endtime, tzone = "America/Lima"),
+    SubmissionDate = with_tz(SubmissionDate, tzone = "America/Lima"))
+    
+      
 # Crear identificador ronda 
 
+# 2) Definir umbrales en la MISMA zona
+limite_r1 <- dmy_hms("7-09-2025 12:00:00", tz = "America/Lima")
+limite_r2 <- dmy_hms("8-09-2025 08:00:00", tz = "America/Lima")
+
+# 3) Identificador de ronda (tipado entero y NA explícito)
 data <- data %>%
   mutate(
     ronda = case_when(
-      starttime <= dmy_hms("7-09-2025 12:00:00") ~ 1,
-      starttime >= dmy_hms("8-09-2025 08:00:00") ~ 2,
-      TRUE ~ NA
+      starttime <= limite_r1 ~ 1L,
+      starttime >= limite_r2 ~ 2L,
+      TRUE                   ~ NA_integer_
     )
   )
-
 ## Análisis de cuotas ----------------------------------------------------------
 
 # Categoría empresa
