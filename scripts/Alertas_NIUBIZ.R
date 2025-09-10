@@ -117,6 +117,14 @@ data <- data %>%
   )
 
 
+# Corregir RUC
+
+data <- data %>%
+  mutate(
+    ruc = if_else(KEY == "uuid:749a062a-781d-4eac-a733-421a606423cb", "10070856561",ruc)
+  )
+
+
 ## Ajustar información geográfica ----------------------------------------------
 
 # Separar coordenadas
