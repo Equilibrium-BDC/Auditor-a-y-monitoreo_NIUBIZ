@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Rapp.history
+.Rproj
 
 # Carpeta oculta de configuración personal de RStudio
 .Rproj.user/
