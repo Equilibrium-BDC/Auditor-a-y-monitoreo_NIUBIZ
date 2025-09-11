@@ -3,6 +3,8 @@
 .RData
 .Rapp.history
 .Rproj
+NIUBIZ_git.Rproj
+
 
 # Carpeta oculta de configuración personal de RStudio
 .Rproj.user/
