@@ -2,7 +2,9 @@
 # Proyecto: NIUBIZ
 # Este script crea las alertas de auditoría y exporta los resultados a Google Sheets
 
+
 # Leandro
+
 
 rm(list = ls())
 
