@@ -1021,6 +1021,21 @@ alertas <- alertas %>%
   mutate(across(matches("^(m_|s_|flag|total)"), 
                 ~ if_else(cuota_valida_1 == "Exceso", 0, .,missing = .)))
 
+
+# Bajar alertas para encuestas validadas
+
+alertas_validadas <- read_sheet(id_keys, sheet = "VALIDAS")%>%pull(KEY)
+
+if(any(!is.na(alertas_validadas))) {
+  alertas <- alertas %>%
+    mutate(across(matches("^(m_|s_|flag|total)"), 
+                  ~ if_else(KEY %in% alertas_validadas, 0, .,missing = .)))
+  
+  
+} else {
+  message("No hay encuestas para corregir")
+}
+
 ## Crear alertas LOOKER --------------------------------------------------------
 
 
