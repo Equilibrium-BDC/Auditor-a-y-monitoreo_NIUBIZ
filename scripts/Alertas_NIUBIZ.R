@@ -922,6 +922,9 @@ alertas <- alertas %>%
     razon_social_clean = str_squish(str_replace_all(toupper(raz_social), caract_especi))
   )
 
+alertas<-alertas %>%
+ mutate(ruc=ifelse(razon_social_clean=="De Leandro Multiservicios",20600315324,ruc))
+
 
 alertas <- alertas %>%
   mutate(
@@ -1035,6 +1038,7 @@ if(any(!is.na(alertas_validadas))) {
 } else {
   message("No hay encuestas para corregir")
 }
+
 
 ## Crear alertas LOOKER --------------------------------------------------------
 
