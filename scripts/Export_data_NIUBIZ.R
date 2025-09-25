@@ -25,7 +25,7 @@ export_sheet <- function(df, ss, sheet_name, label = sheet_name, pause = 0) {
 
 # Llamadas usando el wrapper
 export_sheet(alertas,             sheet, "alertas_2",            label = "alertas",                 pause = 5)
-export_sheet(data,                sheet, "data_raw_2",           label = "datos crudos",            pause = 5)
+export_sheet(data_ronda_2,        sheet, "data_raw_2",           label = "datos crudos",            pause = 5)
 export_sheet(data_40,             sheet, "data_niubiz_2025_2",   label = "data Niubiz 2025",        pause = 5)
 export_sheet(no_uso_niubiz_25,    sheet, "no_uso_niubiz_2025_2", label = "no uso Niubiz 2025",      pause = 5)
 export_sheet(data_niubiz_2024,    sheet, "data_niubiz_2024",     label = "data Niubiz 2024",        pause = 5)

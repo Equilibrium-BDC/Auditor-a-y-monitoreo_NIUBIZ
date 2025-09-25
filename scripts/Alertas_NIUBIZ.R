@@ -348,6 +348,7 @@ data <- data %>%
 ## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
 
 data_ronda_1 <- data %>% filter(ronda == 1 & ruc != "99999999999")
+data_ronda_2 <- data %>% filter(ronda == 2)
 
 alertas <- data %>% filter(ronda == 2)
 
