@@ -954,7 +954,7 @@ alertas <- alertas %>%
 
 # Alertas RUC
 
-ruc_no_validos <- c(strrep(c(0:9), 11))
+ruc_no_validos <- c(strrep(c(0:9), 11),12345678910,10987654321)
 
 alertas <- alertas %>%
   mutate(
