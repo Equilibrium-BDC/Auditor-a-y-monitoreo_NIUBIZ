@@ -123,6 +123,11 @@ data <- data %>%
   )
 
 
+data <- data %>%
+  mutate(
+    ruc = if_else(KEY == "uuid:deaae751-beee-41a3-a979-a6aa7b640c97", "20600315324",ruc)
+  )
+
 ## Ajustar información geográfica ----------------------------------------------
 
 # Separar coordenadas
@@ -921,9 +926,6 @@ alertas <- alertas %>%
   mutate(
     razon_social_clean = str_squish(str_replace_all(toupper(raz_social), caract_especi))
   )
-
-alertas<-alertas %>%
- mutate(ruc=ifelse(razon_social_clean=="De Leandro Multiservicios",20600315324,ruc))
 
 
 alertas <- alertas %>%
