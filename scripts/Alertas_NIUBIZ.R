@@ -1082,6 +1082,11 @@ alertas <- alertas %>%
     SubmissionDate_fixed = to_lima_str(SubmissionDate)
   )
 
+
+# Exportar exitosas
+
+data_ronda_2 <- data_ronda_2 %>% filter(KEY %in% alertas[alertas$Exitos == 1,]$KEY)
+
 # Reporte avance de cuotas -----------------------------------------------------
 
 ## Tabla de cuotas -------------------------------------------------------------
