@@ -131,6 +131,30 @@ data <- data %>%
                            TRUE ~ ruc)
   )
 
+data <- data %>%
+  mutate(
+    ruc = case_when(KEY == "uuid:febf8e7e-1391-4744-937f-07ab81a8fb11" ~ "10483201911",
+                    KEY == "uuid:849ab4bf-8981-4515-9d64-d8002dcfd8ff" ~ "15607626887",
+                    KEY == "uuid:3102e251-db5d-4263-bb96-615cb4653cbf" ~ "10485374073",
+                    TRUE ~ ruc)
+  )
+
+data <- data %>%
+  mutate(
+    raz_social = case_when(KEY == "uuid:febf8e7e-1391-4744-937f-07ab81a8fb11" ~ "VALDEZ SANCHEZ MAYRA CAMILA",
+                           KEY == "uuid:849ab4bf-8981-4515-9d64-d8002dcfd8ff" ~ "MORENO PINTO ALFREDO ALEJANDRO ",
+                           KEY == "uuid:3102e251-db5d-4263-bb96-615cb4653cbf" ~ "MARCOS POLO LEYDIS ESMILDA",
+                           TRUE ~ raz_social)
+  )
+
+
+
+
+
+
+
+
+
 
 # Corregir RUC
 
