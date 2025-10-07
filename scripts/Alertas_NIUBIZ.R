@@ -138,6 +138,7 @@ data <- data %>%
                     KEY == "uuid:3102e251-db5d-4263-bb96-615cb4653cbf" ~ "10485374073",
                     KEY == "uuid:9d2af2c1-8a31-41cf-b5e8-9e11972dde75" ~ "20609487471",
                     KEY == "uuid:44119bca-156b-4406-9c4f-e16a0d332eb2" ~ "10422511658",
+                    KEY == "uuid:0fdf8708-d78c-4237-a7e5-c6afe2e60e65" ~ "10413801236",                    
                     TRUE ~ ruc)
   )
 
@@ -148,11 +149,12 @@ data <- data %>%
                            KEY == "uuid:3102e251-db5d-4263-bb96-615cb4653cbf" ~ "MARCOS POLO LEYDIS ESMILDA",
                            KEY == "uuid:9d2af2c1-8a31-41cf-b5e8-9e11972dde75" ~ "Pizzabela Pizzas y Pastas S.A.C.S.",
                            KEY == "uuid:44119bca-156b-4406-9c4f-e16a0d332eb2" ~ "Flores Delgado Gilmer",
+                           KEY == "uuid:44119bca-156b-4406-9c4f-e16a0d332eb2" ~ "ALARCON APONTE NANCY DOMINGA",
                            TRUE ~ raz_social)
   )
 
 
-"uuid:44119bca-156b-4406-9c4f-e16a0d332eb2"
+"uuid:0fdf8708-d78c-4237-a7e5-c6afe2e60e65"
 
 # Corregir RUC
 
