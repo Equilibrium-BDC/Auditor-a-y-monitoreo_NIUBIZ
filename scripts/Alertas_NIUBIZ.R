@@ -1136,6 +1136,12 @@ alertas <- alertas %>%
       username == "151707@unsaac.edu.pe" ~ 2,
       username == "giulianamoscol@gmail.com" ~ 2,
       username == "mirka.prietom@pucp.edu.pe" ~ 2,
+      username == "valeria.gonzalez.7306@gmail.com" ~ 2,
+      username == "alisa.trillo@pucp.edu.pe" ~ 2,
+      username == "diazm.reginaa@gmail.com" ~ 2,
+      username == "carlamianl05@gmail.com" ~ 2,      
+      
+      
       TRUE ~ coordinador
     ))
 
