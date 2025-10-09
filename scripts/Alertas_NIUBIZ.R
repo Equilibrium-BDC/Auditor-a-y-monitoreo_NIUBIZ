@@ -138,7 +138,12 @@ data <- data %>%
                     KEY == "uuid:3102e251-db5d-4263-bb96-615cb4653cbf" ~ "10485374073",
                     KEY == "uuid:9d2af2c1-8a31-41cf-b5e8-9e11972dde75" ~ "20609487471",
                     KEY == "uuid:44119bca-156b-4406-9c4f-e16a0d332eb2" ~ "10422511658",
-                    KEY == "uuid:0fdf8708-d78c-4237-a7e5-c6afe2e60e65" ~ "10413801236",                    
+                    KEY == "uuid:0fdf8708-d78c-4237-a7e5-c6afe2e60e65" ~ "10413801236", 
+                    KEY == "uuid:e62abf8e-31c0-4ace-94ac-691784cb4709" ~ "10436103749", 
+                    KEY == "uuid:b8e34377-5848-4028-a9b5-e5401b1fb8f4" ~ "20609121671", 
+                    KEY == "uuid:6afc3103-6542-475b-a5f5-2a3dc2a3be29" ~ "10421220692", 
+                    KEY == "uuid:42870139-8c56-4948-bedf-9486033122c2" ~ "20613675401", 
+                    KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "10411480696", 
                     TRUE ~ ruc)
   )
 
@@ -150,11 +155,16 @@ data <- data %>%
                            KEY == "uuid:9d2af2c1-8a31-41cf-b5e8-9e11972dde75" ~ "Pizzabela Pizzas y Pastas S.A.C.S.",
                            KEY == "uuid:44119bca-156b-4406-9c4f-e16a0d332eb2" ~ "Flores Delgado Gilmer",
                            KEY == "uuid:44119bca-156b-4406-9c4f-e16a0d332eb2" ~ "ALARCON APONTE NANCY DOMINGA",
+                           KEY == "uuid:e62abf8e-31c0-4ace-94ac-691784cb4709" ~ "James Donovan Izaguirre Talledo", 
+                           KEY == "uuid:b8e34377-5848-4028-a9b5-e5401b1fb8f4" ~ "Top Vision Opticas E.I.R.L.", 
+                           KEY == "uuid:6afc3103-6542-475b-a5f5-2a3dc2a3be29" ~ "VALENZUELA CABANILLAS Edelicia", 
+                           KEY == "uuid:42870139-8c56-4948-bedf-9486033122c2" ~ "Ralah SAC", 
+                           KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "Vanessa Limas Ortiz", 
                            TRUE ~ raz_social)
   )
 
 
-"uuid:0fdf8708-d78c-4237-a7e5-c6afe2e60e65"
+"uuid:e62abf8e-31c0-4ace-94ac-691784cb4709"
 
 # Corregir RUC
 
