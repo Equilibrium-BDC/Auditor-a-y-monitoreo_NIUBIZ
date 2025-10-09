@@ -340,9 +340,38 @@ cuotas_2 <- tribble(
   "Piura",      "Meta",       64
 )
 
+cuotas_3 <- tribble(
+  ~Regiones,    ~Categoria,   ~Cuota_3,
+  "Lima",       "Micro",     302,
+  "Lima",       "Pequeña",    95,
+  "Lima",       "Mediana",    34,
+  "Lima",       "Meta",      431,
+  "Callao",     "Micro",      38,
+  "Callao",     "Pequeña",    12,
+  "Callao",     "Mediana",    4,
+  "Callao",     "Meta",       54,
+  "Arequipa",   "Micro",      38,
+  "Arequipa",   "Pequeña",    12,
+  "Arequipa",   "Mediana",     4,
+  "Arequipa",   "Meta",       54,
+  "Cusco",      "Micro",      38,
+  "Cusco",      "Pequeña",    12,
+  "Cusco",      "Mediana",     4,
+  "Cusco",      "Meta",       54,
+  "Trujillo",   "Micro",      38,
+  "Trujillo",   "Pequeña",    12,
+  "Trujillo",   "Mediana",     4,
+  "Trujillo",   "Meta",       54,
+  "Piura",      "Micro",      38,
+  "Piura",      "Pequeña",    12,
+  "Piura",      "Mediana",     4,
+  "Piura",      "Meta",       54
+)
+
 # Añadir ronda
 
 cuotas_2["ronda"] <- 2
+cuotas_3["ronda"] <- 3
 
 # Añadir información de cuotas
 
@@ -1090,7 +1119,7 @@ if(any(!is.na(alertas_validadas))) {
 alertas$coordinador <- 1
 alertas <- alertas %>%  
 mutate(
-  alertas$coordinador= case_when( username="william.adrianzen@gmail.com" ~2,
+  coordinador= case_when( username="william.adrianzen@gmail.com" ~2,
                                   username="lorenax1099@gmail.com" ~2,
                                   username="mollie.allen@unmsm.edu.pe" ~2,
                                   username="econ.cristobalperez@gmail.com" ~2,
@@ -1106,7 +1135,7 @@ mutate(
                                   username="151707@unsaac.edu.pe" ~2,
                                   username="giulianamoscol@gmail.com" ~2,
                                   username="mirka.prietom@pucp.edu.pe" ~2,
-                                  TRUE ~ alertas$coordinador)
+                                  TRUE ~ coordinador)
   
 )
 
@@ -1139,6 +1168,7 @@ cat("Exitos:",as.character(sum(alertas$Exitos==1,na.rm = TRUE))," ","Alertas:",
 
 alertas <- alertas %>%
   mutate(porcentaje_avance = (sum(Exitos, na.rm = TRUE) / 769))
+
 alertas <- alertas %>%
   mutate(porcentaje_avance2 = (sum(Exitos, na.rm = TRUE) / 701))
 
@@ -1178,6 +1208,22 @@ cuotas_ronda_2 <- alertas %>%
          Categoria = factor(Categoria, levels = c("Micro","Pequeña","Mediana"), ordered = T))%>%
   arrange(Regiones, Categoria)%>%
   filter(Categoria != "Meta")
+
+cuotas_ronda_3 <- alertas %>%
+  group_by(DEP_str,tamanio_ingresos)%>%
+  summarise(total = sum(Exitos,na.rm = T)) %>%
+  full_join(cuotas_3%>%select(-ronda), by = c("DEP_str" = "Regiones",
+                                              "tamanio_ingresos" = "Categoria"))%>%
+  ungroup()%>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_3,
+         Categoria = tamanio_ingresos)%>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado),0,Alcanzado) ,
+         Avance = round((Alcanzado/Meta)*100,2),
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro","Pequeña","Mediana"), ordered = T))%>%
+  arrange(Regiones, Categoria)%>%
+  filter(Categoria != "Meta")
+
 
 
 
