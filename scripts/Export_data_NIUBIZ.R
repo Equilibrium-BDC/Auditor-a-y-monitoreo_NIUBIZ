@@ -33,6 +33,7 @@ export_sheet(no_uso_niubiz_24,    sheet, "no_uso_niubiz_2024",   label = "no uso
 export_sheet(nps_tabla_25,        sheet, "nps_tabla_25_2",       label = "NPS 2025",                pause = 5)
 export_sheet(nps_tabla_24,        sheet, "nps_tabla_24",         label = "NPS 2024",                pause = 5)
 export_sheet(cuotas_ronda_2,      sheet, "cuotas_ronda_2",       label = "cuotas ronda 2",          pause = 5)
+export_sheet(cuotas_ronda_3,      sheet, "cuotas_ronda_3",       label = "cuotas ronda ",          pause = 5)
 
 message("✅ Todos los datos fueron exportados exitosamente.")
 
