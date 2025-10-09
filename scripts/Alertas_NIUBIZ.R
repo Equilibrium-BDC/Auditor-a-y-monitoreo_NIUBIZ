@@ -1083,6 +1083,36 @@ if(any(!is.na(alertas_validadas))) {
   message("No hay encuestas para corregir")
 }
 
+## Creamos los variable coordinador--------------------------------------------------------
+# Ururi es coordinaro 1
+# William es coordniador 2
+
+alertas$coordinador <- 1
+alertas <- alertas %>%  
+mutate(
+  alertas$coordinador= case_when( username="william.adrianzen@gmail.com" ~2,
+                                  username="lorenax1099@gmail.com" ~2,
+                                  username="mollie.allen@unmsm.edu.pe" ~2,
+                                  username="econ.cristobalperez@gmail.com" ~2,
+                                  username="melanygomezvalencia204@gmail.com" ~2,
+                                  username="greciam.oliver@gmail.com" ~2,
+                                  username="naye131101@gmail.com" ~2,
+                                  username="deyanirahito@gmail.com" ~2,
+                                  username="urpi.solis@unmsm.edu.pe" ~2,
+                                  username="Kemiko.cruz17@gmail.com" ~2,
+                                  username="Gabriel.bocanegra@pucp.edu.pe" ~2,
+                                  username="Angiex312x@gmail.com" ~2,
+                                  username="kvaleroa@unsa.edu.pe" ~2,
+                                  username="151707@unsaac.edu.pe" ~2,
+                                  username="giulianamoscol@gmail.com" ~2,
+                                  username="mirka.prietom@pucp.edu.pe" ~2,
+                                  TRUE ~ alertas$coordinador)
+  
+)
+
+
+
+
 
 ## Crear alertas LOOKER --------------------------------------------------------
 
@@ -1109,6 +1139,8 @@ cat("Exitos:",as.character(sum(alertas$Exitos==1,na.rm = TRUE))," ","Alertas:",
 
 alertas <- alertas %>%
   mutate(porcentaje_avance = (sum(Exitos, na.rm = TRUE) / 769))
+alertas <- alertas %>%
+  mutate(porcentaje_avance2 = (sum(Exitos, na.rm = TRUE) / 701))
 
 # Congelar fechas
 
