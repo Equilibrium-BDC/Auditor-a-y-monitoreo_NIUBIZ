@@ -1148,9 +1148,11 @@ alertas <- alertas %>%
       username == "valeria.gonzalez.7306@gmail.com" ~ 2,
       username == "alisa.trillo@pucp.edu.pe" ~ 2,
       username == "diazm.reginaa@gmail.com" ~ 2,
-      username == "carlamianl05@gmail.com" ~ 2,      
-      
-      
+      username == "carlamianl05@gmail.com" ~ 2, 
+      username == "m.catanoch@gmail.com" ~ 2, 
+      username == "valsof.valcarcel@gmail.com" ~ 2, 
+      username == "kpihuaycho@gmail.com" ~ 2, 
+  
       TRUE ~ coordinador
     ))
 
