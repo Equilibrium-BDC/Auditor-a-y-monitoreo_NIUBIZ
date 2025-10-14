@@ -1141,7 +1141,7 @@ alertas <- alertas %>%
       username == "urpi.solis@unmsm.edu.pe" ~ 2,
       username == "Kemiko.cruz17@gmail.com" ~ 2,
       username == "Gabriel.bocanegra@pucp.edu.pe" ~ 2,
-      username == "Angiex312x@gmail.com" ~ 2,
+      username == "angiex312x@gmail.com" ~ 2,
       username == "kvaleroa@unsa.edu.pe" ~ 2,
       username == "151707@unsaac.edu.pe" ~ 2,
       username == "giulianamoscol@gmail.com" ~ 2,
@@ -1152,7 +1152,9 @@ alertas <- alertas %>%
       username == "m.catanoch@gmail.com" ~ 2, 
       username == "valsof.valcarcel@gmail.com" ~ 2, 
       username == "kpihuaycho@gmail.com" ~ 2, 
-  
+      username == "jimena.aguilar@pucp.edu.pe" ~ 2, 
+      username == "coordinaciondtm@equilibriumbdc.com" ~ 2, 
+      username == "edgarelazo@gmail.com" ~ 2, 
       TRUE ~ coordinador
     ))
 
