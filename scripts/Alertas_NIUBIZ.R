@@ -143,13 +143,15 @@ data <- data %>%
                     KEY == "uuid:b8e34377-5848-4028-a9b5-e5401b1fb8f4" ~ "20609121671", 
                     KEY == "uuid:6afc3103-6542-475b-a5f5-2a3dc2a3be29" ~ "10421220692", 
                     KEY == "uuid:42870139-8c56-4948-bedf-9486033122c2" ~ "20613675401", 
-                    KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "10411480696", 
+                    KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "10411480696",
+                    KEY == "uuid:cf85fedf-738c-46d1-a1dc-5f5161e5fed7" ~ "10745033348", 
                     TRUE ~ ruc)
   )
 
 data <- data %>%
   mutate(
-    raz_social = case_when(KEY == "uuid:febf8e7e-1391-4744-937f-07ab81a8fb11" ~ "VALDEZ SANCHEZ MAYRA CAMILA",
+    raz_social = case_when(KEY == "uuid:deaae751-beee-41a3-a979-a6aa7b640c97" ~ "Multiservicios Leandro SAC",
+                           KEY == "uuid:febf8e7e-1391-4744-937f-07ab81a8fb11" ~ "VALDEZ SANCHEZ MAYRA CAMILA",
                            KEY == "uuid:849ab4bf-8981-4515-9d64-d8002dcfd8ff" ~ "MORENO PINTO ALFREDO ALEJANDRO ",
                            KEY == "uuid:3102e251-db5d-4263-bb96-615cb4653cbf" ~ "MARCOS POLO LEYDIS ESMILDA",
                            KEY == "uuid:9d2af2c1-8a31-41cf-b5e8-9e11972dde75" ~ "Pizzabela Pizzas y Pastas S.A.C.S.",
@@ -160,11 +162,12 @@ data <- data %>%
                            KEY == "uuid:6afc3103-6542-475b-a5f5-2a3dc2a3be29" ~ "VALENZUELA CABANILLAS Edelicia", 
                            KEY == "uuid:42870139-8c56-4948-bedf-9486033122c2" ~ "Ralah SAC", 
                            KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "Vanessa Limas Ortiz", 
+                           KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "Edson Burgos Valencia", 
                            TRUE ~ raz_social)
   )
 
 
-"uuid:e62abf8e-31c0-4ace-94ac-691784cb4709"
+"uuid:cf85fedf-738c-46d1-a1dc-5f5161e5fed7"
 
 # Corregir RUC
 
