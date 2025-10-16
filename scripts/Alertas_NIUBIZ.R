@@ -145,6 +145,9 @@ data <- data %>%
                     KEY == "uuid:42870139-8c56-4948-bedf-9486033122c2" ~ "20613675401", 
                     KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "10411480696",
                     KEY == "uuid:cf85fedf-738c-46d1-a1dc-5f5161e5fed7" ~ "10745033348", 
+                    KEY == "uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1" ~ "10474119047"
+                    KEY == "uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b" ~ "10470253725"
+                    
                     TRUE ~ ruc)
   )
 
@@ -163,11 +166,16 @@ data <- data %>%
                            KEY == "uuid:42870139-8c56-4948-bedf-9486033122c2" ~ "Ralah SAC", 
                            KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "Vanessa Limas Ortiz", 
                            KEY == "uuid:4a60ae18-0af5-419b-b627-ce848f5844a5" ~ "Edson Burgos Valencia", 
+                           KEY == "uuid:eeb7bf2f-7176-44d2-9548-2034b1e475b9" ~ "TORRES CCAHUANA NOE RAUL", 
+                           KEY == "uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1" ~ "Rocio Jovita Perez Chiquian", 
+                           KEY == "uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b" ~ "Geraldine Mendoza Breas",                            
+                           
                            TRUE ~ raz_social)
   )
 
 
-"uuid:cf85fedf-738c-46d1-a1dc-5f5161e5fed7"
+"uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1"
+"uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b"
 
 # Corregir RUC
 
