@@ -430,8 +430,7 @@ data <- data %>%
          cuota_valida_2 = case_when(!is.na(Cuota_2) &
            n_en_segmento <= Cuota_2 & ronda == 2 ~ "Válida",
            ronda == 1 ~ NA_character_,
-           TRUE ~ "Exceso"-)
-           
+           TRUE ~ "Exceso")
          ))%>%
   ungroup()%>%
   left_join(cuotas_3, by = c("DEP_str" = "Regiones", 
@@ -442,7 +441,7 @@ data <- data %>%
          cuota_valida_3 = case_when(!is.na(Cuota_3) &
                                       n_en_segmento <= Cuota_3 & ronda == 3 ~ "Válida",
                                     ronda == 1 ~ NA_character_,
-                                    TRUE ~ "Exceso"-)
+                                    TRUE ~ "Exceso")
          
   ))%>%
   ungroup()%>%
