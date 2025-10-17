@@ -431,7 +431,7 @@ data <- data %>%
            n_en_segmento <= Cuota_2 & ronda == 2 ~ "Válida",
            ronda == 1 ~ NA_character_,
            TRUE ~ "Exceso")
-         ))%>%
+         )%>%
   ungroup()%>%
   left_join(cuotas_3, by = c("DEP_str" = "Regiones", 
                              "tamanio_ingresos" = "Categoria",
@@ -443,7 +443,7 @@ data <- data %>%
                                     ronda == 1 ~ NA_character_,
                                     TRUE ~ "Exceso")
          
-  ))%>%
+  )%>%
   ungroup()%>%
   mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
                                         cuota_valida_2 == "Válida"|uota_valida_3 == "Válida","Válida","Exceso"))
