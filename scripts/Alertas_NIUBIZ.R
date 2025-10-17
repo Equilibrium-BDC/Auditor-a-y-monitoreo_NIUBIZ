@@ -423,30 +423,17 @@ data <- data %>%
   ungroup()%>%
   left_join(cuotas_2, by = c("DEP_str" = "Regiones", 
                              "tamanio_ingresos" = "Categoria",
-                             "ronda" = "ronda",
-                             "coordinador"="coordinador"))%>% filter(coordinador==1) %>% 
+                             "ronda" = "ronda"))%>%
   group_by(DEP_str, tamanio_ingresos, ronda)%>%
   mutate(n_en_segmento = row_number(),
          cuota_valida_2 = case_when(!is.na(Cuota_2) &
            n_en_segmento <= Cuota_2 & ronda == 2 ~ "Válida",
            ronda == 1 ~ NA_character_,
-           TRUE ~ "Exceso")
-         )%>%
-  ungroup()%>%
-  left_join(cuotas_3, by = c("DEP_str" = "Regiones", 
-                             "tamanio_ingresos" = "Categoria",
-                             "ronda" = "ronda"))%>% filter(coordinador==2) %>% 
-  group_by(DEP_str, tamanio_ingresos, ronda)%>%
-  mutate(n_en_segmento = row_number(),
-         cuota_valida_3 = case_when(!is.na(Cuota_3) &
-                                      n_en_segmento <= Cuota_3 & ronda == 3 ~ "Válida",
-                                    ronda == 1 ~ NA_character_,
-                                    TRUE ~ "Exceso")
-         
-  )%>%
+           TRUE ~ "Exceso"
+         ))%>%
   ungroup()%>%
   mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
-                                        cuota_valida_2 == "Válida"|uota_valida_3 == "Válida","Válida","Exceso"))
+                                        cuota_valida_2 == "Válida","Válida","Exceso"))
 
            
 ## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
@@ -1236,7 +1223,7 @@ data_ronda_2 <- data_ronda_2 %>% filter(KEY %in% alertas[alertas$Exitos == 1,]$K
 
 ## Tabla de cuotas -------------------------------------------------------------
 
-cuotas_ronda_2 <- alertas %>% filter(coordinador==1)  %>% 
+cuotas_ronda_2 <- alertas %>%
   group_by(DEP_str,tamanio_ingresos)%>%
   summarise(total = sum(Exitos,na.rm = T)) %>%
   full_join(cuotas_2%>%select(-ronda), by = c("DEP_str" = "Regiones",
@@ -1251,7 +1238,7 @@ cuotas_ronda_2 <- alertas %>% filter(coordinador==1)  %>%
   arrange(Regiones, Categoria)%>%
   filter(Categoria != "Meta")
 
-cuotas_ronda_3 <- alertas %>% filter(coordinador==2)  %>% 
+cuotas_ronda_3 <- alertas %>%
   group_by(DEP_str,tamanio_ingresos)%>%
   summarise(total = sum(Exitos,na.rm = T)) %>%
   full_join(cuotas_3%>%select(-ronda), by = c("DEP_str" = "Regiones",
