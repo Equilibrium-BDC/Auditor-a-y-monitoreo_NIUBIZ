@@ -423,17 +423,31 @@ data <- data %>%
   ungroup()%>%
   left_join(cuotas_2, by = c("DEP_str" = "Regiones", 
                              "tamanio_ingresos" = "Categoria",
-                             "ronda" = "ronda"))%>%
+                             "ronda" = "ronda",
+                             "coordinador"="coordinador"))%>% filter(coordinador==1) %>% 
   group_by(DEP_str, tamanio_ingresos, ronda)%>%
   mutate(n_en_segmento = row_number(),
          cuota_valida_2 = case_when(!is.na(Cuota_2) &
            n_en_segmento <= Cuota_2 & ronda == 2 ~ "Válida",
            ronda == 1 ~ NA_character_,
-           TRUE ~ "Exceso"
+           TRUE ~ "Exceso"-)
+           
          ))%>%
   ungroup()%>%
+  left_join(cuotas_3, by = c("DEP_str" = "Regiones", 
+                             "tamanio_ingresos" = "Categoria",
+                             "ronda" = "ronda"))%>% filter(coordinador==2) %>% 
+  group_by(DEP_str, tamanio_ingresos, ronda)%>%
+  mutate(n_en_segmento = row_number(),
+         cuota_valida_3 = case_when(!is.na(Cuota_3) &
+                                      n_en_segmento <= Cuota_3 & ronda == 3 ~ "Válida",
+                                    ronda == 1 ~ NA_character_,
+                                    TRUE ~ "Exceso"-)
+         
+  ))%>%
+  ungroup()%>%
   mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
-                                        cuota_valida_2 == "Válida","Válida","Exceso"))
+                                        cuota_valida_2 == "Válida"|uota_valida_3 == "Válida","Válida","Exceso"))
 
            
 ## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
