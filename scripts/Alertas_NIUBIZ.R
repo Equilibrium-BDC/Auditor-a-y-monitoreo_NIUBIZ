@@ -442,7 +442,7 @@ cuotas_3["ronda"] <- 3
 # data <- data %>%
 #   left_join(
 #     cuotas_1,
-#     by = c("DEP_str" = "Regiones", 
+#     by = c("DEP_str" = "Regiones",
 #            "tamanio_ingresos" = "Categoria",
 #            "ronda" = "ronda")
 #   )
@@ -456,15 +456,14 @@ cuotas_3["ronda"] <- 3
 #   arrange(DEP_str, tamanio_ingresos, endtime) %>%  # orden por prioridad
 #   group_by(DEP_str, tamanio_ingresos, ronda) %>%
 #   mutate(n_en_segmento = row_number(),
-#          cuota_valida_1 = case_when(!is.na(ronda) & 
+#          cuota_valida_1 = case_when(!is.na(ronda) &
 #            n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
 #            ronda == 2 ~ NA_character_,
 #            TRUE ~ "Exceso"
 #          ),
 #          ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
 #   ungroup()%>%
-#   filter(coordinador==1) %>% 
-#   left_join(cuotas_2, by = c("DEP_str" = "Regiones", 
+#   left_join(cuotas_2, by = c("DEP_str" = "Regiones",
 #                              "tamanio_ingresos" = "Categoria",
 #                              "ronda" = "ronda"))%>%
 #   group_by(DEP_str, tamanio_ingresos, ronda)%>%
@@ -474,22 +473,10 @@ cuotas_3["ronda"] <- 3
 #            ronda == 1 ~ NA_character_,
 #            TRUE ~ "Exceso"
 #          ))%>%
-#   filter(coordinador==2) %>% 
-#   left_join(cuotas_3, by = c("DEP_str" = "Regiones", 
-#                              "tamanio_ingresos" = "Categoria",
-#                              "ronda" = "ronda"))%>%
-#   group_by(DEP_str, tamanio_ingresos, ronda)%>%
-#   mutate(n_en_segmento = row_number(),
-#          cuota_valida_3 = case_when(!is.na(Cuota_3) &
-#                                       n_en_segmento <= Cuota_3 & ronda == 3 ~ "Válida",
-#                                     ronda == 1 ~ NA_character_,
-#                                     TRUE ~ "Exceso"
-#          ))%>%
 #   ungroup()%>%
-#   mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
+#   mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" |
 #                                         cuota_valida_2 == "Válida","Válida","Exceso"))
-# 
-# 
+
 
 data <- data %>%
   # --- RONDA 1 ---
@@ -547,9 +534,9 @@ data <- data %>%
 ## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
 
 data_ronda_1 <- data %>% filter(ronda == 1 & ruc != "99999999999")
-data_ronda_2 <- data %>% filter(ronda == 2 | ronda == 3)
+data_ronda_2 <- data %>% filter(ronda == 2 )
 
-alertas <- data %>% filter(ronda == 2 | ronda == 3)
+alertas <- data %>% filter(ronda == 2 |ronda==3)
  
 
 # Alertas ----------------------------------------------------------------------
