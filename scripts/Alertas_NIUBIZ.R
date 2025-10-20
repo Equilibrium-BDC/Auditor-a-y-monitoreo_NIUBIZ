@@ -487,8 +487,7 @@ cuotas_3["ronda"] <- 3
 #          ))%>%
 #   ungroup()%>%
 #   mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
-#                                         cuota_valida_2 == "Válida" |
-#                                         cuota_valida_3 == "Válida","Válida","Exceso"))
+#                                         cuota_valida_2 == "Válida","Válida","Exceso"))
 # 
 # 
 
@@ -497,13 +496,14 @@ data <- data %>%
   left_join(cuotas_1, by = c("DEP_str" = "Regiones", "tamanio_ingresos" = "Categoria", "ronda" = "ronda")) %>%
   arrange(DEP_str, tamanio_ingresos, endtime) %>%
   group_by(DEP_str, tamanio_ingresos, ronda) %>%
-  mutate(
-    n_en_segmento = row_number(),
-    cuota_valida_1 = if_else(!is.na(Cuota) & n_en_segmento <= Cuota & ronda == 1, "Válida", NA_character_),
-    # Los excesos de la ronda 1 pasan a ser considerados para la ronda 2
-    ronda = if_else(is.na(cuota_valida_1) & ronda == 1, 2, ronda)
-  ) %>%
-  ungroup() %>%
+  mutate(n_en_segmento = row_number(),
+                  cuota_valida_1 = case_when(!is.na(ronda) &
+                    n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
+                    ronda == 2 ~ NA_character_,
+                    TRUE ~ "Exceso"
+                  ),
+                  ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
+           ungroup()%>%
   
   # --- RONDA 2 ---
   left_join(cuotas_2, by = c("DEP_str" = "Regiones", "tamanio_ingresos" = "Categoria", "ronda" = "ronda")) %>%
