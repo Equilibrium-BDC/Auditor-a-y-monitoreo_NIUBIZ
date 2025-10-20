@@ -261,6 +261,47 @@ data <- data %>%
       TRUE                   ~ NA_integer_
     )
   )
+
+
+## Creamos los variable coordinador--------------------------------------------------------
+# Ururi es coordinaro 1
+# William es coordniador 2
+
+data$coordinador <- 1
+data <- data %>%
+  mutate(
+    coordinador = case_when(
+      username == "william.adrianzen@gmail.com" ~ 2,
+      username == "lorenax1099@gmail.com" ~ 2,
+      username == "mollie.allen@unmsm.edu.pe" ~ 2,
+      username == "econ.cristobalperez@gmail.com" ~ 2,
+      username == "melanygomezvalencia204@gmail.com" ~ 2,
+      username == "greciam.oliver@gmail.com" ~ 2,
+      username == "naye131101@gmail.com" ~ 2,
+      username == "deyanirahito@gmail.com" ~ 2,
+      username == "urpi.solis@unmsm.edu.pe" ~ 2,
+      username == "Kemiko.cruz17@gmail.com" ~ 2,
+      username == "Gabriel.bocanegra@pucp.edu.pe" ~ 2,
+      username == "angiex312x@gmail.com" ~ 2,
+      username == "kvaleroa@unsa.edu.pe" ~ 2,
+      username == "151707@unsaac.edu.pe" ~ 2,
+      username == "giulianamoscol@gmail.com" ~ 2,
+      username == "valeria.gonzalez.7306@gmail.com" ~ 2,
+      username == "alisa.trillo@pucp.edu.pe" ~ 2,
+      username == "diazm.reginaa@gmail.com" ~ 2,
+      username == "carlamianl05@gmail.com" ~ 2, 
+      username == "m.catanoch@gmail.com" ~ 2, 
+      username == "valsof.valcarcel@gmail.com" ~ 2, 
+      username == "kpihuaycho@gmail.com" ~ 2, 
+      username == "jimena.aguilar@pucp.edu.pe" ~ 2, 
+      username == "coordinaciondtm@equilibriumbdc.com" ~ 2, 
+      username == "edgarelazo@gmail.com" ~ 2, 
+      TRUE ~ coordinador
+    ))
+
+
+
+
 ## Análisis de cuotas ----------------------------------------------------------
 
 # Categoría empresa
@@ -432,6 +473,7 @@ data <- data %>%
            TRUE ~ "Exceso"
          ))%>%
   ungroup()%>%
+  
   mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
                                         cuota_valida_2 == "Válida","Válida","Exceso"))
 
