@@ -147,6 +147,7 @@ data <- data %>%
                     KEY == "uuid:cf85fedf-738c-46d1-a1dc-5f5161e5fed7" ~ "10745033348", 
                     KEY == "uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1" ~ "10474119047",
                     KEY == "uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b" ~ "10470253725",
+                    KEY == "uuid:97a2b4d6-3433-49bd-8614-3dab3d253cf2" ~ "20524360951",
                     
                     TRUE ~ ruc)
   )
@@ -169,12 +170,13 @@ data <- data %>%
                            KEY == "uuid:eeb7bf2f-7176-44d2-9548-2034b1e475b9" ~ "TORRES CCAHUANA NOE RAUL", 
                            KEY == "uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1" ~ "Rocio Jovita Perez Chiquian", 
                            KEY == "uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b" ~ "Geraldine Mendoza Breas",                            
+                           KEY == "uuid:97a2b4d6-3433-49bd-8614-3dab3d253cf2" ~ "RETINO VISION E.I.R.L.",
                            
                            TRUE ~ raz_social)
   )
 
 
-"uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1"
+"uuid:97a2b4d6-3433-49bd-8614-3dab3d253cf2"
 "uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b"
 
 # Corregir RUC
