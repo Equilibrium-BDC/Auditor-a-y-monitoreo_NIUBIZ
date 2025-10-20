@@ -233,36 +233,6 @@ data <- data %>%
     lat_lon_final = paste0(lat_final,",",lon_final)
   )
 
-## Corrección zona horaria e identificar rondas --------------------------------
-
-data <- data %>%
-  mutate(
-    # Primero, parsea la fecha y hora si no lo están,
-    starttime = mdy_hms(starttime, tz = "UTC", locale = "C"),
-    endtime = mdy_hms(endtime, tz = "UTC", locale = "C"),
-    SubmissionDate = mdy_hms(SubmissionDate, tz = "UTC", locale = "C"),
-    starttime = with_tz(starttime, tzone = "America/Lima"),
-    endtime = with_tz(endtime, tzone = "America/Lima"),
-    SubmissionDate = with_tz(SubmissionDate, tzone = "America/Lima"))
-    
-      
-# Crear identificador ronda 
-
-# 2) Definir umbrales en la MISMA zona
-limite_r1 <- dmy_hms("7-09-2025 12:00:00", tz = "America/Lima")
-limite_r2 <- dmy_hms("8-09-2025 08:00:00", tz = "America/Lima")
-
-# 3) Identificador de ronda (tipado entero y NA explícito)
-data <- data %>%
-  mutate(
-    ronda = case_when(
-      starttime <= limite_r1 ~ 1L,
-      starttime >= limite_r2 ~ 2L,
-      TRUE                   ~ NA_integer_
-    )
-  )
-
-
 ## Creamos los variable coordinador--------------------------------------------------------
 # Ururi es coordinaro 1
 # William es coordniador 2
@@ -298,6 +268,37 @@ data <- data %>%
       username == "edgarelazo@gmail.com" ~ 2, 
       TRUE ~ coordinador
     ))
+
+
+## Corrección zona horaria e identificar rondas --------------------------------
+
+data <- data %>%
+  mutate(
+    # Primero, parsea la fecha y hora si no lo están,
+    starttime = mdy_hms(starttime, tz = "UTC", locale = "C"),
+    endtime = mdy_hms(endtime, tz = "UTC", locale = "C"),
+    SubmissionDate = mdy_hms(SubmissionDate, tz = "UTC", locale = "C"),
+    starttime = with_tz(starttime, tzone = "America/Lima"),
+    endtime = with_tz(endtime, tzone = "America/Lima"),
+    SubmissionDate = with_tz(SubmissionDate, tzone = "America/Lima"))
+    
+      
+# Crear identificador ronda 
+
+# 2) Definir umbrales en la MISMA zona
+limite_r1 <- dmy_hms("7-09-2025 12:00:00", tz = "America/Lima")
+limite_r2 <- dmy_hms("8-09-2025 08:00:00", tz = "America/Lima")
+
+# 3) Identificador de ronda (tipado entero y NA explícito)
+data <- data %>%
+  mutate(
+    ronda = case_when(
+      starttime <= limite_r1 ~ 1L,
+      starttime >= limite_r2 & coordinador ==1 ~ 2L,
+      starttime >= limite_r2 & coordinador ==2 ~ 3L,
+      TRUE                   ~ NA_integer_
+    )
+  )
 
 
 
@@ -438,53 +439,118 @@ cuotas_3["ronda"] <- 3
 # Añadir información de cuotas
 
 # Unimos por Región y tamaño de ingresos
-data <- data %>%
-  left_join(
-    cuotas_1,
-    by = c("DEP_str" = "Regiones", 
-           "tamanio_ingresos" = "Categoria",
-           "ronda" = "ronda")
-  )
+# data <- data %>%
+#   left_join(
+#     cuotas_1,
+#     by = c("DEP_str" = "Regiones", 
+#            "tamanio_ingresos" = "Categoria",
+#            "ronda" = "ronda")
+#   )
 
 # Analizar cuotas válidas
 
 # Este apartado analiza las cuotas válidas de la ronda 1 y asigna las encuestas
 # que excedieron las cuotas para ser parte de la ronda 2
 
-data <- data %>%
-  arrange(DEP_str, tamanio_ingresos, endtime) %>%  # orden por prioridad
-  group_by(DEP_str, tamanio_ingresos, ronda) %>%
-  mutate(n_en_segmento = row_number(),
-         cuota_valida_1 = case_when(!is.na(ronda) & 
-           n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
-           ronda == 2 ~ NA_character_,
-           TRUE ~ "Exceso"
-         ),
-         ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
-  ungroup()%>%
-  left_join(cuotas_2, by = c("DEP_str" = "Regiones", 
-                             "tamanio_ingresos" = "Categoria",
-                             "ronda" = "ronda"))%>%
-  group_by(DEP_str, tamanio_ingresos, ronda)%>%
-  mutate(n_en_segmento = row_number(),
-         cuota_valida_2 = case_when(!is.na(Cuota_2) &
-           n_en_segmento <= Cuota_2 & ronda == 2 ~ "Válida",
-           ronda == 1 ~ NA_character_,
-           TRUE ~ "Exceso"
-         ))%>%
-  ungroup()%>%
-  
-  mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
-                                        cuota_valida_2 == "Válida","Válida","Exceso"))
+# data <- data %>%
+#   arrange(DEP_str, tamanio_ingresos, endtime) %>%  # orden por prioridad
+#   group_by(DEP_str, tamanio_ingresos, ronda) %>%
+#   mutate(n_en_segmento = row_number(),
+#          cuota_valida_1 = case_when(!is.na(ronda) & 
+#            n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
+#            ronda == 2 ~ NA_character_,
+#            TRUE ~ "Exceso"
+#          ),
+#          ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
+#   ungroup()%>%
+#   filter(coordinador==1) %>% 
+#   left_join(cuotas_2, by = c("DEP_str" = "Regiones", 
+#                              "tamanio_ingresos" = "Categoria",
+#                              "ronda" = "ronda"))%>%
+#   group_by(DEP_str, tamanio_ingresos, ronda)%>%
+#   mutate(n_en_segmento = row_number(),
+#          cuota_valida_2 = case_when(!is.na(Cuota_2) &
+#            n_en_segmento <= Cuota_2 & ronda == 2 ~ "Válida",
+#            ronda == 1 ~ NA_character_,
+#            TRUE ~ "Exceso"
+#          ))%>%
+#   filter(coordinador==2) %>% 
+#   left_join(cuotas_3, by = c("DEP_str" = "Regiones", 
+#                              "tamanio_ingresos" = "Categoria",
+#                              "ronda" = "ronda"))%>%
+#   group_by(DEP_str, tamanio_ingresos, ronda)%>%
+#   mutate(n_en_segmento = row_number(),
+#          cuota_valida_3 = case_when(!is.na(Cuota_3) &
+#                                       n_en_segmento <= Cuota_3 & ronda == 3 ~ "Válida",
+#                                     ronda == 1 ~ NA_character_,
+#                                     TRUE ~ "Exceso"
+#          ))%>%
+#   ungroup()%>%
+#   mutate(cuota_valida_total = if_else(cuota_valida_1 == "Válida" | 
+#                                         cuota_valida_2 == "Válida" |
+#                                         cuota_valida_3 == "Válida","Válida","Exceso"))
+# 
+# 
 
+data <- data %>%
+  # --- RONDA 1 ---
+  left_join(cuotas_1, by = c("DEP_str" = "Regiones", "tamanio_ingresos" = "Categoria", "ronda" = "ronda")) %>%
+  arrange(DEP_str, tamanio_ingresos, endtime) %>%
+  group_by(DEP_str, tamanio_ingresos, ronda) %>%
+  mutate(
+    n_en_segmento = row_number(),
+    cuota_valida_1 = if_else(!is.na(Cuota) & n_en_segmento <= Cuota & ronda == 1, "Válida", NA_character_),
+    # Los excesos de la ronda 1 pasan a ser considerados para la ronda 2
+    ronda = if_else(is.na(cuota_valida_1) & ronda == 1, 2, ronda)
+  ) %>%
+  ungroup() %>%
+  
+  # --- RONDA 2 ---
+  left_join(cuotas_2, by = c("DEP_str" = "Regiones", "tamanio_ingresos" = "Categoria", "ronda" = "ronda")) %>%
+  group_by(DEP_str, tamanio_ingresos, ronda) %>%
+  mutate(
+    n_en_segmento = row_number(),
+    cuota_valida_2 = case_when(
+      coordinador == 1 & !is.na(Cuota_2) & n_en_segmento <= Cuota_2 & ronda == 2 ~ "Válida",
+      coordinador == 1 & ronda == 2 ~ "Exceso",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  ungroup() %>%
+  
+  # --- RONDA 3 (Lógica condicional para coordinador 2) ---
+  left_join(cuotas_3, by = c("DEP_str" = "Regiones", "tamanio_ingresos" = "Categoria", "ronda" = "ronda")) %>%
+  group_by(DEP_str, tamanio_ingresos, ronda) %>%
+  mutate(
+    n_en_segmento = row_number(),
+    # 🎯 AQUÍ ESTÁ LA LÓGICA CLAVE:
+    # Solo se calcula "Válida" o "Exceso" si coordinador es 2 y la encuesta está en ronda 3.
+    # Para todos los demás, el resultado es NA.
+    cuota_valida_3 = case_when(
+      coordinador == 2 & !is.na(Cuota_3) & n_en_segmento <= Cuota_3 & ronda == 3 ~ "Válida",
+      coordinador == 2 & ronda == 3 ~ "Exceso",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  ungroup() %>%
+  
+  # --- RESULTADO FINAL CONSOLIDADO ---
+  mutate(
+    cuota_valida_total = case_when(
+      cuota_valida_1 == "Válida" ~ "Válida",
+      cuota_valida_2 == "Válida" ~ "Válida",
+      cuota_valida_3 == "Válida" ~ "Válida", # Esto solo podrá ser verdad para coordinador 2
+      TRUE ~ "Exceso"
+    )
+  )
            
 ## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
 
 data_ronda_1 <- data %>% filter(ronda == 1 & ruc != "99999999999")
-data_ronda_2 <- data %>% filter(ronda == 2)
+data_ronda_2 <- data %>% filter(ronda == 2 | ronda == 3)
 
-alertas <- data %>% filter(ronda == 2)
-
+alertas <- data %>% filter(ronda == 2 | ronda == 3)
+ 
 
 # Alertas ----------------------------------------------------------------------
 
