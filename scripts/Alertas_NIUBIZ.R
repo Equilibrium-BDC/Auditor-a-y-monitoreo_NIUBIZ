@@ -1320,7 +1320,7 @@ data_ronda_2 <- data_ronda_2 %>% filter(KEY %in% alertas[alertas$Exitos == 1,]$K
 
 ## Tabla de cuotas -------------------------------------------------------------
 
-cuotas_ronda_2 <- alertas %>% filter(coordinador==2)  %>% 
+cuotas_ronda_2 <- alertas %>% filter(coordinador==1)  %>% 
   group_by(DEP_str,tamanio_ingresos)%>%
   summarise(total = sum(Exitos,na.rm = T)) %>%
   full_join(cuotas_2%>%select(-ronda), by = c("DEP_str" = "Regiones",
