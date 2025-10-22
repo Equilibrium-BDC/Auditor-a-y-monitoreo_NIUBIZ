@@ -488,7 +488,7 @@ data <- data %>%
   mutate(n_en_segmento = row_number(),
                   cuota_valida_1 = case_when(!is.na(ronda) &
                     n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
-                    ronda == 2 ~ NA_character_,
+                    ronda == 2 | ronda == 3 ~ NA_character_,
                     TRUE ~ "Exceso"
                   ),
                   ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
@@ -536,7 +536,7 @@ data <- data %>%
 ## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
 
 data_ronda_1 <- data %>% filter(ronda == 1 & ruc != "99999999999")
-data_ronda_2 <- data %>% filter(ronda == 2 )
+data_ronda_2 <- data %>% filter(ronda == 2 |ronda==3 )
 
 alertas <- data %>% filter(ronda == 2 |ronda==3)
  
@@ -1500,3 +1500,20 @@ nps_tabla_25 <- nps_categorizado_long |>
 
 # Confirmación de finalización
 message("Alertas creadas exitosamente.")
+
+
+## Prueba----------------------------------------------------------------
+
+tablaprueba1<-data_1 %>% filter(username=="valeria.gonzalez.7306@gmail.com")
+tablaprueba2<-data_1 %>% filter(username=="kpihuaycho@gmail.com")
+tablaprueba3<-data_1 %>% filter(username=="econ.cristobalperez@gmail.com")
+tablaprueba4<-data_1 %>% filter(username=="angiex312x@gmail.com")
+tablaprueba5<-data_1 %>% filter(username=="william.adrianzen@gmail.com")
+tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
+
+tablaalertasprueba1<-alertas %>% filter(username=="kpihuaycho@gmail.com")
+tablaalertasprueba2 <- alertas %>%
+  filter(coordinador == 2) %>%
+  select(starttime, ruc, raz_social, flag_ruc, username, cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas) %>%
+  filter(duplicated(ruc))
+
