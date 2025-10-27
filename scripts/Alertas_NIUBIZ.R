@@ -1513,7 +1513,7 @@ tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
 
 tablaalertasprueba1<-alertas %>% filter(username=="kpihuaycho@gmail.com")
 tablaalertasprueba2 <- alertas %>%
-  filter(coordinador == 2) %>%
-  select(starttime, ruc, raz_social, flag_ruc, username, cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas) %>%
-  filter(duplicated(ruc))
+  filter(coordinador == 1 & DEP_str=="Callao" &tamanio_ingresos=="Micro") %>%
+  select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
+  # filter(duplicated(ruc))
 
