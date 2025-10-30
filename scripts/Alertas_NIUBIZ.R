@@ -268,6 +268,7 @@ data <- data %>%
       username == "jimena.aguilar@pucp.edu.pe" ~ 2, 
       username == "coordinaciondtm@equilibriumbdc.com" ~ 2, 
       username == "edgarelazo@gmail.com" ~ 2, 
+      username == "Flavia.beltranch@gmail.com" ~ 2,
       TRUE ~ coordinador
     ))
 
@@ -1263,6 +1264,7 @@ alertas <- alertas %>%
       username == "jimena.aguilar@pucp.edu.pe" ~ 2, 
       username == "coordinaciondtm@equilibriumbdc.com" ~ 2, 
       username == "edgarelazo@gmail.com" ~ 2, 
+      username == "Flavia.beltranch@gmail.com" ~ 2,
       TRUE ~ coordinador
     ))
 
