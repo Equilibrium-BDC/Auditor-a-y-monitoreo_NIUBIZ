@@ -85,7 +85,7 @@ data <- data %>%
 
 data <- data %>%
   filter(
-    !KEY %in% c("uuid:a4ea83e3-ee8e-46b5-b905-e9e538624d5b", "uuid:3ade56a5-9281-4f4d-8bb1-ba7329146a2d")
+    !KEY %in% c("uuid:a4ea83e3-ee8e-46b5-b905-e9e538624d5b", "uuid:3ade56a5-9281-4f4d-8bb1-ba7329146a2d","uuid:c83c5bc6-709e-4c99-b9d3-dfb472ac91de")
   )
 
 #Eliminar encuestas falsas
@@ -1510,12 +1510,13 @@ tablaprueba3<-data_1 %>% filter(username=="econ.cristobalperez@gmail.com")
 tablaprueba4<-data_1 %>% filter(username=="angiex312x@gmail.com")
 tablaprueba5<-data_1 %>% filter(username=="william.adrianzen@gmail.com")
 tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
+tablaprueba6<-data_1 %>% filter(username=="kemiko.cruz17@gmail.com")
 
-tablaalertasprueba1<-alertas %>% filter(TIPO_ATRIB_FACT_1=="1" & starttime < as.POSIXct("2025-09-30 23:59:00"))%>%
+tablaalertasprueba1<-alertas %>% filter(username=="kemiko.cruz17@gmail.com" )%>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
-  filter(coordinador == 1 & DEP_str=="Callao" &tamanio_ingresos=="Micro") %>%
-  select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
+ filter(coordinador == 2 ) %>%
+  select(starttime, endtime,ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
   # filter(duplicated(ruc))
 
