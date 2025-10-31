@@ -148,6 +148,7 @@ data <- data %>%
                     KEY == "uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1" ~ "10474119047",
                     KEY == "uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b" ~ "10470253725",
                     KEY == "uuid:97a2b4d6-3433-49bd-8614-3dab3d253cf2" ~ "20524360951",
+                    KEY == "uuid:72d8203c-05aa-4b03-8e26-7f980951d14f" ~ "10733584403",  
                     
                     TRUE ~ ruc)
   )
@@ -171,13 +172,17 @@ data <- data %>%
                            KEY == "uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1" ~ "Rocio Jovita Perez Chiquian", 
                            KEY == "uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b" ~ "Geraldine Mendoza Breas",                            
                            KEY == "uuid:97a2b4d6-3433-49bd-8614-3dab3d253cf2" ~ "RETINO VISION E.I.R.L.",
+                           KEY == "uuid:72d8203c-05aa-4b03-8e26-7f980951d14f" ~ "Maria Vega Huaman",    
+                           KEY == "uuid:7dfacbc1-39da-4595-9f04-80aa51b51a33" ~ "CONSORCIO FARMACEUTICO SAN IGNACIO DE LOYOLA S.A.C", 
+                           KEY == "uuid:d7deefec-85b4-4d01-ae0a-d36af25e6d1e" ~ "SALINAS QUISPE MILTON WILFREDO", 
                            
                            TRUE ~ raz_social)
   )
 
 
-"uuid:97a2b4d6-3433-49bd-8614-3dab3d253cf2"
-"uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b"
+
+"uuid:40cd76ec-a067-4a5e-a259-3e27db7949f2"# ,"20307242835"
+"uuid:7dfacbc1-39da-4595-9f04-80aa51b51a33"#, "10433667943"
 
 # Corregir RUC
 
@@ -1518,7 +1523,7 @@ tablaalertasprueba1<-alertas %>% filter(username=="kemiko.cruz17@gmail.com" )%>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
- filter(coordinador == 2 ) %>%
+ filter(raz_social == "Botica San Ignacio" ) %>%
   select(starttime, endtime,ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
   # filter(duplicated(ruc))
 
