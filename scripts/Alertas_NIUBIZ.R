@@ -277,6 +277,35 @@ data <- data %>%
       TRUE ~ coordinador
     ))
 
+data <- data %>%
+  mutate(
+    coordinador = case_when(
+      username == "crlicasi@gmail.com" ~ 3,
+      username == "Kellyvalera04@gmail.com" ~ 3,
+      username == "arroyoparedespacy@gmail.com" ~ 3,
+      username == "marildahurtadovillacorta@gmail.com" ~ 3,
+      username == "mirtha_limaperu@hotmail.com" ~ 3,
+      username == "christian107u@gmail.com" ~ 3,
+      username == "sanchezcumpa@hotmail.con" ~ 3,
+      username == "higiniaquevedoaldana@gmail.com" ~ 3,
+      username == "maximourbina.1980@gmail.com" ~ 3,
+      username == "isabelcastillo197428@gmail.com" ~ 3,
+      username == "jadeycmf@hotmail.com" ~ 3,
+      
+      username == "Ybarraguitirrez2025@gmail.com" ~ 3,
+      username == "Analymendoza1501@gmail.com" ~ 3,
+      username == "analysitamari913@gmail.com" ~ 3,
+      username == "eridedu@hotmail.com" ~ 3,
+      username == "samicitamary100@gmail.com" ~ 3,
+      username == "marcocarbas0110@hotmail.com" ~ 3,
+      username == "mayracecilia_22_17@hotmail.com" ~ 3,
+      username == "arlizguerra2008@gmail.com" ~ 3, 
+      username == "ibenitesolivares@gmail.com" ~ 3, 
+      username == "IVO_26_285@HOTMAIL.COM" ~ 3, 
+      username == "naul.d.r.s@gmail.com" ~ 3, 
+      TRUE ~ coordinador
+    ))
+
 
 ## Corrección zona horaria e identificar rondas --------------------------------
 
@@ -304,6 +333,7 @@ data <- data %>%
       starttime <= limite_r1 ~ 1L,
       starttime >= limite_r2 & coordinador ==1 ~ 2L,
       starttime >= limite_r2 & coordinador ==2 ~ 3L,
+      starttime >= limite_r2 & coordinador ==3 ~ 4L,
       TRUE                   ~ NA_integer_
     )
   )
@@ -439,10 +469,39 @@ cuotas_3 <- tribble(
   "Piura",      "Meta",       54
 )
 
+cuotas_4 <- tribble(
+  ~Regiones,    ~Categoria,   ~Cuota_4,
+  "Lima",       "Micro",     122,
+  "Lima",       "Pequeña",    36,
+  "Lima",       "Mediana",    14,
+  "Lima",       "Meta",      172,
+  "Callao",     "Micro",      4,
+  "Callao",     "Pequeña",    0,
+  "Callao",     "Mediana",    1,
+  "Callao",     "Meta",       5,
+  "Arequipa",   "Micro",      4,
+  "Arequipa",   "Pequeña",    0,
+  "Arequipa",   "Mediana",    1,
+  "Arequipa",   "Meta",       5,
+  "Cusco",      "Micro",      16,
+  "Cusco",      "Pequeña",    5,
+  "Cusco",      "Mediana",    2,
+  "Cusco",      "Meta",       23,
+  "Trujillo",   "Micro",      16,
+  "Trujillo",   "Pequeña",    5,
+  "Trujillo",   "Mediana",    2,
+  "Trujillo",   "Meta",       54,
+  "Piura",      "Micro",      15,
+  "Piura",      "Pequeña",    3,
+  "Piura",      "Mediana",     1,
+  "Piura",      "Meta",       19
+)
+
 # Añadir ronda
 
 cuotas_2["ronda"] <- 2
 cuotas_3["ronda"] <- 3
+cuotas_4["ronda"] <- 4
 
 # Añadir información de cuotas
 
@@ -529,12 +588,29 @@ data <- data %>%
   ) %>%
   ungroup() %>%
   
+  # --- RONDA 4 (Lógica condicional para coordinador 2) ---
+  left_join(cuotas_4, by = c("DEP_str" = "Regiones", "tamanio_ingresos" = "Categoria", "ronda" = "ronda")) %>%
+  group_by(DEP_str, tamanio_ingresos, ronda) %>%
+  mutate(
+    n_en_segmento = row_number(),
+    # 🎯 AQUÍ ESTÁ LA LÓGICA CLAVE:
+    # Solo se calcula "Válida" o "Exceso" si coordinador es 2 y la encuesta está en ronda 3.
+    # Para todos los demás, el resultado es NA.
+    cuota_valida_4 = case_when(
+      coordinador == 3 & !is.na(Cuota_4) & n_en_segmento <= Cuota_4 & ronda == 4 ~ "Válida",
+      coordinador == 3 & ronda == 4 ~ "Exceso",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  ungroup() %>%
+  
   # --- RESULTADO FINAL CONSOLIDADO ---
   mutate(
     cuota_valida_total = case_when(
       cuota_valida_1 == "Válida" ~ "Válida",
       cuota_valida_2 == "Válida" ~ "Válida",
       cuota_valida_3 == "Válida" ~ "Válida", # Esto solo podrá ser verdad para coordinador 2
+      cuota_valida_4 == "Válida" ~ "Válida",
       TRUE ~ "Exceso"
     )
   )
@@ -542,9 +618,9 @@ data <- data %>%
 ## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
 
 data_ronda_1 <- data %>% filter(ronda == 1 & ruc != "99999999999")
-data_ronda_2 <- data %>% filter(ronda == 2 |ronda==3 )
+data_ronda_2 <- data %>% filter(ronda == 2 |ronda==3 |ronda==4)
 
-alertas <- data %>% filter(ronda == 2 |ronda==3)
+alertas <- data %>% filter(ronda == 2 |ronda==3|ronda==4)
  
 
 # Alertas ----------------------------------------------------------------------
@@ -1273,6 +1349,34 @@ alertas <- alertas %>%
       TRUE ~ coordinador
     ))
 
+alertas <- alertas %>%
+  mutate(
+    coordinador = case_when(
+      username == "crlicasi@gmail.com" ~ 3,
+      username == "Kellyvalera04@gmail.com" ~ 3,
+      username == "arroyoparedespacy@gmail.com" ~ 3,
+      username == "marildahurtadovillacorta@gmail.com" ~ 3,
+      username == "mirtha_limaperu@hotmail.com" ~ 3,
+      username == "christian107u@gmail.com" ~ 3,
+      username == "sanchezcumpa@hotmail.con" ~ 3,
+      username == "higiniaquevedoaldana@gmail.com" ~ 3,
+      username == "maximourbina.1980@gmail.com" ~ 3,
+      username == "isabelcastillo197428@gmail.com" ~ 3,
+      username == "jadeycmf@hotmail.com" ~ 3,
+      
+      username == "Ybarraguitirrez2025@gmail.com" ~ 3,
+      username == "Analymendoza1501@gmail.com" ~ 3,
+      username == "analysitamari913@gmail.com" ~ 3,
+      username == "eridedu@hotmail.com" ~ 3,
+      username == "samicitamary100@gmail.com" ~ 3,
+      username == "marcocarbas0110@hotmail.com" ~ 3,
+      username == "mayracecilia_22_17@hotmail.com" ~ 3,
+      username == "arlizguerra2008@gmail.com" ~ 3, 
+      username == "ibenitesolivares@gmail.com" ~ 3, 
+      username == "IVO_26_285@HOTMAIL.COM" ~ 3, 
+      username == "naul.d.r.s@gmail.com" ~ 3, 
+      TRUE ~ coordinador
+    ))
 
 
 
@@ -1304,6 +1408,9 @@ alertas <- alertas %>%
 
 alertas <- alertas %>%
   mutate(porcentaje_avance2 = (sum(Exitos, na.rm = TRUE) / 701))
+
+alertas <- alertas %>%
+  mutate(porcentaje_avance3 = (sum(Exitos, na.rm = TRUE) / 247))
 
 # Congelar fechas
 
@@ -1357,7 +1464,20 @@ cuotas_ronda_3 <- alertas %>%  filter(coordinador==2)  %>%
   arrange(Regiones, Categoria)%>%
   filter(Categoria != "Meta")
 
-
+cuotas_ronda_4 <- alertas %>%  filter(coordinador==3)  %>% 
+  group_by(DEP_str,tamanio_ingresos)%>%
+  summarise(total = sum(Exitos,na.rm = T)) %>%
+  full_join(cuotas_4%>%select(-ronda), by = c("DEP_str" = "Regiones",
+                                              "tamanio_ingresos" = "Categoria"))%>%
+  ungroup()%>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_4,
+         Categoria = tamanio_ingresos)%>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado),0,Alcanzado) ,
+         Avance = round((Alcanzado/Meta)*100,2),
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro","Pequeña","Mediana"), ordered = T))%>%
+  arrange(Regiones, Categoria)%>%
+  filter(Categoria != "Meta")
 
 
 #Data para el comparativo 2024 vs 2025 -----------------------------------------
