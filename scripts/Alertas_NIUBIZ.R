@@ -443,30 +443,30 @@ cuotas_2 <- tribble(
 
 cuotas_3 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_3,
-  "Lima",       "Micro",     302,
-  "Lima",       "Pequeña",    95,
-  "Lima",       "Mediana",    34,
-  "Lima",       "Meta",      431,
-  "Callao",     "Micro",      38,
-  "Callao",     "Pequeña",    12,
-  "Callao",     "Mediana",    4,
-  "Callao",     "Meta",       54,
-  "Arequipa",   "Micro",      38,
-  "Arequipa",   "Pequeña",    12,
-  "Arequipa",   "Mediana",     4,
-  "Arequipa",   "Meta",       54,
-  "Cusco",      "Micro",      38,
-  "Cusco",      "Pequeña",    12,
-  "Cusco",      "Mediana",     4,
-  "Cusco",      "Meta",       54,
-  "Trujillo",   "Micro",      38,
-  "Trujillo",   "Pequeña",    12,
-  "Trujillo",   "Mediana",     4,
-  "Trujillo",   "Meta",       54,
-  "Piura",      "Micro",      38,
-  "Piura",      "Pequeña",    12,
-  "Piura",      "Mediana",     4,
-  "Piura",      "Meta",       54
+  "Lima",       "Micro",     36,
+  "Lima",       "Pequeña",   16,
+  "Lima",       "Mediana",    4,
+  "Lima",       "Meta",      56,
+  "Callao",     "Micro",      26,
+  "Callao",     "Pequeña",    10,
+  "Callao",     "Mediana",    1,
+  "Callao",     "Meta",       37,
+  "Arequipa",   "Micro",      26,
+  "Arequipa",   "Pequeña",    10,
+  "Arequipa",   "Mediana",     1,
+  "Arequipa",   "Meta",       37,
+  "Cusco",      "Micro",      3,
+  "Cusco",      "Pequeña",    0,
+  "Cusco",      "Mediana",    0,
+  "Cusco",      "Meta",       3,
+  "Trujillo",   "Micro",      3,
+  "Trujillo",   "Pequeña",    0,
+  "Trujillo",   "Mediana",    0,
+  "Trujillo",   "Meta",       3,
+  "Piura",      "Micro",      4,
+  "Piura",      "Pequeña",    4,
+  "Piura",      "Mediana",     1,
+  "Piura",      "Meta",       9
 )
 
 cuotas_4 <- tribble(
@@ -1407,7 +1407,7 @@ alertas <- alertas %>%
   mutate(porcentaje_avance = (sum(Exitos, na.rm = TRUE) / 769))
 
 alertas <- alertas %>%
-  mutate(porcentaje_avance2 = (sum(Exitos, na.rm = TRUE) / 701))
+  mutate(porcentaje_avance2 = (sum(Exitos, na.rm = TRUE) / 145))
 
 alertas <- alertas %>%
   mutate(porcentaje_avance3 = (sum(Exitos, na.rm = TRUE) / 247))
