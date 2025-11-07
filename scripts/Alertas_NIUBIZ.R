@@ -148,7 +148,10 @@ data <- data %>%
                     KEY == "uuid:89dbd9a5-aab0-4c6d-824f-fc7ad3f88cc1" ~ "10474119047",
                     KEY == "uuid:d2286a6f-db89-4b79-92e1-d811d32dbe7b" ~ "10470253725",
                     KEY == "uuid:97a2b4d6-3433-49bd-8614-3dab3d253cf2" ~ "20524360951",
-                    KEY == "uuid:72d8203c-05aa-4b03-8e26-7f980951d14f" ~ "10733584403",  
+                    KEY == "uuid:72d8203c-05aa-4b03-8e26-7f980951d14f" ~ "10733584403", 
+                    KEY == "uuid:d41d6050-06c3-4fa3-8baf-da11ad5b37cb" ~ "10700241268",
+                    KEY == "uuid:d021b3d1-50bd-4266-9b49-f6176d250443" ~ "10771370204",
+                    KEY == "uuid:39e80db0-c140-4d25-92a8-829ad8702675" ~ "10476379593",  
                     
                     TRUE ~ ruc)
   )
@@ -181,9 +184,9 @@ data <- data %>%
 
 
 
-"uuid:40cd76ec-a067-4a5e-a259-3e27db7949f2"# ,"20307242835"
-"uuid:7dfacbc1-39da-4595-9f04-80aa51b51a33"#, "10433667943"
-
+"uuid:d41d6050-06c3-4fa3-8baf-da11ad5b37cb"# ,"20307242835"
+"uuid:d021b3d1-50bd-4266-9b49-f6176d250443"#, "10433667943"
+"uuid:39e80db0-c140-4d25-92a8-829ad8702675"
 # Corregir RUC
 
 data <- data %>%
@@ -303,6 +306,9 @@ data <- data %>%
       username == "ibenitesolivares@gmail.com" ~ 3, 
       username == "IVO_26_285@HOTMAIL.COM" ~ 3, 
       username == "naul.d.r.s@gmail.com" ~ 3, 
+      username == "analymendoza1501@gmail.com" ~ 3,
+      username == "ivo_26_285@hotmail.com" ~ 3,
+      username == "jennymorq24@gmail.com" ~ 3,
       TRUE ~ coordinador
     ))
 
@@ -1375,6 +1381,9 @@ alertas <- alertas %>%
       username == "ibenitesolivares@gmail.com" ~ 3, 
       username == "IVO_26_285@HOTMAIL.COM" ~ 3, 
       username == "naul.d.r.s@gmail.com" ~ 3, 
+      username == "analymendoza1501@gmail.com" ~ 3,
+      username == "ivo_26_285@hotmail.com" ~ 3,
+      username == "jennymorq24@gmail.com" ~ 3,
       TRUE ~ coordinador
     ))
 
@@ -1639,7 +1648,7 @@ tablaprueba5<-data_1 %>% filter(username=="william.adrianzen@gmail.com")
 tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
 tablaprueba6<-data_1 %>% filter(username=="kemiko.cruz17@gmail.com")
 
-tablaalertasprueba1<-alertas %>% filter(username=="kemiko.cruz17@gmail.com" )%>%
+tablaalertasprueba1<-alertas %>% filter(ruc==11111111111 )%>% filter(coordinador==1 )%>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
