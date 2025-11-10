@@ -421,10 +421,10 @@ cuotas_1["ronda"] <- 1
 
 cuotas_2 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_2,
-  "Lima",       "Micro",     346,
+  "Lima",       "Micro",     348,
   "Lima",       "Pequeña",    88,
   "Lima",       "Mediana",    42,
-  "Lima",       "Meta",      476,
+  "Lima",       "Meta",      478,
   "Callao",     "Micro",      35,
   "Callao",     "Pequeña",    11,
   "Callao",     "Mediana",     4,
@@ -442,9 +442,9 @@ cuotas_2 <- tribble(
   "Trujillo",   "Mediana",     4,
   "Trujillo",   "Meta",       50,
   "Piura",      "Micro",      45,
-  "Piura",      "Pequeña",    11,
+  "Piura",      "Pequeña",    9,
   "Piura",      "Mediana",     8,
-  "Piura",      "Meta",       64
+  "Piura",      "Meta",       62
 )
 
 cuotas_3 <- tribble(
@@ -477,10 +477,10 @@ cuotas_3 <- tribble(
 
 cuotas_4 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_4,
-  "Lima",       "Micro",     122,
+  "Lima",       "Micro",     120,
   "Lima",       "Pequeña",    36,
   "Lima",       "Mediana",    14,
-  "Lima",       "Meta",      172,
+  "Lima",       "Meta",      170,
   "Callao",     "Micro",      4,
   "Callao",     "Pequeña",    0,
   "Callao",     "Mediana",    1,
@@ -498,9 +498,9 @@ cuotas_4 <- tribble(
   "Trujillo",   "Mediana",    2,
   "Trujillo",   "Meta",       54,
   "Piura",      "Micro",      15,
-  "Piura",      "Pequeña",    3,
+  "Piura",      "Pequeña",    9,
   "Piura",      "Mediana",     1,
-  "Piura",      "Meta",       19
+  "Piura",      "Meta",       25
 )
 
 # Añadir ronda
@@ -1648,8 +1648,8 @@ tablaprueba5<-data_1 %>% filter(username=="william.adrianzen@gmail.com")
 tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
 tablaprueba6<-data_1 %>% filter(username=="kemiko.cruz17@gmail.com")
 
-tablaalertasprueba1<-alertas %>% filter(ruc==11111111111 )%>% filter(coordinador==1 )%>%
-  select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
+tablaalertasprueba1<-alertas %>% filter(coordinador==3 )%>%
+  select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
  filter(raz_social == "Botica San Ignacio" ) %>%
