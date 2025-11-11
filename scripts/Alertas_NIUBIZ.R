@@ -11,8 +11,8 @@ data <- data_sin_transformar
 # Eliminar encuestas de prueba
 
 data <- data %>%
-  filter(!username %in% c("encuestasmarketshare@equilibriumbdc.com",
-                           "anonymousUser","pablo.rodriguez"))
+  filter(!(username %in% c("encuestasmarketshare@equilibriumbdc.com",
+                           "anonymousUser","pablo.rodriguez") & SubmissionDate <=("2025-09-08 23:59:59")))
 
 # Filtrar encuestas no válidas
 
@@ -1648,7 +1648,9 @@ tablaprueba5<-data_1 %>% filter(username=="william.adrianzen@gmail.com")
 tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
 tablaprueba6<-data_1 %>% filter(username=="kemiko.cruz17@gmail.com")
 
-tablaalertasprueba1<-alertas %>% filter(coordinador==3 )%>%
+tablaalertasprueba1<-alertas %>%
+  # filter(coordinador==3 )%>%
+  filter(username== "encuestasmarketshare@equilibriumbdc.com")%>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
