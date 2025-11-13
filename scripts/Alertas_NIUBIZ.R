@@ -152,7 +152,8 @@ data <- data %>%
                     KEY == "uuid:d41d6050-06c3-4fa3-8baf-da11ad5b37cb" ~ "10700241268",
                     KEY == "uuid:d021b3d1-50bd-4266-9b49-f6176d250443" ~ "10771370204",
                     KEY == "uuid:39e80db0-c140-4d25-92a8-829ad8702675" ~ "10476379593",  
-                    
+                    KEY == "uuid:ccf5e0fa-48e2-4ece-b7c9-682a17764df1" ~ "10806540647",
+                    KEY == "uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a" ~ "10480123773",  
                     TRUE ~ ruc)
   )
 
@@ -179,14 +180,16 @@ data <- data %>%
                            KEY == "uuid:7dfacbc1-39da-4595-9f04-80aa51b51a33" ~ "CONSORCIO FARMACEUTICO SAN IGNACIO DE LOYOLA S.A.C", 
                            KEY == "uuid:d7deefec-85b4-4d01-ae0a-d36af25e6d1e" ~ "SALINAS QUISPE MILTON WILFREDO", 
                            KEY == "uuid:2c90e4b5-259e-42da-aea2-6a2a0367a51a" ~ "PACHECO NAVARRO ROSA LIVIA", 
+                           KEY == "uuid:ccf5e0fa-48e2-4ece-b7c9-682a17764df1" ~ "Walter Torres",
+                           KEY == "uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a" ~ "Diana Bermeo",  
                            
                            TRUE ~ raz_social)
   )
 
 
 
-"uuid:d41d6050-06c3-4fa3-8baf-da11ad5b37cb"# ,"20307242835"
-"uuid:d021b3d1-50bd-4266-9b49-f6176d250443"#, "10433667943"
+"uuid:ccf5e0fa-48e2-4ece-b7c9-682a17764df1"# ,"20307242835"
+"uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a"#, "10433667943"
 "uuid:2c90e4b5-259e-42da-aea2-6a2a0367a51a"
 # Corregir RUC
 
