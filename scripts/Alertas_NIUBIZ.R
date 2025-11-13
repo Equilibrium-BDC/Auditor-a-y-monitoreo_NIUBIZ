@@ -178,6 +178,7 @@ data <- data %>%
                            KEY == "uuid:72d8203c-05aa-4b03-8e26-7f980951d14f" ~ "Maria Vega Huaman",    
                            KEY == "uuid:7dfacbc1-39da-4595-9f04-80aa51b51a33" ~ "CONSORCIO FARMACEUTICO SAN IGNACIO DE LOYOLA S.A.C", 
                            KEY == "uuid:d7deefec-85b4-4d01-ae0a-d36af25e6d1e" ~ "SALINAS QUISPE MILTON WILFREDO", 
+                           KEY == "uuid:2c90e4b5-259e-42da-aea2-6a2a0367a51a" ~ "PACHECO NAVARRO ROSA LIVIA", 
                            
                            TRUE ~ raz_social)
   )
@@ -186,7 +187,7 @@ data <- data %>%
 
 "uuid:d41d6050-06c3-4fa3-8baf-da11ad5b37cb"# ,"20307242835"
 "uuid:d021b3d1-50bd-4266-9b49-f6176d250443"#, "10433667943"
-"uuid:39e80db0-c140-4d25-92a8-829ad8702675"
+"uuid:2c90e4b5-259e-42da-aea2-6a2a0367a51a"
 # Corregir RUC
 
 data <- data %>%
@@ -309,6 +310,22 @@ data <- data %>%
       username == "analymendoza1501@gmail.com" ~ 3,
       username == "ivo_26_285@hotmail.com" ~ 3,
       username == "jennymorq24@gmail.com" ~ 3,
+      
+      username == "antuane.bados@gmail.com" ~ 3,
+      username == "mariaelenalk@hotmail.com" ~ 3,  
+      username == "Nicolegaliano12@gmail.com" ~ 3,     
+      username == "jessicaurdavinia@gmail.com" ~ 3,  
+      username == "elikar21hn@gmail.com" ~ 3,  
+      username == "stwardlanda7@gmail.com" ~ 3,  
+      username == "martha.inga24@gmail.com" ~ 3,  
+      username == "kchanamedamian@gmail.com" ~ 3,  
+      username == "kar.cast2022@gmail.com" ~ 3,  
+      username == "jennysilviafigueroarojas2@gmail.com" ~ 3,  
+      username == "julio.villanuevaa@unmsm.edu.pe" ~ 3,  
+      username == "Alyfabri9@gmail.com" ~ 3,  
+      username == "allissonkarely_6@hotmail.com" ~ 3,  
+      
+      
       TRUE ~ coordinador
     ))
 
@@ -1384,6 +1401,21 @@ alertas <- alertas %>%
       username == "analymendoza1501@gmail.com" ~ 3,
       username == "ivo_26_285@hotmail.com" ~ 3,
       username == "jennymorq24@gmail.com" ~ 3,
+      
+      username == "antuane.bados@gmail.com" ~ 3,
+      username == "mariaelenalk@hotmail.com" ~ 3,  
+      username == "Nicolegaliano12@gmail.com" ~ 3,     
+      username == "jessicaurdavinia@gmail.com" ~ 3,  
+      username == "elikar21hn@gmail.com" ~ 3,  
+      username == "stwardlanda7@gmail.com" ~ 3,  
+      username == "martha.inga24@gmail.com" ~ 3,  
+      username == "kchanamedamian@gmail.com" ~ 3,  
+      username == "kar.cast2022@gmail.com" ~ 3,  
+      username == "jennysilviafigueroarojas2@gmail.com" ~ 3,  
+      username == "julio.villanuevaa@unmsm.edu.pe" ~ 3,  
+      username == "Alyfabri9@gmail.com" ~ 3,  
+      username == "allissonkarely_6@hotmail.com" ~ 3,  
+      
       TRUE ~ coordinador
     ))
 
