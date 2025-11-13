@@ -422,29 +422,29 @@ cuotas_1["ronda"] <- 1
 cuotas_2 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_2,
   "Lima",       "Micro",     348,
-  "Lima",       "Pequeña",    88,
+  "Lima",       "Pequeña",    92,
   "Lima",       "Mediana",    42,
-  "Lima",       "Meta",      478,
+  "Lima",       "Meta",      482,  #total
   "Callao",     "Micro",      35,
   "Callao",     "Pequeña",    11,
   "Callao",     "Mediana",     4,
-  "Callao",     "Meta",       50,
+  "Callao",     "Meta",       50, #total
   "Arequipa",   "Micro",      50,
   "Arequipa",   "Pequeña",    11,
   "Arequipa",   "Mediana",     4,
-  "Arequipa",   "Meta",       65,
+  "Arequipa",   "Meta",       65, #total
   "Cusco",      "Micro",      47,
   "Cusco",      "Pequeña",    11,
   "Cusco",      "Mediana",     6,
-  "Cusco",      "Meta",       64,
+  "Cusco",      "Meta",       64, #total
   "Trujillo",   "Micro",      35,
   "Trujillo",   "Pequeña",    11,
   "Trujillo",   "Mediana",     4,
-  "Trujillo",   "Meta",       50,
+  "Trujillo",   "Meta",       50, #total
   "Piura",      "Micro",      45,
-  "Piura",      "Pequeña",    9,
-  "Piura",      "Mediana",     8,
-  "Piura",      "Meta",       62
+  "Piura",      "Pequeña",    5,
+  "Piura",      "Mediana",     4,
+  "Piura",      "Meta",       54  #total
 )
 
 cuotas_3 <- tribble(
@@ -478,9 +478,9 @@ cuotas_3 <- tribble(
 cuotas_4 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_4,
   "Lima",       "Micro",     120,
-  "Lima",       "Pequeña",    36,
+  "Lima",       "Pequeña",    33,
   "Lima",       "Mediana",    14,
-  "Lima",       "Meta",      170,
+  "Lima",       "Meta",      167,
   "Callao",     "Micro",      4,
   "Callao",     "Pequeña",    0,
   "Callao",     "Mediana",    1,
@@ -496,11 +496,11 @@ cuotas_4 <- tribble(
   "Trujillo",   "Micro",      16,
   "Trujillo",   "Pequeña",    5,
   "Trujillo",   "Mediana",    2,
-  "Trujillo",   "Meta",       54,
+  "Trujillo",   "Meta",       23,
   "Piura",      "Micro",      15,
-  "Piura",      "Pequeña",    9,
+  "Piura",      "Pequeña",    13,
   "Piura",      "Mediana",     1,
-  "Piura",      "Meta",       25
+  "Piura",      "Meta",       29
 )
 
 # Añadir ronda
