@@ -507,9 +507,9 @@ cuotas_4 <- tribble(
   "Callao",     "Mediana",    1,
   "Callao",     "Meta",       5,
   "Arequipa",   "Micro",      4,
-  "Arequipa",   "Pequeña",    0,
+  "Arequipa",   "Pequeña",    1,
   "Arequipa",   "Mediana",    1,
-  "Arequipa",   "Meta",       5,
+  "Arequipa",   "Meta",       6,
   "Cusco",      "Micro",      16,
   "Cusco",      "Pequeña",    5,
   "Cusco",      "Mediana",    2,
@@ -1480,49 +1480,68 @@ data_ronda_2 <- data_ronda_2 %>% filter(KEY %in% alertas[alertas$Exitos == 1,]$K
 
 ## Tabla de cuotas -------------------------------------------------------------
 
-cuotas_ronda_2 <- alertas %>% filter(coordinador==1)  %>% 
-  group_by(DEP_str,tamanio_ingresos)%>%
-  summarise(total = sum(Exitos,na.rm = T)) %>%
-  full_join(cuotas_2%>%select(-ronda), by = c("DEP_str" = "Regiones",
-                             "tamanio_ingresos" = "Categoria"))%>%
-  ungroup()%>%
+cuotas_ronda_2 <- alertas %>%
+  filter(coordinador==1) %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_2 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                               "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
   rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_2,
-         Categoria = tamanio_ingresos)%>%
-  mutate(Alcanzado = if_else(is.na(Alcanzado),0,Alcanzado) ,
-          Avance = round((Alcanzado/Meta)*100,2),
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
          Faltan = Meta - Alcanzado,
-         Categoria = factor(Categoria, levels = c("Micro","Pequeña","Mediana"), ordered = T))%>%
-  arrange(Regiones, Categoria)%>%
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
   filter(Categoria != "Meta")
 
-cuotas_ronda_3 <- alertas %>%  filter(coordinador==2)  %>% 
-  group_by(DEP_str,tamanio_ingresos)%>%
-  summarise(total = sum(Exitos,na.rm = T)) %>%
-  full_join(cuotas_3%>%select(-ronda), by = c("DEP_str" = "Regiones",
-                                              "tamanio_ingresos" = "Categoria"))%>%
-  ungroup()%>%
+# ----------------------------------------------------------------------
+
+cuotas_ronda_3 <- alertas %>%
+  filter(coordinador==2) %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_3 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                               "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
   rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_3,
-         Categoria = tamanio_ingresos)%>%
-  mutate(Alcanzado = if_else(is.na(Alcanzado),0,Alcanzado) ,
-         Avance = round((Alcanzado/Meta)*100,2),
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
          Faltan = Meta - Alcanzado,
-         Categoria = factor(Categoria, levels = c("Micro","Pequeña","Mediana"), ordered = T))%>%
-  arrange(Regiones, Categoria)%>%
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
   filter(Categoria != "Meta")
 
-cuotas_ronda_4 <- alertas %>%  filter(coordinador==3)  %>% 
-  group_by(DEP_str,tamanio_ingresos)%>%
-  summarise(total = sum(Exitos,na.rm = T)) %>%
-  full_join(cuotas_4%>%select(-ronda), by = c("DEP_str" = "Regiones",
-                                              "tamanio_ingresos" = "Categoria"))%>%
-  ungroup()%>%
+# ----------------------------------------------------------------------
+
+cuotas_ronda_4 <- alertas %>%
+  filter(coordinador==3) %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_4 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                               "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
   rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_4,
-         Categoria = tamanio_ingresos)%>%
-  mutate(Alcanzado = if_else(is.na(Alcanzado),0,Alcanzado) ,
-         Avance = round((Alcanzado/Meta)*100,2),
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
          Faltan = Meta - Alcanzado,
-         Categoria = factor(Categoria, levels = c("Micro","Pequeña","Mediana"), ordered = T))%>%
-  arrange(Regiones, Categoria)%>%
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
   filter(Categoria != "Meta")
 
 
