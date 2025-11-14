@@ -327,7 +327,8 @@ data <- data %>%
       username == "julio.villanuevaa@unmsm.edu.pe" ~ 3,  
       username == "Alyfabri9@gmail.com" ~ 3,  
       username == "allissonkarely_6@hotmail.com" ~ 3,  
-      
+      username == "kchanamedamian@gmail.com" ~ 3,  
+      username == "edithmauriciogrijalva@gmail.com" ~ 3,  
       
       TRUE ~ coordinador
     ))
@@ -1412,13 +1413,14 @@ alertas <- alertas %>%
       username == "elikar21hn@gmail.com" ~ 3,  
       username == "stwardlanda7@gmail.com" ~ 3,  
       username == "martha.inga24@gmail.com" ~ 3,  
-      username == "kchanamedamian@gmail.com" ~ 3,  
+      username == "kchanamedamian@gmail.com" ~ 3, 
       username == "kar.cast2022@gmail.com" ~ 3,  
       username == "jennysilviafigueroarojas2@gmail.com" ~ 3,  
       username == "julio.villanuevaa@unmsm.edu.pe" ~ 3,  
       username == "Alyfabri9@gmail.com" ~ 3,  
       username == "allissonkarely_6@hotmail.com" ~ 3,  
-      
+      username == "kchanamedamian@gmail.com" ~ 3,  
+      username == "edithmauriciogrijalva@gmail.com" ~ 3,  
       TRUE ~ coordinador
     ))
 
