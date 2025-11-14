@@ -316,7 +316,7 @@ data <- data %>%
       
       username == "antuane.bados@gmail.com" ~ 3,
       username == "mariaelenalk@hotmail.com" ~ 3,  
-      username == "Nicolegaliano12@gmail.com" ~ 3,     
+      username == "nicolegaliano12@gmail.com" ~ 3,     
       username == "jessicaurdavinia@gmail.com" ~ 3,  
       username == "elikar21hn@gmail.com" ~ 3,  
       username == "stwardlanda7@gmail.com" ~ 3,  
@@ -1407,7 +1407,7 @@ alertas <- alertas %>%
       
       username == "antuane.bados@gmail.com" ~ 3,
       username == "mariaelenalk@hotmail.com" ~ 3,  
-      username == "Nicolegaliano12@gmail.com" ~ 3,     
+      username == "nicolegaliano12@gmail.com" ~ 3,     
       username == "jessicaurdavinia@gmail.com" ~ 3,  
       username == "elikar21hn@gmail.com" ~ 3,  
       username == "stwardlanda7@gmail.com" ~ 3,  
