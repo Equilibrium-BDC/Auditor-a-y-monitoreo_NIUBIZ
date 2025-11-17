@@ -154,6 +154,7 @@ data <- data %>%
                     KEY == "uuid:39e80db0-c140-4d25-92a8-829ad8702675" ~ "10476379593",  
                     KEY == "uuid:ccf5e0fa-48e2-4ece-b7c9-682a17764df1" ~ "10806540647",
                     KEY == "uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a" ~ "10480123773",  
+                    KEY == "uuid:6fc0f64a-8e4e-45db-bbf7-b963d2424f52" ~ "10402312985",  
                     TRUE ~ ruc)
   )
 
@@ -182,13 +183,14 @@ data <- data %>%
                            KEY == "uuid:2c90e4b5-259e-42da-aea2-6a2a0367a51a" ~ "PACHECO NAVARRO ROSA LIVIA", 
                            KEY == "uuid:ccf5e0fa-48e2-4ece-b7c9-682a17764df1" ~ "Walter Torres",
                            KEY == "uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a" ~ "Diana Bermeo",  
+                           KEY == "uuid:6fc0f64a-8e4e-45db-bbf7-b963d2424f52" ~ "Ionel Gonzales Benito",  
                            
                            TRUE ~ raz_social)
   )
 
 
 
-"uuid:ccf5e0fa-48e2-4ece-b7c9-682a17764df1"# ,"20307242835"
+"uuid:6fc0f64a-8e4e-45db-bbf7-b963d2424f52"# ,"10402312985"
 "uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a"#, "10433667943"
 "uuid:2c90e4b5-259e-42da-aea2-6a2a0367a51a"
 # Corregir RUC
