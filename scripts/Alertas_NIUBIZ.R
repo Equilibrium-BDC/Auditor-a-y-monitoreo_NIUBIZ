@@ -582,7 +582,7 @@ data <- data %>%
   mutate(n_en_segmento = row_number(),
                   cuota_valida_1 = case_when(!is.na(ronda) &
                     n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
-                    ronda == 2 | ronda == 3 ~ NA_character_,
+                    ronda == 2 | ronda == 3  | ronda == 4 ~ NA_character_,
                     TRUE ~ "Exceso"
                   ),
                   ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
@@ -1707,8 +1707,8 @@ tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
 tablaprueba6<-data_1 %>% filter(username=="kemiko.cruz17@gmail.com")
 
 tablaalertasprueba1<-alertas %>%
-  # filter(coordinador==3 )%>%
-  filter(username== "encuestasmarketshare@equilibriumbdc.com")%>%
+  filter(coordinador==3 )%>%
+  #filter(username== "encuestasmarketshare@equilibriumbdc.com")%>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
