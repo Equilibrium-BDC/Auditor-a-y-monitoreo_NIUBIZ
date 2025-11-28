@@ -444,30 +444,30 @@ cuotas_1["ronda"] <- 1
 
 cuotas_2 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_2,
-  "Lima",       "Micro",     348,
-  "Lima",       "Pequeña",    92,
-  "Lima",       "Mediana",    42,
-  "Lima",       "Meta",      482,  #total
-  "Callao",     "Micro",      35,
+  "Lima",       "Micro",     410,
+  "Lima",       "Pequeña",   118,
+  "Lima",       "Mediana",    50,
+  "Lima",       "Meta",      578,  #total
+  "Callao",     "Micro",      39,
   "Callao",     "Pequeña",    11,
-  "Callao",     "Mediana",     4,
-  "Callao",     "Meta",       50, #total
-  "Arequipa",   "Micro",      50,
+  "Callao",     "Mediana",     5,
+  "Callao",     "Meta",       55, #total
+  "Arequipa",   "Micro",      46,
   "Arequipa",   "Pequeña",    11,
-  "Arequipa",   "Mediana",     4,
-  "Arequipa",   "Meta",       65, #total
-  "Cusco",      "Micro",      47,
-  "Cusco",      "Pequeña",    11,
-  "Cusco",      "Mediana",     6,
-  "Cusco",      "Meta",       64, #total
+  "Arequipa",   "Mediana",     5,
+  "Arequipa",   "Meta",       62, #total
+  "Cusco",      "Micro",       7,
+  "Cusco",      "Pequeña",     6,
+  "Cusco",      "Mediana",     0,
+  "Cusco",      "Meta",       13, #total
   "Trujillo",   "Micro",      35,
   "Trujillo",   "Pequeña",    11,
   "Trujillo",   "Mediana",     4,
   "Trujillo",   "Meta",       50, #total
-  "Piura",      "Micro",      45,
-  "Piura",      "Pequeña",    5,
-  "Piura",      "Mediana",     4,
-  "Piura",      "Meta",       54  #total
+  "Piura",      "Micro",      5,
+  "Piura",      "Pequeña",    2,
+  "Piura",      "Mediana",     0,
+  "Piura",      "Meta",       7  #total
 )
 
 cuotas_3 <- tribble(
