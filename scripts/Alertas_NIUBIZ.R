@@ -1706,11 +1706,11 @@ message("Alertas creadas exitosamente.")
 # tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
 # tablaprueba6<-data_1 %>% filter(username=="kemiko.cruz17@gmail.com")
 
-tablaalertasprueba1<-alertas %>%
-  filter(coordinador==3 )%>%
-  filter(DEP_str=="Cusco" )%>%
+tablaalertasprueba1<-data %>%
+  # filter(coordinador==3 )%>%
+  # filter(DEP_str=="Cusco" )%>%
   # filter(username=="analymendoza1501@gmail.com" )%>%
-  # filter(username== "encuestasmarketshare@equilibriumbdc.com")%>%
+  filter(username== "valsof.valcarcel@gmail.com")%>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
