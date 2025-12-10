@@ -640,7 +640,7 @@ data <- data %>%
   mutate(n_en_segmento = row_number(),
                   cuota_valida_1 = case_when(!is.na(ronda) &
                     n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
-                    ronda == 2 | ronda == 3  | ronda == 4 ~ NA_character_,
+                    ronda == 2 | ronda == 3  | ronda == 4 | ronda == 6 ~ NA_character_,
                     TRUE ~ "Exceso"
                   ),
                   ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
@@ -675,7 +675,7 @@ data <- data %>%
   ) %>%
   ungroup() %>%
   
-  # --- RONDA 4 (Lógica condicional para coordinador 2) ---
+  # --- RONDA 4 (Lógica condicional para coordinador 3) ---
   left_join(cuotas_4, by = c("DEP_str" = "Regiones", "tamanio_ingresos" = "Categoria", "ronda" = "ronda")) %>%
   group_by(DEP_str, tamanio_ingresos, ronda) %>%
   mutate(
@@ -691,6 +691,22 @@ data <- data %>%
   ) %>%
   ungroup() %>%
   
+  # --- RONDA 5 (Lógica condicional para coordinador 4 ---
+  left_join(cuotas_5, by = c("DEP_str" = "Regiones", "tamanio_ingresos" = "Categoria", "ronda" = "ronda")) %>%
+  group_by(DEP_str, tamanio_ingresos, ronda) %>%
+  mutate(
+    n_en_segmento = row_number(),
+    # 🎯 AQUÍ ESTÁ LA LÓGICA CLAVE:
+    # Solo se calcula "Válida" o "Exceso" si coordinador es 2 y la encuesta está en ronda 3.
+    # Para todos los demás, el resultado es NA.
+    cuota_valida_5 = case_when(
+      coordinador == 4 & !is.na(Cuota_5) & n_en_segmento <= Cuota_5 & ronda == 6 ~ "Válida",
+      coordinador == 4 & ronda == 6 ~ "Exceso",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  ungroup() %>%
+  
   # --- RESULTADO FINAL CONSOLIDADO ---
   mutate(
     cuota_valida_total = case_when(
@@ -698,6 +714,7 @@ data <- data %>%
       cuota_valida_2 == "Válida" ~ "Válida",
       cuota_valida_3 == "Válida" ~ "Válida", # Esto solo podrá ser verdad para coordinador 2
       cuota_valida_4 == "Válida" ~ "Válida",
+      cuota_valida_5 == "Válida" ~ "Válida",
       TRUE ~ "Exceso"
     )
   )
