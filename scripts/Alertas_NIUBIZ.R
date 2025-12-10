@@ -472,10 +472,10 @@ cuotas_1["ronda"] <- 1
 
 cuotas_2 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_2,
-  "Lima",       "Micro",     410,
-  "Lima",       "Pequeña",   118,
-  "Lima",       "Mediana",    50,
-  "Lima",       "Meta",      578,  #total
+  "Lima",       "Micro",     459,
+  "Lima",       "Pequeña",   126,
+  "Lima",       "Mediana",    42,
+  "Lima",       "Meta",      627, #total
   "Callao",     "Micro",      39,
   "Callao",     "Pequeña",    11,
   "Callao",     "Mediana",     5,
@@ -488,38 +488,38 @@ cuotas_2 <- tribble(
   "Cusco",      "Pequeña",     6,
   "Cusco",      "Mediana",     0,
   "Cusco",      "Meta",       13, #total
-  "Trujillo",   "Micro",      35,
-  "Trujillo",   "Pequeña",    11,
-  "Trujillo",   "Mediana",     4,
-  "Trujillo",   "Meta",       50, #total
-  "Piura",      "Micro",      5,
-  "Piura",      "Pequeña",    2,
+  "Trujillo",   "Micro",       0,
+  "Trujillo",   "Pequeña",     1,
+  "Trujillo",   "Mediana",     0,
+  "Trujillo",   "Meta",        1, #total
+  "Piura",      "Micro",       5,
+  "Piura",      "Pequeña",     2,
   "Piura",      "Mediana",     0,
-  "Piura",      "Meta",       7  #total
+  "Piura",      "Meta",        7  #total
 )
 
 cuotas_3 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_3,
-  "Lima",       "Micro",     36,
+  "Lima",       "Micro",     35,
   "Lima",       "Pequeña",   16,
   "Lima",       "Mediana",    4,
-  "Lima",       "Meta",      56,
+  "Lima",       "Meta",      55,
   "Callao",     "Micro",      26,
   "Callao",     "Pequeña",    10,
   "Callao",     "Mediana",    1,
   "Callao",     "Meta",       37,
-  "Arequipa",   "Micro",      26,
+  "Arequipa",   "Micro",      30,
   "Arequipa",   "Pequeña",    10,
   "Arequipa",   "Mediana",     1,
-  "Arequipa",   "Meta",       37,
-  "Cusco",      "Micro",      3,
-  "Cusco",      "Pequeña",    0,
+  "Arequipa",   "Meta",       41,
+  "Cusco",      "Micro",      2,
+  "Cusco",      "Pequeña",    1,
   "Cusco",      "Mediana",    0,
   "Cusco",      "Meta",       3,
-  "Trujillo",   "Micro",      3,
+  "Trujillo",   "Micro",      0,
   "Trujillo",   "Pequeña",    0,
   "Trujillo",   "Mediana",    0,
-  "Trujillo",   "Meta",       3,
+  "Trujillo",   "Meta",       0,
   "Piura",      "Micro",      4,
   "Piura",      "Pequeña",    4,
   "Piura",      "Mediana",     1,
@@ -528,33 +528,34 @@ cuotas_3 <- tribble(
 
 cuotas_4 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_4,
-  "Lima",       "Micro",     120,
-  "Lima",       "Pequeña",    33,
-  "Lima",       "Mediana",    14,
-  "Lima",       "Meta",      167,
-  "Callao",     "Micro",      4,
+  "Lima",       "Micro",      81,
+  "Lima",       "Pequeña",     7,
+  "Lima",       "Mediana",     6,
+  "Lima",       "Meta",       94,
+  "Callao",     "Micro",      0,
   "Callao",     "Pequeña",    0,
-  "Callao",     "Mediana",    1,
-  "Callao",     "Meta",       5,
+  "Callao",     "Mediana",    0,
+  "Callao",     "Meta",       0,
   "Arequipa",   "Micro",      4,
   "Arequipa",   "Pequeña",    1,
-  "Arequipa",   "Mediana",    1,
-  "Arequipa",   "Meta",       6,
-  "Cusco",      "Micro",      16,
-  "Cusco",      "Pequeña",    5,
-  "Cusco",      "Mediana",    2,
-  "Cusco",      "Meta",       23,
-  "Trujillo",   "Micro",      16,
-  "Trujillo",   "Pequeña",    5,
-  "Trujillo",   "Mediana",    2,
-  "Trujillo",   "Meta",       23,
-  "Piura",      "Micro",      15,
-  "Piura",      "Pequeña",    13,
-  "Piura",      "Mediana",     1,
-  "Piura",      "Meta",       29
+  "Arequipa",   "Mediana",    0,
+  "Arequipa",   "Meta",       5,
+  "Cusco",      "Micro",     56,
+  "Cusco",      "Pequeña",   11,
+  "Cusco",      "Mediana",    8,
+  "Cusco",      "Meta",      75,
+  "Trujillo",   "Micro",      1,
+  "Trujillo",   "Pequeña",    0,
+  "Trujillo",   "Mediana",    0,
+  "Trujillo",   "Meta",       1,
+  "Piura",      "Micro",      57,
+  "Piura",      "Pequeña",    16,
+  "Piura",      "Mediana",     5,
+  "Piura",      "Meta",       78
 )
+
 cuotas_5 <- tribble(
-  ~Regiones,    ~Categoria,   ~Cuota_4,
+  ~Regiones,    ~Categoria,   ~Cuota_5,
   "Lima",       "Micro",      51,
   "Lima",       "Pequeña",    28,
   "Lima",       "Mediana",    22,
@@ -1749,26 +1750,27 @@ nps_tabla_25 <- nps_categorizado_long |>
   ungroup()
 # Monitoreo total por encuestado ----------------------------------------------------------------
 
-cuotas_coord_1 <- alertas %>%
-  group_by(DEP_str, tamanio_ingresos) %>%
-  summarise(total = sum(Exitos, na.rm = T)) %>%
-  full_join(cuotas_1 %>% select(-ronda), by = c("DEP_str" = "Regiones",
-                                                "tamanio_ingresos" = "Categoria")) %>%
-  ungroup() %>%
-  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota,
-         Categoria = tamanio_ingresos) %>%
-  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
-         # === CAMBIO CLAVE AQUÍ ===
-         Avance = (Alcanzado / Meta) * 100,
-         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
-         Avance = round(Avance, 2),
-         # ==========================
-         Faltan = Meta - Alcanzado,
-         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
-  arrange(Regiones, Categoria) %>%
-  filter(Categoria != "Meta")
-
-
+cuotas_coord_1 <- tribble(
+  ~Regiones,  ~Categoria, ~Alcanzado, ~Meta, ~Avance,  ~Faltan,
+  "Arequipa", "Micro",    20,         35,    57.14,    15,
+  "Arequipa", "Pequeña",  15,         11,    136.36,   -4,
+  "Arequipa", "Mediana",  6,          4,     150,      -2,
+  "Callao",   "Micro",    35,         35,    100,      0,
+  "Callao",   "Pequeña",  11,         11,    100,      0,
+  "Callao",   "Mediana",  7,          4,     175,      -3,
+  "Cusco",    "Micro",    23,         35,    65.71,    12,
+  "Cusco",    "Pequeña",  16,         11,    145.45,   -5,
+  "Cusco",    "Mediana",  2,          4,     50,       2,
+  "Lima",     "Micro",    214,        280,   76.43,    66,
+  "Lima",     "Pequeña",  128,        88,    145.45,   -40,
+  "Lima",     "Mediana",  22,         32,    68.75,    10,
+  "Piura",    "Micro",    25,         35,    71.43,    10,
+  "Piura",    "Pequeña",  11,         11,    100,      0,
+  "Piura",    "Mediana",  0,          4,     0,        4,
+  "Trujillo", "Micro",    35,         35,    100,      0,
+  "Trujillo", "Pequeña",  12,         11,    109.09,   -1,
+  "Trujillo", "Mediana",  4,          4,     100,      0
+)
 
 
 # ----------------------------------------------------------------------
@@ -1860,13 +1862,13 @@ cuotas_coord_5 <- alertas %>%
 
 # ----------------------------------------------------------------------
 
-cuotas_ronda_1.1<-cuotas_ronda_1 %>% mutate(Alcanzado=ifelse(Faltan<0,Alcanzado+Faltan,Alcanzado))
-uwu <- bind_rows(cuotas_ronda_1.1, cuotas_ronda_2, cuotas_ronda_3, cuotas_ronda_4)
+cuotas_coord_1.1<-cuotas_coord_1 %>% mutate(Alcanzado=ifelse(Faltan<0,Alcanzado+Faltan,Alcanzado))
+uwu <- bind_rows(cuotas_coord_1.1, cuotas_coord_2, cuotas_coord_3, cuotas_coord_4,cuotas_coord_5)
 cuota <- uwu %>%
   group_by(Regiones, Categoria) %>%
   summarise(Total_Alcanzado = sum(Alcanzado, na.rm = TRUE), .groups = 'drop')
 
-cuotas_ronda <- cuotas %>%
+cuotas_coord <- cuotas %>%
   # Filtramos para no duplicar filas si la tabla cuotas ya tiene totales
   filter(Categoria != "Meta") %>% 
   # Unimos con lo que acabamos de sumar (Left join mantiene todas las metas aunque no haya avance)
@@ -1887,16 +1889,7 @@ cuotas_ronda <- cuotas %>%
   ) %>%
   arrange(Regiones, Categoria)
 
-mis_hojas <- list(
-  "Total"                = cuotas_ronda,    # Tu consolidado final
-  "Ururi primera ronda"  = cuotas_ronda_1,
-  "Ururi segunda ronda"  = cuotas_ronda_2,
-  "William"              = cuotas_ronda_3,
-  "Carmen"               = cuotas_ronda_4
-)
 
-write_xlsx(mis_hojas, 
-           path="G:/Unidades compartidas/EQUILIBRIUM   Intranet 🌍📂/🥁 PROYECTOS/🏆 Proyectos S. Empresarial/01-9-0314 Niubiz Market Share 2025/5. Bases de datos/Cuotas(base).xlsx")
 
 
 
