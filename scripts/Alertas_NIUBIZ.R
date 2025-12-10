@@ -1858,13 +1858,13 @@ cuotas_coord_4 <- alertas %>%
 
 # ----------------------------------------------------------------------
 cuotas_coord_5 <- alertas %>%
-  filter(coordinador==3) %>%
+  filter(coordinador==4) %>%
   group_by(DEP_str, tamanio_ingresos) %>%
   summarise(total = sum(Exitos, na.rm = T)) %>%
-  full_join(cuotas_4 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+  full_join(cuotas_5 %>% select(-ronda), by = c("DEP_str" = "Regiones",
                                                 "tamanio_ingresos" = "Categoria")) %>%
   ungroup() %>%
-  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_4,
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_5,
          Categoria = tamanio_ingresos) %>%
   mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
          # === CAMBIO CLAVE AQUÍ ===
