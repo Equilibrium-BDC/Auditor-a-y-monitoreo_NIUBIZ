@@ -35,6 +35,12 @@ export_sheet(nps_tabla_24,        sheet, "nps_tabla_24",         label = "NPS 20
 export_sheet(cuotas_ronda_2,      sheet, "cuotas_ronda_2",       label = "cuotas ronda 2",          pause = 5)
 export_sheet(cuotas_ronda_3,      sheet, "cuotas_ronda_3",       label = "cuotas ronda 3 ",          pause = 5)
 export_sheet(cuotas_ronda_4,      sheet, "cuotas_ronda_4",       label = "cuotas ronda 4",          pause = 5)
+export_sheet(cuotas_coord_2,      sheet, "cuotas_coord_2",       label = "cuotas coordi 2",          pause = 5)
+export_sheet(cuotas_coord_3,      sheet, "cuotas_coord_3",       label = "cuotas coordi 3 ",          pause = 5)
+export_sheet(cuotas_coord_4,      sheet, "cuotas_coord_4",       label = "cuotas coordi 4",          pause = 5)
+export_sheet(cuotas_coord_5,      sheet, "cuotas_coord_5",       label = "cuotas coordi 5",          pause = 5)
+export_sheet(cuotas_coord  ,      sheet, "cuotas_coord",       label = "cuotas coordi",          pause = 5)
+
 message("✅ Todos los datos fueron exportados exitosamente.")
 
 
