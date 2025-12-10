@@ -407,6 +407,34 @@ data <- data %>%
 
 # Cuotas levantamiento 1
 
+cuotas<- tribble(
+  ~Regiones,    ~Categoria,   ~Cuota,
+  "Lima",       "Micro",      840,
+  "Lima",       "Pequeña",    264,
+  "Lima",       "Mediana",     96,
+  "Lima",       "Meta",      1200,
+  "Callao",     "Micro",      105,
+  "Callao",     "Pequeña",     33,
+  "Callao",     "Mediana",     12,
+  "Callao",     "Meta",       150,
+  "Arequipa",   "Micro",      105,
+  "Arequipa",   "Pequeña",     33,
+  "Arequipa",   "Mediana",     12,
+  "Arequipa",   "Meta",       150,
+  "Cusco",      "Micro",      105,
+  "Cusco",      "Pequeña",     33,
+  "Cusco",      "Mediana",     12,
+  "Cusco",      "Meta",       150,
+  "Trujillo",   "Micro",      105,
+  "Trujillo",   "Pequeña",     33,
+  "Trujillo",   "Mediana",    12,
+  "Trujillo",   "Meta",       150,
+  "Piura",      "Micro",      105,
+  "Piura",      "Pequeña",    33,
+  "Piura",      "Mediana",    12,
+  "Piura",      "Meta",       150
+)
+
 cuotas_1 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota,
   "Lima",       "Micro",     280,
@@ -525,12 +553,41 @@ cuotas_4 <- tribble(
   "Piura",      "Mediana",     1,
   "Piura",      "Meta",       29
 )
+cuotas_5 <- tribble(
+  ~Regiones,    ~Categoria,   ~Cuota_4,
+  "Lima",       "Micro",      51,
+  "Lima",       "Pequeña",    28,
+  "Lima",       "Mediana",    22,
+  "Lima",       "Meta",      101,
+  "Callao",     "Micro",       5,
+  "Callao",     "Pequeña",     1,
+  "Callao",     "Mediana",     2,
+  "Callao",     "Meta",        8,
+  "Arequipa",   "Micro",       5,
+  "Arequipa",   "Pequeña",     0,
+  "Arequipa",   "Mediana",     2,
+  "Arequipa",   "Meta",        7,
+  "Cusco",      "Micro",      17,
+  "Cusco",      "Pequeña",     4,
+  "Cusco",      "Mediana",     2,
+  "Cusco",      "Meta",       23,
+  "Trujillo",   "Micro",      69,
+  "Trujillo",   "Pequeña",    21,
+  "Trujillo",   "Mediana",     8,
+  "Trujillo",   "Meta",       98,
+  "Piura",      "Micro",      14,
+  "Piura",      "Pequeña",     0,
+  "Piura",      "Mediana",     2,
+  "Piura",      "Meta",       16
+)
+
 
 # Añadir ronda
-
+cuotas["ronda"] <- 5
 cuotas_2["ronda"] <- 2
 cuotas_3["ronda"] <- 3
 cuotas_4["ronda"] <- 4
+cuotas_5["ronda"] <- 6
 
 # Añadir información de cuotas
 
@@ -1690,6 +1747,157 @@ nps_tabla_25 <- nps_categorizado_long |>
   group_by(solucion_pago) |>
   mutate(porcentaje = round(n / sum(n) * 100, 2)) |>
   ungroup()
+# Monitoreo total por encuestado ----------------------------------------------------------------
+
+cuotas_coord_1 <- alertas %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_1 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                                "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota,
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
+  filter(Categoria != "Meta")
+
+
+
+
+# ----------------------------------------------------------------------
+
+cuotas_coord_2 <- alertas %>%
+  filter(coordinador==1) %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_2 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                                "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_2,
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
+  filter(Categoria != "Meta")
+
+# ----------------------------------------------------------------------
+
+cuotas_coord_3 <- alertas %>%
+  filter(coordinador==2) %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_3 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                                "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_3,
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
+  filter(Categoria != "Meta")
+
+# ----------------------------------------------------------------------
+
+cuotas_coord_4 <- alertas %>%
+  filter(coordinador==3) %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_4 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                                "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_4,
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
+  filter(Categoria != "Meta")
+
+# ----------------------------------------------------------------------
+cuotas_coord_5 <- alertas %>%
+  filter(coordinador==3) %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_4 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                                "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_4,
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
+  filter(Categoria != "Meta")
+
+# ----------------------------------------------------------------------
+
+cuotas_ronda_1.1<-cuotas_ronda_1 %>% mutate(Alcanzado=ifelse(Faltan<0,Alcanzado+Faltan,Alcanzado))
+uwu <- bind_rows(cuotas_ronda_1.1, cuotas_ronda_2, cuotas_ronda_3, cuotas_ronda_4)
+cuota <- uwu %>%
+  group_by(Regiones, Categoria) %>%
+  summarise(Total_Alcanzado = sum(Alcanzado, na.rm = TRUE), .groups = 'drop')
+
+cuotas_ronda <- cuotas %>%
+  # Filtramos para no duplicar filas si la tabla cuotas ya tiene totales
+  filter(Categoria != "Meta") %>% 
+  # Unimos con lo que acabamos de sumar (Left join mantiene todas las metas aunque no haya avance)
+  left_join(cuota, by = c("Regiones", "Categoria")) %>%
+  mutate(
+    # Reemplazamos NA por 0 por si alguna región no tuvo nada de avance
+    Total_Alcanzado = replace_na(Total_Alcanzado, 0),
+    
+    # Cálculo de Avance Global
+    Avance_Global = (Total_Alcanzado / Cuota) * 100,
+    Avance_Global = round(if_else(is.infinite(Avance_Global) | is.nan(Avance_Global), 0, Avance_Global), 2),
+    
+    # Cálculo de Faltante
+    Faltan = Cuota - Total_Alcanzado,
+    
+    # Ordenamos el factor para que salga en orden Micro -> Pequeña -> Mediana
+    Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = TRUE)
+  ) %>%
+  arrange(Regiones, Categoria)
+
+mis_hojas <- list(
+  "Total"                = cuotas_ronda,    # Tu consolidado final
+  "Ururi primera ronda"  = cuotas_ronda_1,
+  "Ururi segunda ronda"  = cuotas_ronda_2,
+  "William"              = cuotas_ronda_3,
+  "Carmen"               = cuotas_ronda_4
+)
+
+write_xlsx(mis_hojas, 
+           path="G:/Unidades compartidas/EQUILIBRIUM   Intranet 🌍📂/🥁 PROYECTOS/🏆 Proyectos S. Empresarial/01-9-0314 Niubiz Market Share 2025/5. Bases de datos/Cuotas(base).xlsx")
+
 
 
 # Confirmación de finalización
