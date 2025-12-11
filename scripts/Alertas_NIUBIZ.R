@@ -335,7 +335,23 @@ data <- data %>%
       TRUE ~ coordinador
     ))
 
-
+data <- data %>%
+  mutate(
+    coordinador = case_when(
+      username == "jaquizavaleta@gmail.com" ~ 4,
+      username == "alondraalva112015@gmail.com" ~ 4,
+      username == "ryabarrenat@gmail.com" ~ 4,
+      username == "yodie2013@gmail.com" ~ 4,
+      username == "crissvegamacedo.87@gmail.com" ~ 4,
+      username == "mariealfaro08@gmail.com" ~ 4,
+      username == "Darleneasto10@gmail.com" ~ 4,
+      username == "darleneasto10@gmail.com" ~ 4,
+      username == "Yamizavaleta06@mail.com" ~ 4,
+      username == "yamizavaleta06@mail.com" ~ 4,
+      username == "jessicavillena87@gmail.com" ~ 4,
+      username == "ceurs_10_17@hotmail.com" ~ 4,
+      TRUE ~ coordinador
+    ))
 ## Corrección zona horaria e identificar rondas --------------------------------
 
 data <- data %>%
