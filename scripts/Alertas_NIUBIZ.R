@@ -155,6 +155,30 @@ data <- data %>%
                     KEY == "uuid:ccf5e0fa-48e2-4ece-b7c9-682a17764df1" ~ "10806540647",
                     KEY == "uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a" ~ "10480123773",  
                     KEY == "uuid:6fc0f64a-8e4e-45db-bbf7-b963d2424f52" ~ "10402312985",  
+                    
+                    KEY == "uuid:0ab90967-3ad1-42b2-9c79-dbc4310ce0cd" ~ "20612337242",  
+                    
+                    KEY == "uuid:a4cda5fd-98cc-4e32-a9e3-49f2d5f64fc4" ~ "10451748705",  
+                    KEY == "uuid:3ce196b7-05be-48df-9214-86319984c2e3" ~ "10273632498", 
+                    
+                    KEY == "uuid:93ef1583-500f-44f4-9896-dced0b0d5478" ~ "10719041511",  
+                    KEY == "uuid:2b6ce348-0757-4edd-8f9f-9e50f2843a61" ~ "10745996260",  
+                    KEY == "uuid:67030e7d-c0fe-4833-ac90-366adf990574" ~ "10726832116",  
+                    
+                    KEY == "uuid:93c4c1e6-855b-4e2d-944a-cb5d5daa3fbd" ~ "10198672748",  
+                    KEY == "uuid:a1bcf635-292d-4ab3-bf09-e069483ebb99" ~ "10033378934",  
+                    KEY == "uuid:2a95a5fb-333b-4e14-92da-969afa806464" ~ "10475362506",  
+                    KEY == "uuid:49059f74-2a19-4459-9d9b-36c69034b3e1" ~ "10099870864",  
+                    KEY == "uuid:dcdb756f-4421-4e66-bd19-be471f38c80e" ~ "10095116651",  
+                  
+                    KEY == "uuid:48975cd5-b607-4121-b852-f187679cf98d" ~ "10232386008",  
+                    KEY == "uuid:cc6a716f-1033-4204-9214-436828035792" ~ "10701061522",  
+                    KEY == "uuid:17e2e525-0f45-47d5-83e9-0843d46c2cf7" ~ "10758196785",  
+                    KEY == "uuid:0d400831-8a27-4973-a8cd-a5b8c8160385" ~ "10101545151",  
+                    
+                    KEY == "uuid:90d1cda6-45bc-4a20-ad2f-62d901dacd5d" ~ "10416465521",  
+                    
+                    
                     TRUE ~ ruc)
   )
 
@@ -185,14 +209,60 @@ data <- data %>%
                            KEY == "uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a" ~ "Diana Bermeo",  
                            KEY == "uuid:6fc0f64a-8e4e-45db-bbf7-b963d2424f52" ~ "Ionel Gonzales Benito",  
                            
+                           KEY == "uuid:0ab90967-3ad1-42b2-9c79-dbc4310ce0cd" ~ "IMPORT & EXPORT TEC CEL",  
+                           
+                           KEY == "uuid:a4cda5fd-98cc-4e32-a9e3-49f2d5f64fc4" ~ "Giancarlos Motta Villafuerte",  
+                           KEY == "uuid:3ce196b7-05be-48df-9214-86319984c2e3" ~ "Jorge Tafur", 
+                           
+                           KEY == "uuid:93ef1583-500f-44f4-9896-dced0b0d5478" ~ "ROJAS PALACIOS JUVENAL",  
+                           KEY == "uuid:2b6ce348-0757-4edd-8f9f-9e50f2843a61" ~ "Luisa Olivares Quispe",  
+                           KEY == "uuid:67030e7d-c0fe-4833-ac90-366adf990574" ~ "Axl Saenz Chumbe",  
+                           
+                           KEY == "uuid:93c4c1e6-855b-4e2d-944a-cb5d5daa3fbd" ~ "Eder Canchanya",  
+                           KEY == "uuid:a1bcf635-292d-4ab3-bf09-e069483ebb99" ~ "Lidia Sancarranco",  
+                           KEY == "uuid:2a95a5fb-333b-4e14-92da-969afa806464" ~ "Fiorela Mariela Rutti Tello",  
+                           KEY == "uuid:49059f74-2a19-4459-9d9b-36c69034b3e1" ~ "Giovanna Edith Vasquez Lujan",  
+                           KEY == "uuid:dcdb756f-4421-4e66-bd19-be471f38c80e" ~ "Margarita Caceres",  
+                           
+                           KEY == "uuid:48975cd5-b607-4121-b852-f187679cf98d" ~ "Esther Chanca",  
+                           KEY == "uuid:cc6a716f-1033-4204-9214-436828035792" ~ "Lisbeth Quiñones",  
+                           KEY == "uuid:17e2e525-0f45-47d5-83e9-0843d46c2cf7" ~ "Alondra Silva",  
+                           KEY == "uuid:0d400831-8a27-4973-a8cd-a5b8c8160385" ~ "Delicia Perez Cruzalegui",  
+                           
+                           KEY == "uuid:90d1cda6-45bc-4a20-ad2f-62d901dacd5d" ~ "Saul Campos Mendez",  
+                           
+                           KEY == "uuid:3ee200c2-e1df-43fc-8c0e-0d854c0de4e2" ~ "ANGELES ESPINOZA DARIA LUZMILA",  
+                           
+                           KEY == "uuid:f8ecb418-f447-4694-bacf-cc0575ff734d" ~ "ORIHUELA LOZANO YURI",  
+                           
+                           
                            TRUE ~ raz_social)
   )
 
 
 
-"uuid:6fc0f64a-8e4e-45db-bbf7-b963d2424f52"# ,"10402312985"
-"uuid:58e51e2a-cc7c-41ff-a3f2-aaf3d0d3a10a"#, "10433667943"
-"uuid:2c90e4b5-259e-42da-aea2-6a2a0367a51a"
+"uuid:0ab90967-3ad1-42b2-9c79-dbc4310ce0cd" # ,"10402312985"
+
+"uuid:a4cda5fd-98cc-4e32-a9e3-49f2d5f64fc4" #, "10433667943"
+"uuid:3ce196b7-05be-48df-9214-86319984c2e3"
+
+"uuid:93ef1583-500f-44f4-9896-dced0b0d5478"
+"uuid:2b6ce348-0757-4edd-8f9f-9e50f2843a61"
+"uuid:67030e7d-c0fe-4833-ac90-366adf990574"
+
+"uuid:93c4c1e6-855b-4e2d-944a-cb5d5daa3fbd"
+"uuid:a1bcf635-292d-4ab3-bf09-e069483ebb99"
+"uuid:2a95a5fb-333b-4e14-92da-969afa806464"
+"uuid:49059f74-2a19-4459-9d9b-36c69034b3e1"
+"uuid:dcdb756f-4421-4e66-bd19-be471f38c80e"
+
+"uuid:48975cd5-b607-4121-b852-f187679cf98d"
+"uuid:cc6a716f-1033-4204-9214-436828035792"
+"uuid:17e2e525-0f45-47d5-83e9-0843d46c2cf7"
+"uuid:0d400831-8a27-4973-a8cd-a5b8c8160385"
+
+"uuid:90d1cda6-45bc-4a20-ad2f-62d901dacd5d"
+
 # Corregir RUC
 
 data <- data %>%
