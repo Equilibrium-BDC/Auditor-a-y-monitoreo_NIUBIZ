@@ -181,7 +181,7 @@ data <- data %>%
                     KEY == "uuid:bbfcb28d-77b4-4010-88ff-18f075c7b16a" ~ "10166789872",     
                     TRUE ~ ruc)
   )
-
+    
 data <- data %>%
   mutate(
     raz_social = case_when(KEY == "uuid:deaae751-beee-41a3-a979-a6aa7b640c97" ~ "Multiservicios Leandro SAC",
@@ -393,13 +393,11 @@ data <- data %>%
       username == "elikar21hn@gmail.com" ~ 3,  
       username == "stwardlanda7@gmail.com" ~ 3,  
       username == "martha.inga24@gmail.com" ~ 3,  
-      username == "kchanamedamian@gmail.com" ~ 3,  
       username == "kar.cast2022@gmail.com" ~ 3,  
       username == "jennysilviafigueroarojas2@gmail.com" ~ 3,  
       username == "julio.villanuevaa@unmsm.edu.pe" ~ 3,  
       username == "Alyfabri9@gmail.com" ~ 3,  
       username == "allissonkarely_6@hotmail.com" ~ 3,  
-      username == "kchanamedamian@gmail.com" ~ 3,  
       username == "edithmauriciogrijalva@gmail.com" ~ 3,  
       
       TRUE ~ coordinador
@@ -1576,18 +1574,32 @@ alertas <- alertas %>%
       username == "elikar21hn@gmail.com" ~ 3,  
       username == "stwardlanda7@gmail.com" ~ 3,  
       username == "martha.inga24@gmail.com" ~ 3,  
-      username == "kchanamedamian@gmail.com" ~ 3, 
       username == "kar.cast2022@gmail.com" ~ 3,  
       username == "jennysilviafigueroarojas2@gmail.com" ~ 3,  
       username == "julio.villanuevaa@unmsm.edu.pe" ~ 3,  
       username == "Alyfabri9@gmail.com" ~ 3,  
       username == "allissonkarely_6@hotmail.com" ~ 3,  
-      username == "kchanamedamian@gmail.com" ~ 3,  
       username == "edithmauriciogrijalva@gmail.com" ~ 3,  
       TRUE ~ coordinador
     ))
 
-
+alertas <- alertas %>%
+  mutate(
+    coordinador = case_when(
+      username == "jaquizavaleta@gmail.com" ~ 4,
+      username == "alondraalva112015@gmail.com" ~ 4,
+      username == "ryabarrenat@gmail.com" ~ 4,
+      username == "yodie2013@gmail.com" ~ 4,
+      username == "crissvegamacedo.87@gmail.com" ~ 4,
+      username == "mariealfaro08@gmail.com" ~ 4,
+      username == "Darleneasto10@gmail.com" ~ 4,
+      username == "darleneasto10@gmail.com" ~ 4,
+      username == "Yamizavaleta06@mail.com" ~ 4,
+      username == "yamizavaleta06@mail.com" ~ 4,
+      username == "jessicavillena87@gmail.com" ~ 4,
+      username == "ceurs_10_17@hotmail.com" ~ 4,
+      TRUE ~ coordinador
+    ))
 
 ## Crear alertas LOOKER --------------------------------------------------------
 
