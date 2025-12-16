@@ -178,7 +178,7 @@ data <- data %>%
                     
                     KEY == "uuid:90d1cda6-45bc-4a20-ad2f-62d901dacd5d" ~ "10416465521",  
                     
-                    KEY == "uuid:f8ecb418-f447-4694-bacf-cc0575ff734d" ~ "10166789872",     
+                    KEY == "uuid:bbfcb28d-77b4-4010-88ff-18f075c7b16a" ~ "10166789872",     
                     TRUE ~ ruc)
   )
 
