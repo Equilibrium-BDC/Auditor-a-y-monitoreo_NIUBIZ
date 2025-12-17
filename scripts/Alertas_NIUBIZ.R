@@ -380,7 +380,7 @@ data <- data %>%
       username == "mayracecilia_22_17@hotmail.com" ~ 3,
       username == "arlizguerra2008@gmail.com" ~ 3, 
       username == "ibenitesolivares@gmail.com" ~ 3, 
-      username == "IVO_26_285@HOTMAIL.COM" ~ 3, 
+      username == "ivo_26_285@hotmail.com" ~ 3, 
       username == "naul.d.r.s@gmail.com" ~ 3, 
       username == "analymendoza1501@gmail.com" ~ 3,
       username == "ivo_26_285@hotmail.com" ~ 3,
@@ -1507,6 +1507,8 @@ if(any(!is.na(alertas_validadas))) {
 # William es coordniador 2
 
 alertas$coordinador <- 1
+
+
 alertas <- alertas %>%
   mutate(
     coordinador = case_when(
@@ -1563,7 +1565,7 @@ alertas <- alertas %>%
       username == "mayracecilia_22_17@hotmail.com" ~ 3,
       username == "arlizguerra2008@gmail.com" ~ 3, 
       username == "ibenitesolivares@gmail.com" ~ 3, 
-      username == "IVO_26_285@HOTMAIL.COM" ~ 3, 
+      username == "ivo_26_285@hotmail.com" ~ 3, 
       username == "naul.d.r.s@gmail.com" ~ 3, 
       username == "analymendoza1501@gmail.com" ~ 3,
       username == "ivo_26_285@hotmail.com" ~ 3,
