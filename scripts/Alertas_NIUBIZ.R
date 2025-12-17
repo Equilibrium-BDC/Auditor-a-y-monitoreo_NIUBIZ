@@ -415,6 +415,7 @@ data <- data %>%
       username == "Darleneasto10@gmail.com" ~ 4,
       username == "darleneasto10@gmail.com" ~ 4,
       username == "Yamizavaleta06@mail.com" ~ 4,
+      username == "yamizavaleta06@gmail.com" ~ 4,
       username == "yamizavaleta06@mail.com" ~ 4,
       username == "jessicavillena87@gmail.com" ~ 4,
       username == "ceurs_10_17@hotmail.com" ~ 4,
@@ -447,6 +448,7 @@ data <- data %>%
       starttime >= limite_r2 & coordinador ==1 ~ 2L,
       starttime >= limite_r2 & coordinador ==2 ~ 3L,
       starttime >= limite_r2 & coordinador ==3 ~ 4L,
+      starttime >= limite_r2 & coordinador ==4 ~ 5L,
       TRUE                   ~ NA_integer_
     )
   )
@@ -668,11 +670,11 @@ cuotas_5 <- tribble(
 
 
 # Añadir ronda
-cuotas["ronda"] <- 5
+cuotas["ronda"] <- 1
 cuotas_2["ronda"] <- 2
 cuotas_3["ronda"] <- 3
 cuotas_4["ronda"] <- 4
-cuotas_5["ronda"] <- 6
+cuotas_5["ronda"] <- 5
 
 # Añadir información de cuotas
 
@@ -724,7 +726,7 @@ data <- data %>%
   mutate(n_en_segmento = row_number(),
                   cuota_valida_1 = case_when(!is.na(ronda) &
                     n_en_segmento <= Cuota & ronda == 1 ~ "Válida",
-                    ronda == 2 | ronda == 3  | ronda == 4 | ronda == 6 ~ NA_character_,
+                    ronda == 2 | ronda == 3  | ronda == 4 | ronda == 5 ~ NA_character_,
                     TRUE ~ "Exceso"
                   ),
                   ronda = if_else(cuota_valida_1 == "Exceso" & ronda == 1,2,ronda))%>% # Los excesos de ronda 1 pasan a ronda 2
@@ -784,8 +786,8 @@ data <- data %>%
     # Solo se calcula "Válida" o "Exceso" si coordinador es 2 y la encuesta está en ronda 3.
     # Para todos los demás, el resultado es NA.
     cuota_valida_5 = case_when(
-      coordinador == 4 & !is.na(Cuota_5) & n_en_segmento <= Cuota_5 & ronda == 6 ~ "Válida",
-      coordinador == 4 & ronda == 6 ~ "Exceso",
+      coordinador == 4 & !is.na(Cuota_5) & n_en_segmento <= Cuota_5 & ronda == 5 ~ "Válida",
+      coordinador == 4 & ronda == 5 ~ "Exceso",
       TRUE ~ NA_character_
     )
   ) %>%
@@ -806,9 +808,9 @@ data <- data %>%
 ## Filtrar sólo ronda 2 para levantar alertas ----------------------------------
 
 data_ronda_1 <- data %>% filter(ronda == 1 & ruc != "99999999999")
-data_ronda_2 <- data %>% filter(ronda == 2 |ronda==3 |ronda==4)
+data_ronda_2 <- data %>% filter(ronda == 2 |ronda==3 |ronda==4 | ronda==5)
 
-alertas <- data %>% filter(ronda == 2 |ronda==3|ronda==4)
+alertas <- data %>% filter(ronda == 2 |ronda==3|ronda==4 | ronda==5)
  
 
 # Alertas ----------------------------------------------------------------------
@@ -1595,6 +1597,7 @@ alertas <- alertas %>%
       username == "Darleneasto10@gmail.com" ~ 4,
       username == "darleneasto10@gmail.com" ~ 4,
       username == "Yamizavaleta06@mail.com" ~ 4,
+      username == "yamizavaleta06@gmail.com" ~ 4,
       username == "yamizavaleta06@mail.com" ~ 4,
       username == "jessicavillena87@gmail.com" ~ 4,
       username == "ceurs_10_17@hotmail.com" ~ 4,
@@ -1718,6 +1721,30 @@ cuotas_ronda_4 <- alertas %>%
          Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
   arrange(Regiones, Categoria) %>%
   filter(Categoria != "Meta")
+
+
+# ----------------------------------------------------------------------
+
+cuotas_ronda_5 <- alertas %>%
+  filter(coordinador==4) %>%
+  group_by(DEP_str, tamanio_ingresos) %>%
+  summarise(total = sum(Exitos, na.rm = T)) %>%
+  full_join(cuotas_5 %>% select(-ronda), by = c("DEP_str" = "Regiones",
+                                                "tamanio_ingresos" = "Categoria")) %>%
+  ungroup() %>%
+  rename(Alcanzado = total, Regiones = DEP_str, Meta = Cuota_5,
+         Categoria = tamanio_ingresos) %>%
+  mutate(Alcanzado = if_else(is.na(Alcanzado), 0, Alcanzado),
+         # === CAMBIO CLAVE AQUÍ ===
+         Avance = (Alcanzado / Meta) * 100,
+         Avance = if_else(is.infinite(Avance) | is.nan(Avance), 0, Avance),
+         Avance = round(Avance, 2),
+         # ==========================
+         Faltan = Meta - Alcanzado,
+         Categoria = factor(Categoria, levels = c("Micro", "Pequeña", "Mediana"), ordered = T)) %>%
+  arrange(Regiones, Categoria) %>%
+  filter(Categoria != "Meta")
+
 
 
 #Data para el comparativo 2024 vs 2025 -----------------------------------------
@@ -2020,13 +2047,13 @@ message("Alertas creadas exitosamente.")
 # tablaprueba4<-data_1 %>% filter(username=="angiex312x@gmail.com")
 # tablaprueba5<-data_1 %>% filter(username=="william.adrianzen@gmail.com")
 # tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
-# tablaprueba6<-data_1 %>% filter(username=="kemiko.cruz17@gmail.com")
+tablaprueba6<-data %>% filter(username=="yamizavaleta06@gmail.com") %>%  select(starttime, endtime,ruc, coordinador ,raz_social,cuota_valida_5)
 
 tablaalertasprueba1<-alertas %>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
- filter(raz_social == "Botica San Ignacio" ) %>%
-  select(starttime, endtime,ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
+ filter(username == "yamizavaleta06@gmail.com") %>%
+  select(starttime, endtime,ruc, coordinador ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
   # filter(duplicated(ruc))
 
