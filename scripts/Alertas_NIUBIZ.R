@@ -2053,7 +2053,7 @@ tablaalertasprueba1<-alertas %>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
 tablaalertasprueba2 <- alertas %>%
- filter(username == "yamizavaleta06@gmail.com") %>%
-  select(starttime, endtime,ruc, coordinador ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
+ filter(tamanio_ingresos == "Micro" & DEP_str=="Arequipa" & coordinador == 2) %>%
+  select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
   # filter(duplicated(ruc))
 
