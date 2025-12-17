@@ -1535,7 +1535,7 @@ alertas <- alertas %>%
       username == "jimena.aguilar@pucp.edu.pe" ~ 2, 
       username == "coordinaciondtm@equilibriumbdc.com" ~ 2, 
       username == "edgarelazo@gmail.com" ~ 2, 
-      username == "Flavia.beltranch@gmail.com" ~ 2,
+      username == "flavia.beltranch@gmail.com" ~ 2,
       TRUE ~ coordinador
     ))
 
@@ -2057,3 +2057,7 @@ tablaalertasprueba2 <- alertas %>%
   select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
   # filter(duplicated(ruc))
 
+tablaalertasprueba3 <- alertas %>%
+  filter(tamanio_ingresos == "Micro" & DEP_str=="Arequipa" & coordinador == 2) %>%
+  select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3)
+# filter(duplicated(ruc))
