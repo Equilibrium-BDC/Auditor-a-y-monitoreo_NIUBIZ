@@ -178,7 +178,16 @@ data <- data %>%
                     
                     KEY == "uuid:90d1cda6-45bc-4a20-ad2f-62d901dacd5d" ~ "10416465521",  
                     
-                    KEY == "uuid:bbfcb28d-77b4-4010-88ff-18f075c7b16a" ~ "10166789872",     
+                    KEY == "uuid:bbfcb28d-77b4-4010-88ff-18f075c7b16a" ~ "10166789872", 
+                    
+                    
+                    KEY == "uuid:902a0416-af55-443a-9979-4b61c6dda97d" ~ "20605118799",  
+                    KEY == "uuid:977f1f02-3f29-4d42-a00b-23dd10671851" ~ "10100730052", 
+                    
+                    KEY == "uuid:1b42eec9-65bf-4eb7-a754-fcdcfbd6c378" ~ "10420643310",  
+                    KEY == "uuid:ab3115a0-d0ca-49d5-9caa-8c01e87c3861" ~ "10461281171",  
+                    KEY == "uuid:e94f3596-2b4c-4486-9216-8058f4d0405e" ~ "10086730656",  
+
                     TRUE ~ ruc)
   )
     
@@ -233,35 +242,52 @@ data <- data %>%
                            
                            KEY == "uuid:3ee200c2-e1df-43fc-8c0e-0d854c0de4e2" ~ "ANGELES ESPINOZA DARIA LUZMILA",  
                            
-                           KEY == "uuid:f8ecb418-f447-4694-bacf-cc0575ff734d" ~ "ORIHUELA LOZANO YURI",  
+                           KEY == "uuid:f8ecb418-f447-4694-bacf-cc0575ff734d" ~ "ORIHUELA LOZANO YURI",
+                           
+                           KEY == "uuid:902a0416-af55-443a-9979-4b61c6dda97d" ~ "EL OLAM BEAUTY EIRL",  
+                           KEY == "uuid:977f1f02-3f29-4d42-a00b-23dd10671851" ~ "REYES MACHADO CELIA FELICITA", 
+                           
+                           KEY == "uuid:1b42eec9-65bf-4eb7-a754-fcdcfbd6c378" ~ "Jimmy Alberto Rojas Bustamante",  
+                           KEY == "uuid:ab3115a0-d0ca-49d5-9caa-8c01e87c3861" ~ "Yessenia Clotilde Bastidas Vilchez",  
+                           KEY == "uuid:e94f3596-2b4c-4486-9216-8058f4d0405e" ~ "Jacqueline Avellaneda Yalta",  
+                           
                            
                            
                            TRUE ~ raz_social)
   )
 
-"uuid:bbfcb28d-77b4-4010-88ff-18f075c7b16a"
 
-"uuid:0ab90967-3ad1-42b2-9c79-dbc4310ce0cd" # ,"10402312985"
+data <- data %>%
+  mutate(
+    DEP = case_when(KEY == "uuid:07258e54-a3d2-46b0-8d88-8c7d62536f69" ~ "2",
+                           TRUE ~ DEP)
+  )
 
-"uuid:a4cda5fd-98cc-4e32-a9e3-49f2d5f64fc4" #, "10433667943"
-"uuid:3ce196b7-05be-48df-9214-86319984c2e3"
 
-"uuid:93ef1583-500f-44f4-9896-dced0b0d5478"
-"uuid:2b6ce348-0757-4edd-8f9f-9e50f2843a61"
-"uuid:67030e7d-c0fe-4833-ac90-366adf990574"
+data <- data %>%
+  mutate(
+    VOL_MEN = case_when(KEY == "uuid:1b9cc925-cda9-4936-a4ca-a8b41b287b18" ~ "7",
+                    TRUE ~ VOL_MEN)
+  )
 
-"uuid:93c4c1e6-855b-4e2d-944a-cb5d5daa3fbd"
-"uuid:a1bcf635-292d-4ab3-bf09-e069483ebb99"
-"uuid:2a95a5fb-333b-4e14-92da-969afa806464"
-"uuid:49059f74-2a19-4459-9d9b-36c69034b3e1"
-"uuid:dcdb756f-4421-4e66-bd19-be471f38c80e"
+data <- data %>%
+  mutate(
+    tamanio_empresa = case_when(KEY == "uuid:1b9cc925-cda9-4936-a4ca-a8b41b287b18" ~ "MEDIANA",
+                        TRUE ~ tamanio_empresa)
+  )
 
-"uuid:48975cd5-b607-4121-b852-f187679cf98d"
-"uuid:cc6a716f-1033-4204-9214-436828035792"
-"uuid:17e2e525-0f45-47d5-83e9-0843d46c2cf7"
-"uuid:0d400831-8a27-4973-a8cd-a5b8c8160385"
 
-"uuid:90d1cda6-45bc-4a20-ad2f-62d901dacd5d"
+
+"uuid:902a0416-af55-443a-9979-4b61c6dda97d"
+"uuid:977f1f02-3f29-4d42-a00b-23dd10671851" # ,"10402312985"
+
+"uuid:1b42eec9-65bf-4eb7-a754-fcdcfbd6c378" #, "10433667943"
+"uuid:ab3115a0-d0ca-49d5-9caa-8c01e87c3861"
+"uuid:e94f3596-2b4c-4486-9216-8058f4d0405e"
+
+"uuid:07258e54-a3d2-46b0-8d88-8c7d62536f69"
+"uuid:1b9cc925-cda9-4936-a4ca-a8b41b287b18"
+
 
 # Corregir RUC
 
