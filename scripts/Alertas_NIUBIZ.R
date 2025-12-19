@@ -2091,12 +2091,12 @@ tablaalertasprueba2 <- alertas %>%
   select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
   # filter(duplicated(ruc))
 
-encuestas_total_carmen <- alertas %>%
-  filter(
-    endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==3 & Alertas==0
-  ) %>%
-  select(tamanio_ingresos, endtime) %>%
-  count(tamanio_ingresos) %>% adorn_totals("row")
+# encuestas_total_carmen <- alertas %>%
+#   filter(
+#     endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==3 & Alertas==0
+#   ) %>%
+#   select(tamanio_ingresos, endtime) %>%
+#   count(tamanio_ingresos) %>% adorn_totals("row")
 
 
 # encuestas_total_carmen <- alertas %>%
