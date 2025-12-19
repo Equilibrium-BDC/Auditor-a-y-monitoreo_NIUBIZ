@@ -186,7 +186,9 @@ data <- data %>%
                     
                     KEY == "uuid:1b42eec9-65bf-4eb7-a754-fcdcfbd6c378" ~ "10420643310",  
                     KEY == "uuid:ab3115a0-d0ca-49d5-9caa-8c01e87c3861" ~ "10461281171",  
-                    KEY == "uuid:e94f3596-2b4c-4486-9216-8058f4d0405e" ~ "10086730656",  
+                    KEY == "uuid:e94f3596-2b4c-4486-9216-8058f4d0405e" ~ "10086730656",
+
+                    KEY == "uuid:84288635-da6a-462a-bf14-21fb421179af" ~ "10038548137",  
 
                     TRUE ~ ruc)
   )
@@ -251,6 +253,9 @@ data <- data %>%
                            KEY == "uuid:ab3115a0-d0ca-49d5-9caa-8c01e87c3861" ~ "Yessenia Clotilde Bastidas Vilchez",  
                            KEY == "uuid:e94f3596-2b4c-4486-9216-8058f4d0405e" ~ "Jacqueline Avellaneda Yalta",  
                            
+                           KEY == "uuid:84288635-da6a-462a-bf14-21fb421179af" ~ "RONDOY MURILLO PAULA ROSA",  
+                           
+                           
                            
                            
                            TRUE ~ raz_social)
@@ -277,6 +282,7 @@ data <- data %>%
   )
 
 
+"uuid:84288635-da6a-462a-bf14-21fb421179af"
 
 "uuid:902a0416-af55-443a-9979-4b61c6dda97d"
 "uuid:977f1f02-3f29-4d42-a00b-23dd10671851" # ,"10402312985"
@@ -2084,6 +2090,22 @@ tablaalertasprueba2 <- alertas %>%
  filter(tamanio_ingresos == "Micro" & DEP_str=="Arequipa" & coordinador == 2) %>%
   select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
   # filter(duplicated(ruc))
+
+encuestas_total_carmen <- alertas %>%
+  filter(
+    endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==3 & Alertas==0
+  ) %>%
+  select(tamanio_ingresos, endtime) %>%
+  count(tamanio_ingresos) %>% adorn_totals("row")
+
+
+# encuestas_total_carmen <- alertas %>%
+#   filter(
+#     endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==3 
+#   ) %>%
+#   select(starttime,endtime,username, tamanio_ingresos,raz_social,ruc,Alertas,n_en_segmento,Exitos, cuota_valida_4 ,DEP_str,tamanio_ingresos) %>% tabyl(username,tamanio_ingresos)   %>% 
+# adorn_totals( "col")
+
 
 tablaalertasprueba3 <- alertas %>%
   filter(tamanio_ingresos == "Micro" & DEP_str=="Arequipa" & coordinador == 2) %>%
