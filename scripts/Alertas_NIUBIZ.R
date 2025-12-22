@@ -256,6 +256,7 @@ data <- data %>%
                            KEY == "uuid:84288635-da6a-462a-bf14-21fb421179af" ~ "RONDOY MURILLO PAULA ROSA",  
                            
                            
+                           KEY == "uuid:cb2d4789-6b17-4c90-8d52-e86805e3bfcc" ~ "FAVORITA IMPORT E.I.R.L",  
                            
                            
                            TRUE ~ raz_social)
@@ -294,7 +295,7 @@ data <- data %>%
 "uuid:07258e54-a3d2-46b0-8d88-8c7d62536f69"
 "uuid:1b9cc925-cda9-4936-a4ca-a8b41b287b18"
 
-
+"uuid:cb2d4789-6b17-4c90-8d52-e86805e3bfcc"
 # Corregir RUC
 
 data <- data %>%
@@ -2101,11 +2102,11 @@ tablaalertasprueba2 <- alertas %>%
 
 # encuestas_total_carmen <- alertas %>%
 #   filter(
-#     endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==3 
+#     endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==4
 #   ) %>%
-#   select(starttime,endtime,username, tamanio_ingresos,raz_social,ruc,Alertas,n_en_segmento,Exitos, cuota_valida_4 ,DEP_str,tamanio_ingresos) %>% tabyl(username,tamanio_ingresos)   %>% 
+#   select(starttime,endtime,username, tamanio_ingresos,raz_social,ruc,Alertas,n_en_segmento,Exitos, cuota_valida_5 ,DEP_str,tamanio_ingresos,KEY) %>% tabyl(username,tamanio_ingresos)   %>%
 # adorn_totals( "col")
-
+# 
 
 tablaalertasprueba3 <- alertas %>%
   filter(tamanio_ingresos == "Micro" & DEP_str=="Arequipa" & coordinador == 2) %>%
