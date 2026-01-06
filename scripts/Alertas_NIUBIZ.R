@@ -1671,6 +1671,9 @@ alertas <- alertas %>%
 alertas <- alertas %>%
   mutate(porcentaje_avance3 = (sum(Exitos, na.rm = TRUE) / 247))
 
+alertas <- alertas %>%
+  mutate(porcentaje_avance4 = (sum(Exitos, na.rm = TRUE) / 247))
+
 # Congelar fechas
 
 alertas <- alertas %>% arrange(SubmissionDate)
@@ -2082,7 +2085,9 @@ message("Alertas creadas exitosamente.")
 # tablaprueba4<-data_1 %>% filter(username=="angiex312x@gmail.com")
 # tablaprueba5<-data_1 %>% filter(username=="william.adrianzen@gmail.com")
 # tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
-tablaprueba6<-data %>% filter(username=="yamizavaleta06@gmail.com") %>%  select(starttime, endtime,ruc, coordinador ,raz_social,cuota_valida_5)
+
+tablaprueba6<-data_1 %>% filter(username=="yamizavaleta06@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,KEY)
+tablaprueba6.1<-data%>% filter(username=="yamizavaleta06@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,KEY)
 
 tablaalertasprueba1<-alertas %>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
@@ -2094,20 +2099,21 @@ tablaalertasprueba2 <- alertas %>%
 
 # encuestas_total_carmen <- alertas %>%
 #   filter(
-#     endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==3 & Alertas==0
+#     endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==4 & Alertas==0
 #   ) %>%
-#   select(tamanio_ingresos, endtime) %>%
+#   select(tamanio_ingresos, endtime,username) %>% tabyl(username,tamanio_ingresos) %>% 
 #   count(tamanio_ingresos) %>% adorn_totals("row")
-
-
-# encuestas_total_carmen <- alertas %>%
-#   filter(
-#     endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==4
-#   ) %>%
-#   select(starttime,endtime,username, tamanio_ingresos,raz_social,ruc,Alertas,n_en_segmento,Exitos, cuota_valida_5 ,DEP_str,tamanio_ingresos,KEY) %>% tabyl(username,tamanio_ingresos)   %>%
-# adorn_totals( "col")
 # 
 
+# encuestas_total_william <- alertas %>%
+#   filter(
+#     endtime < as.POSIXct("2025-12-31 00:00:00 -5 ")  & coordinador==4 & cuota_valida_3=="Válida"
+#   ) %>%
+#   select(starttime,endtime,username, tamanio_ingresos,raz_social,ruc,n_en_segmento, cuota_valida_3,cuota_valida_2,cuota_valida_5 ,DEP_str,tamanio_ingresos,KEY) %>% tabyl(username,tamanio_ingresos)   %>%
+# adorn_totals( "col") 
+# 
+# # select(starttime,endtime,username, tamanio_ingresos,raz_social,ruc,Alertas,n_en_segmento,Exitos, cuota_valida_3,cuota_valida_2,cuota_valida_5 ,DEP_str,tamanio_ingresos,KEY) %>% tabyl(username,tamanio_ingresos)   %>%
+#   
 tablaalertasprueba3 <- alertas %>%
   filter(tamanio_ingresos == "Micro" & DEP_str=="Arequipa" & coordinador == 2) %>%
   select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3)
