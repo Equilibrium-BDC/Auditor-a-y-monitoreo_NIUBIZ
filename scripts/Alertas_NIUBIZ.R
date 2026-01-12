@@ -591,10 +591,10 @@ cuotas_1["ronda"] <- 1
 
 cuotas_2 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_2,
-  "Lima",       "Micro",     459,
+  "Lima",       "Micro",     465,
   "Lima",       "Pequeña",   126,
   "Lima",       "Mediana",    42,
-  "Lima",       "Meta",      627, #total
+  "Lima",       "Meta",      633, #total
   "Callao",     "Micro",      39,
   "Callao",     "Pequeña",    11,
   "Callao",     "Mediana",     5,
@@ -603,10 +603,10 @@ cuotas_2 <- tribble(
   "Arequipa",   "Pequeña",    11,
   "Arequipa",   "Mediana",     5,
   "Arequipa",   "Meta",       62, #total
-  "Cusco",      "Micro",       7,
+  "Cusco",      "Micro",       1,
   "Cusco",      "Pequeña",     6,
   "Cusco",      "Mediana",     0,
-  "Cusco",      "Meta",       13, #total
+  "Cusco",      "Meta",        7, #total
   "Trujillo",   "Micro",       0,
   "Trujillo",   "Pequeña",     1,
   "Trujillo",   "Mediana",     0,
@@ -619,18 +619,18 @@ cuotas_2 <- tribble(
 
 cuotas_3 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_3,
-  "Lima",       "Micro",     35,
+  "Lima",       "Micro",     33,
   "Lima",       "Pequeña",   16,
   "Lima",       "Mediana",    4,
-  "Lima",       "Meta",      55,
+  "Lima",       "Meta",      53,
   "Callao",     "Micro",      26,
   "Callao",     "Pequeña",    10,
   "Callao",     "Mediana",    1,
   "Callao",     "Meta",       37,
-  "Arequipa",   "Micro",      30,
+  "Arequipa",   "Micro",      32,
   "Arequipa",   "Pequeña",    10,
   "Arequipa",   "Mediana",     1,
-  "Arequipa",   "Meta",       41,
+  "Arequipa",   "Meta",       43,
   "Cusco",      "Micro",      2,
   "Cusco",      "Pequeña",    1,
   "Cusco",      "Mediana",    0,
@@ -675,22 +675,22 @@ cuotas_4 <- tribble(
 
 cuotas_5 <- tribble(
   ~Regiones,    ~Categoria,   ~Cuota_5,
-  "Lima",       "Micro",      51,
+  "Lima",       "Micro",      47,
   "Lima",       "Pequeña",    27,
   "Lima",       "Mediana",    22,
-  "Lima",       "Meta",      101,
+  "Lima",       "Meta",       97,
   "Callao",     "Micro",       5,
   "Callao",     "Pequeña",     1,
   "Callao",     "Mediana",     2,
   "Callao",     "Meta",        8,
-  "Arequipa",   "Micro",       7,
+  "Arequipa",   "Micro",       5,
   "Arequipa",   "Pequeña",     0,
   "Arequipa",   "Mediana",     2,
   "Arequipa",   "Meta",        7,
-  "Cusco",      "Micro",      17,
+  "Cusco",      "Micro",      23,
   "Cusco",      "Pequeña",     4,
   "Cusco",      "Mediana",     2,
-  "Cusco",      "Meta",       23,
+  "Cusco",      "Meta",       29,
   "Trujillo",   "Micro",      69,
   "Trujillo",   "Pequeña",    20,
   "Trujillo",   "Mediana",     8,
@@ -2086,8 +2086,10 @@ message("Alertas creadas exitosamente.")
 # tablaprueba5<-data_1 %>% filter(username=="william.adrianzen@gmail.com")
 # tablaprueba6<-data_1 %>% filter(username=="giulianamoscol@gmail.com")
 
-tablaprueba6<-data_1 %>% filter(username=="yamizavaleta06@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,KEY)
-tablaprueba6.1<-data%>% filter(username=="yamizavaleta06@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,KEY)
+tablaprueba6<-data_1 %>% filter(username=="m.catanoch@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,DEP,KEY)
+tablaprueba6.1<-data%>% filter(username=="m.catanoch@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,DEP,tamanio_ingresos,KEY)
+tablaprueba6.3<-alertas%>% filter(tamanio_ingresos == "Pequeña" & DEP_str=="Lima" & coordinador == 2)  %>%  select(starttime, endtime,ruc ,raz_social,DEP,tamanio_ingresos,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas,KEY)
+tablaprueba6.2<-alertas%>% filter(username=="m.catanoch@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,DEP,tamanio_ingresos,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas,KEY)
 
 tablaalertasprueba1<-alertas %>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
