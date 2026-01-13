@@ -1631,9 +1631,7 @@ alertas <- alertas %>%
       username == "mariealfaro08@gmail.com" ~ 4,
       username == "Darleneasto10@gmail.com" ~ 4,
       username == "darleneasto10@gmail.com" ~ 4,
-      username == "Yamizavaleta06@mail.com" ~ 4,
       username == "yamizavaleta06@gmail.com" ~ 4,
-      username == "yamizavaleta06@mail.com" ~ 4,
       username == "jessicavillena87@gmail.com" ~ 4,
       username == "ceurs_10_17@hotmail.com" ~ 4,
       TRUE ~ coordinador
@@ -2090,7 +2088,7 @@ tablaprueba6<-data_1 %>% filter(username=="m.catanoch@gmail.com") %>%  select(st
 tablaprueba6.1<-data%>% filter(username=="m.catanoch@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,DEP,tamanio_ingresos,KEY)
 tablaprueba6.3<-alertas%>% filter(tamanio_ingresos == "Pequeña" & DEP_str=="Lima" & coordinador == 2)  %>%  select(starttime, endtime,ruc ,raz_social,DEP,tamanio_ingresos,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas,KEY)
 tablaprueba6.2<-alertas%>% filter(username=="m.catanoch@gmail.com") %>%  select(starttime, endtime,ruc ,raz_social,DEP,tamanio_ingresos,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas,KEY)
-
+# tablaprueba6.4 <-alertas%>% filter(coordinador==3) %>%  select(username,starttime, endtime,ruc ,raz_social,DEP,tamanio_ingresos,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas,KEY) %>% tabyl(username,tamanio_ingresos)
 tablaalertasprueba1<-alertas %>%
   select(starttime, ruc, raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,cuota_valida_4,cuota_valida_total,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 
