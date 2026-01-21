@@ -189,6 +189,8 @@ data <- data %>%
                     KEY == "uuid:e94f3596-2b4c-4486-9216-8058f4d0405e" ~ "10086730656",
 
                     KEY == "uuid:84288635-da6a-462a-bf14-21fb421179af" ~ "10038548137",  
+                    
+                    KEY == "uuid:27ac0cea-e1e4-4d5c-859b-0ec0bacf77ec" ~ "10463915208",  
 
                     TRUE ~ ruc)
   )
@@ -256,8 +258,11 @@ data <- data %>%
                            KEY == "uuid:84288635-da6a-462a-bf14-21fb421179af" ~ "RONDOY MURILLO PAULA ROSA",  
                            
                            
-                           KEY == "uuid:cb2d4789-6b17-4c90-8d52-e86805e3bfcc" ~ "FAVORITA IMPORT E.I.R.L",  
+                           KEY == "uuid:cb2d4789-6b17-4c90-8d52-e86805e3bfcc" ~ "FAVORITA IMPORT E.I.R.L", 
                            
+                           KEY == "uuid:27ac0cea-e1e4-4d5c-859b-0ec0bacf77ec" ~ "TIZA DIAZ OFELIA JULIA", 
+                           KEY == "uuid:4507038e-d18f-4ea5-8768-5fc7b05463a3" ~ "BOTICA LUZ FARMA SAC",  
+                           KEY == "uuid:eee7c739-4568-40b2-8ef3-9d1cef6d7e6d" ~ "JUSTO CAMPOS ABEL EDUARDO",  
                            
                            TRUE ~ raz_social)
   )
@@ -283,7 +288,7 @@ data <- data %>%
   )
 
 
-"uuid:84288635-da6a-462a-bf14-21fb421179af"
+"uuid:27ac0cea-e1e4-4d5c-859b-0ec0bacf77ec"
 
 "uuid:902a0416-af55-443a-9979-4b61c6dda97d"
 "uuid:977f1f02-3f29-4d42-a00b-23dd10671851" # ,"10402312985"
