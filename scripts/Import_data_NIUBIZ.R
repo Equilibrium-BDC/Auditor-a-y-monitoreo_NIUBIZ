@@ -24,7 +24,7 @@ API <- paste0('https://',server,'.surveycto.com/api/v2/forms/data/wide/json/',fo
 
 ## Import data -------------------------------------------------------------
 
-max_attempts <- 25
+max_attempts <- 10
 attempt <- 1
 
 repeat {
