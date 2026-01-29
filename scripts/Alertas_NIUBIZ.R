@@ -2143,11 +2143,18 @@ tablaalertasprueba2 <- alertas %>%
   select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 # filter(duplicated(ruc))
 
-tablaalertasprueba3 <- alertas %>%
-  filter(coordinador == 1 & Alertas==0 ) %>%
+tablaencuestas_Ururi <- alertas %>%
+  filter(coordinador == 1 & Alertas==0 & cuota_valida_2=="Válida" ) %>%
   select(starttime, KEY ,endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
 # filter(duplicated(ruc))
 
+tablaencuestas_Ururi <- alertas %>%
+  filter(coordinador == 1 & Alertas==0 & cuota_valida_2=="Válida" ) %>% filter(endtime > as.POSIXct("2025-12-16 15:25:00")) %>% 
+  select(starttime, KEY ,endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
+
+
+
+# filter(duplicated(ruc))
 
 # encuestas_total_carmen <- alertas %>%
 #   filter(
