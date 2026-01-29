@@ -10,7 +10,7 @@ p_load(
   dplyr, tidyr, httr, jsonlite,
   googledrive, googlesheets4, writexl,
   haven, stringr, labelled, lubridate,
-  gtsummary, dotenv, readxl, tibble, sf, purrr
+  gtsummary, dotenv, readxl, tibble, sf, purrr,janitor
 )
 
 project_path <- getwd()
