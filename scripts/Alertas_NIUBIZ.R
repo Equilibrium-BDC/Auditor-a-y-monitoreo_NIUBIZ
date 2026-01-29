@@ -2072,8 +2072,44 @@ cuotas_coord <- cuotas %>%
   ) %>%
   arrange(Regiones, Categoria)
 
+ 
+
+Datosfinales1  <- cuotas_coord %>% 
+  # 1. Agrupamos solo por Regiones (eliminando la separación por Categoría)
+  group_by(Regiones) %>% 
+  
+  # 2. Sumamos los valores numéricos para obtener los totales de la región
+  summarise(
+    Total_Alcanzado = sum(Total_Alcanzado, na.rm = TRUE),
+    Cuota_Total = sum(Cuota, na.rm = TRUE),
+    Faltan_Total = sum(Faltan, na.rm = TRUE)
+  ) %>%
+  
+  # 3. Recalculamos el % de Avance Global para la región entera
+  # 4. Ordenamos alfabéticamente por región
+  arrange(Regiones) %>%
+  adorn_totals("row")
+
+Datosfinales2<- cuotas_coord %>%
+  # 1. Agrupamos solo por Regiones (eliminando la separación por Categoría)
+  group_by(Categoria) %>% 
+  
+  # 2. Sumamos los valores numéricos para obtener los totales de la región
+  summarise(
+    Total_Alcanzado = sum(Total_Alcanzado, na.rm = TRUE),
+    Cuota_Total = sum(Cuota, na.rm = TRUE),
+    Faltan_Total = sum(Faltan, na.rm = TRUE)
+  ) %>%
+  
+  # 3. Recalculamos el % de Avance Global para la región entera
+  # 4. Ordenamos alfabéticamente por región
+  arrange(Categoria)%>%
+  adorn_totals("row")
 
 
+
+Datosfinales3<- cuotas_coord %>%
+  adorn_totals("row")
 
 
 # Confirmación de finalización
@@ -2101,6 +2137,17 @@ tablaalertasprueba2 <- alertas %>%
  filter(tamanio_ingresos == "Micro" & DEP_str=="Arequipa" & coordinador == 2) %>%
   select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
   # filter(duplicated(ruc))
+
+tablaalertasprueba2 <- alertas %>%
+  filter(tamanio_ingresos == "Micro" & DEP_str=="Arequipa" & coordinador == 2) %>%
+  select(starttime, endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
+# filter(duplicated(ruc))
+
+tablaalertasprueba3 <- alertas %>%
+  filter(coordinador == 1 & Alertas==0 ) %>%
+  select(starttime, KEY ,endtime,ruc, coordinador,Cuota_3,ronda,n_en_segmento ,raz_social, flag_ruc, username, DEP,cuota_valida_1,cuota_valida_2,cuota_valida_3,dup_ruc,flag_duplicated,KEY, Exitos, Alertas)
+# filter(duplicated(ruc))
+
 
 # encuestas_total_carmen <- alertas %>%
 #   filter(
